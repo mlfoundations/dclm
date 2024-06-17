@@ -1,0 +1,21 @@
+{
+    "uuid": "38fd1f92-85b2-4220-8c49-10ce867d9bad",
+    "name": "dfn_rw_v2_peS2o_rpjbooks_wikipedia_en_balanced_tokenized_v2-d=576_l=24_h=8-warm=400-lr=0p003-wd=0p033-cd=3e-05-bs=512-mult=1-seed=0-tokens=30735475200_top10_mean_0.7_2048",
+    "creation_date": "2024_02_28-09_24_44",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/dfn_rw_v2_peS2o_rpjbooks_wikipedia_en_balanced_tokenized_v2-d=576_l=24_h=8-warm=400-lr=0p003-wd=0p033-cd=3e-05-bs=512-mult=1-seed=0-tokens=30735475200_top10_mean_0.7_2048",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/dfn_rw_v2_peS2o_rpjbooks_wikipedia_en_balanced_tokenized_v2-d=576_l=24_h=8-warm=400-lr=0p003-wd=0p033-cd=3e-05-bs=512-mult=1-seed=0-tokens=30735475200_top10_mean_0.7_2048/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "beafc7de-c9d8-48cd-9da8-353cc1e6c941",
+            "name": "dfn_rw_v2_peS2o_rpjbooks_wikipedia_en_balanced_tokenized_v2-d=576_l=24_h=8-warm=400-lr=0p003-wd=0p033-cd=3e-05-bs=512-mult=1-seed=0-tokens=30735475200_top10_mean_0.7_2048"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 81420295449,
+    "size": 217413768733,
+    "dcnlp_commit_hash": "376bb631178d10877e0d47ee11808f3d400bf543",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

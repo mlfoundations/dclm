@@ -1,0 +1,25 @@
+{
+    "uuid": "7f12949d-03e4-4f3d-adff-07874a338e21",
+    "name": "sh_2e12_approx_tokens_sample",
+    "creation_date": "2024-01-01 00:47:37",
+    "dataset_url": "s3://dcnlp-west/dcnlp_data_sources/software_heritage/sh_2e12_approx_tokens_sample/",
+    "mirrors": {
+        "tri": {
+            "dataset_url": "s3://***REMOVED***-uw2/openlm/dcnlp/raw_datasets/software_heritage/sh_2e12_approx_tokens_sample/"
+        }
+    },
+    "manifest_url": null,
+    "sources": [
+        {
+            "uuid": "4c6c828a-3c8f-42d5-ba4b-7070ef119bc8",
+            "name": "software_heritage_2e12_approx_tokens_sample"
+        }
+    ],
+    "tokenized": false,
+    "tokenizer": null, 
+    "num_tokens": null,
+    "size": 1389307937730,
+    "dcnlp_commit_hash": "b52132d44a59d8bcf7edb2f750d96aaa58dac160",
+    "dcnlp_diff": null,
+    "data_key": "jsonl.zst"
+}

@@ -1,0 +1,60 @@
+{
+    "uuid": "5a8a0af0-615f-47d6-8093-e928ad7f48a7",
+    "name": "fasttext_f0.07_ccv3_f0.15_math_lhq_mix3",
+    "creation_date": "2024_06_03-18_05_08",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/aapl_data/users/alexfang/mlr/dcnlp_data/cooldown_tokenized/fasttext_f0.07_ccv3_f0.15_math_lhq_mix3",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/aapl_data/users/alexfang/mlr/dcnlp_data/cooldown_tokenized/fasttext_f0.07_ccv3_f0.15_math_lhq_mix3/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "2a847423-8b03-4718-8b81-d0e8a32296d5",
+            "name": "ablate_t0.037555_fasttext_oh_eli5_200k_rw_v2_cc_v3_f0.15_resiliparse"
+        },
+        {
+            "uuid": "e3387e4c-ac0d-413e-b52b-fedfd75eae74",
+            "name": "math_datasets"
+        },
+        {
+            "uuid": "5a2a9039-c9aa-4b21-bd21-c3a75e8bd269",
+            "name": "starcoder_v2_smol_extras"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 199675343007,
+    "size": 499685728209,
+    "dcnlp_commit_hash": "9f0a49c6c66d816bce6623c48d432db56a12d3cb",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": {
+        "sources": [
+            {
+                "source": "CC",
+                "markers": [
+                    "ablate_t0.037555_fasttext"
+                ]
+            },
+            {
+                "source": "MATH",
+                "markers": [
+                    "math_datasets"
+                ]
+            },
+            {
+                "source": "LHQ",
+                "markers": [
+                    "lhq_data"
+                ]
+            },
+            {
+                "source": "UNKNOWN",
+                "markers": []
+            }
+        ],
+        "sampling_frequencies": {
+            "CC": 0.85,
+            "MATH": 1.0,
+            "LHQ": 1.0,
+            "UNKNOWN": 0.0
+        }
+    }
+}

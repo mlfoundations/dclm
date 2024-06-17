@@ -1,0 +1,21 @@
+{
+    "uuid": "86b7377a-898b-4140-aa29-c5d38754d954",
+    "name": "rw_v2_cc_v3_f0.15_resiliparase_fasttext_openwebtext2_vs_rw_v2_bigram_200k_train_0.1",
+    "creation_date": "2024_05_31-10_49_17",
+    "dataset_url": "s3://***REMOVED***/users/jeffreyli/mlr/dcnlp_data/tokenized/rw_v2_cc_v3_f0.15_resiliparase_fasttext_openwebtext2_vs_rw_v2_bigram_200k_train_0.1",
+    "manifest_url": "s3://***REMOVED***/users/jeffreyli/mlr/dcnlp_data/tokenized/rw_v2_cc_v3_f0.15_resiliparase_fasttext_openwebtext2_vs_rw_v2_bigram_200k_train_0.1/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "abd26b57-913b-490c-b2af-e015059a114f",
+            "name": "rw_v2_cc_v3_f0.15_resiliparase_fasttext_openwebtext2_vs_rw_v2_bigram_200k_train_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 173512737732,
+    "size": 470466648215,
+    "dcnlp_commit_hash": "8f02d9cf8436e53ecf4856a0cab9de518a9f6389",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

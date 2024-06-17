@@ -1,0 +1,21 @@
+{
+    "uuid": "adb30b0d-4b70-4d45-8818-378e08fb2981",
+    "name": "RW_v2_fasttext_length_OH_vs_unlabeled",
+    "creation_date": "2024_03_07-16_13_41",
+    "dataset_url": "s3://dcnlp-west/PU_classifier_filtering/tokenized/RW_v2/fasttext_length/",
+    "manifest_url": "s3://dcnlp-west/PU_classifier_filtering/tokenized/RW_v2/fasttext_length/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "66051cd2-2b53-42ce-9b9d-74a14b61cdf1",
+            "name": "RW_v2_fasttext_length_OH_vs_unlabeled"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 29594823705,
+    "size": 79769963557,
+    "dcnlp_commit_hash": "97dbe8ce211a2b0e48c240e7aacf1303a83368c4",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

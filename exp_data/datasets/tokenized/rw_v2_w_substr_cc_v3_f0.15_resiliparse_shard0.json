@@ -1,0 +1,21 @@
+{
+    "uuid": "dd7a1472-284b-4a14-94a3-b2255da154a8",
+    "name": "rw_v2_w_substr_cc_v3_f0.15_resiliparse_shard0",
+    "creation_date": "2024_02_28-01_26_05",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_shard0",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_shard0/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "426bc4b3-6c65-4864-b64a-644342411911",
+            "name": "rw_v2_w_substr_cc_v3_f0.15_resiliparse_shard0"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 94496855676,
+    "size": 254525837467,
+    "dcnlp_commit_hash": "2e340971425a388a636dbd6d2bf4992cc7a9a3ad",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

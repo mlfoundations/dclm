@@ -1,0 +1,13 @@
+{
+    "uuid": "64fde5cc-915d-4fc2-bad1-706653457bd7",
+    "name": "CC_full_v4_pre2023",
+    "creation_date": "2024-03-06 17:56:00",
+    "sources": "s3://dcnlp-west-test/commoncrawl_paths.txt.gz",
+    "tokenized": false,
+    "tokenizer": null,
+    "size": 66409408,
+    "seed": 42,
+    "json_path": "s3://dcnlp-west/CC_full_v4_pre2023_jsons/CC_full_v4_pre2023_split/CC_full_v4_pre2023_01_of_10.json.gz",
+    "dcnlp_commit_hash": "483faef02615ae529ea0ae45736948b8975644c4",
+    "dcnlp_diff": "diff --git a/tools/commoncrawl/sample_source_keys.py b/tools/commoncrawl/sample_source_keys.py\nindex d65f9d85..6ab0bd94 100644\n--- a/tools/commoncrawl/sample_source_keys.py\n+++ b/tools/commoncrawl/sample_source_keys.py\n@@ -97,17 +97,19 @@ def main(\n     else:\n         all_keys = list(list_matching_s3_keys(bucket, prefix, regex_pattern))\n \n-    sampled_keys = sample_keys(all_keys, subset_size, seed)\n-    dataset_json = generate_dataset_json(sampled_keys, name, file_path, bucket, prefix, seed)\n-\n-    out_path = f\"{exp_data_path}/datasets/{dataset_json['name']}.json.gz\"\n-    assert pathlib.Path(out_path).exists() is False, f\"dataset {out_path} already exists\"\n-    dataset_json_compressed = gzip.compress(json.dumps(dataset_json, indent=4).encode())\n-    with open(\n-        out_path,\n-        \"wb\",\n-    ) as f_obj:\n-        f_obj.write(dataset_json_compressed)\n+    sampled_keys_full = sample_keys(all_keys, subset_size, seed)\n+    for i in range(10):\n+        sampled_keys = sampled_keys_full[i*511740: (i+1)*511740]\n+        dataset_json = generate_dataset_json(sampled_keys, name, file_path, bucket, prefix, seed)\n+\n+        out_path = f\"exp_data/datasets/raw_sources/CC_full_v4_pre2023_split/{dataset_json['name']}_{i+1:02}_of_10.json.gz\"\n+        assert pathlib.Path(out_path).exists() is False, f\"dataset {out_path} already exists\"\n+        dataset_json_compressed = gzip.compress(json.dumps(dataset_json, indent=4).encode())\n+        with open(\n+            out_path,\n+            \"wb\",\n+        ) as f_obj:\n+            f_obj.write(dataset_json_compressed)\n \n \n if __name__ == \"__main__\":"
+}

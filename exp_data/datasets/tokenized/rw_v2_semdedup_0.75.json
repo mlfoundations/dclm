@@ -1,0 +1,21 @@
+{
+    "uuid": "e426606a-80d5-484c-9552-1b30268ec107",
+    "name": "rw_v2_semdedup_0.75",
+    "creation_date": "2024_03_02-22_06_42",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/rw_v2_semdedup_0.75",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/rw_v2_semdedup_0.75/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "0f124b1b-aa04-4d6f-8812-5ea733eb4b78",
+            "name": "rw_v2_semdedup_0.75"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 162181720605,
+    "size": 441950776313,
+    "dcnlp_commit_hash": "b95322eb8ec24a96cdb1b6b878f51f50272c9bb0",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

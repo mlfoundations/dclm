@@ -1,0 +1,27 @@
+{
+    "uuid": "9cac292c-a562-4d2c-8967-b4c2362d1a8f",
+    "name": "rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_vs_rw_v2_bigram_100k_train_0.1",
+    "creation_date": "2024_03_06-04_20_29",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_vs_rw_v2_bigram_100k_train_0.1",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_vs_rw_v2_bigram_100k_train_0.1/manifest.jsonl",
+    "mirrors": {
+        "tri": {
+            "dataset_url": "s3://***REMOVED***/openlm/dcnlp/datasets/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_vs_rw_v2_bigram_100k_train_0.1",
+            "manifest_url": "s3://***REMOVED***/openlm/dcnlp/datasets/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_vs_rw_v2_bigram_100k_train_0.1/manifest.jsonl"
+        }
+    },
+    "sources": [
+        {
+            "uuid": "3444a00e-e265-494a-8e5b-37cc9e9cce36",
+            "name": "rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_vs_rw_v2_bigram_100k_train_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 191687640249,
+    "size": 511325340934,
+    "dcnlp_commit_hash": "faa6036e79d9eb7ebd2af2f6c6aa87552d2ef731",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

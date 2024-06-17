@@ -1,0 +1,21 @@
+{
+    "uuid": "55bb2833-1842-490e-8f9a-083b90f6c2dd",
+    "name": "rw_v2_fasttext_openhermes_wo_metamath_platypus_vs_rw_v2_100k_train_4gram_0.1",
+    "creation_date": "2024_02_19-05_44_54",
+    "dataset_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_openhermes_wo_metamath_platypus_vs_rw_v2_100k_train_4gram_0.1/",
+    "manifest_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_openhermes_wo_metamath_platypus_vs_rw_v2_100k_train_4gram_0.1/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "b75c35b0-6acd-425e-98d5-d286c466aab6",
+            "name": "openhermes_wo_metamath_platypus_vs_rw_v2_4gram_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 29392128429,
+    "size": 79199167928,
+    "dcnlp_commit_hash": "79efe77924062fc979d4ffd2e0b3ff4d29f402cb",
+    "dcnlp_diff": "diff --git a/run_tokenize_shuffle.sh b/run_tokenize_shuffle.sh\nindex a4ef6f8..3232a81 100755\n--- a/run_tokenize_shuffle.sh\n+++ b/run_tokenize_shuffle.sh\n@@ -1,9 +1,9 @@\n \n \n-for dataset in openhermes #openwebtext2 cot open_orca human_instructions rpj \n+for dataset in openhermes_wo_metamath_platypus #openwebtext2 cot open_orca human_instructions rpj \n do\n     for model in unigram bigram trigram 4gram\n     do\n-\tpython ray_processing/tokenize_shuffle.py --source_ref_paths exp_data/datasets/untokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1.json --readable_name rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1 --output s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1/ --overwrite\n+\tpython ray_processing/tokenize_shuffle.py --source_ref_paths exp_data/datasets/untokenized/openhermes_wo_metamath_platypus_vs_rw_v2_${model}_0.1.json --readable_name rw_v2_fasttext_${dataset}_vs_rw_v2_100k_train_${model}_0.1 --output s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_100k_train_${model}_0.1/ --overwrite\n     done\n done",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

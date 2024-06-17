@@ -1,0 +1,15 @@
+{
+    "uuid": "152c3bd9-c44e-407f-8858-ee0fa504f2b7",
+    "name": "CC_WARC_justext_april_2019",
+    "creation_date": "2024_01_11-12_00_00",
+    "dataset_url": "s3://dcnlp-west/cc_justext_2019_08/",
+    "manifest_url": null,
+    "sources": [],
+    "tokenized": false,
+    "tokenizer": null,
+    "num_tokens": null,
+    "size": 987536760224,
+    "dcnlp_commit_hash": null,
+    "dcnlp_diff": null,
+    "data_key": "jsonl.zst"
+}

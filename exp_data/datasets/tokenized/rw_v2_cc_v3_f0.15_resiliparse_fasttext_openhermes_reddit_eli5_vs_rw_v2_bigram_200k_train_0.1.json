@@ -1,0 +1,27 @@
+{
+    "uuid": "430347e8-4739-4031-b69a-99e0fcf6a6ea",
+    "name": "rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1",
+    "creation_date": "2024_03_06-09_09_11",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1/manifest.jsonl",
+    "mirrors": {
+        "tri": {
+            "dataset_url": "s3://***REMOVED***/openlm/dcnlp/dcnlp-west-mirror/tokenized/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1",
+            "manifest_url": "s3://***REMOVED***/openlm/dcnlp/dcnlp-west-mirror/tokenized/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1/manifest.jsonl"
+        }
+    },
+    "sources": [
+        {
+            "uuid": "fffb696d-dce2-4988-b4ac-31e4fc655739",
+            "name": "rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 230537866620,
+    "size": 617919646747,
+    "dcnlp_commit_hash": "5801c3cbddbd650729a5fb57d5513e6949c56336",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

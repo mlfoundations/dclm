@@ -1,0 +1,15 @@
+{
+    "uuid": "555180df-3d45-4aa9-8b5f-1fa232dea66b",
+    "name": "podcasts_v0",
+    "creation_date": "2023_12_11-00_00_00",
+    "dataset_url": "s3://dcnlp-west/podcast_dataset/transcribed_1/jsonl/",
+    "manifest_url": null,
+    "sources": [],
+    "tokenized": false,
+    "tokenizer": null,
+    "num_tokens": null,
+    "size": 242967187231,
+    "dcnlp_commit_hash": null,
+    "dcnlp_diff": null,
+    "data_key": "jsonl"
+}

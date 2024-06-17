@@ -1,0 +1,21 @@
+{
+    "uuid": "e3d45d40-9239-4cfb-95ec-7e862ae4bbb2",
+    "name": "refinedweb_v2_keyfix_ask_llm_gpt4++_1024_th0_2_masked",
+    "creation_date": "2024_03_20-03_14_53",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/refinedweb_v2_keyfix_ask_llm_gpt4++_1024_th0_2_masked",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/refinedweb_v2_keyfix_ask_llm_gpt4++_1024_th0_2_masked/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "37c0b99b-508c-4fb5-a784-f5e1bddbe040",
+            "name": "refinedweb_v2_keyfix_ask_llm_gpt4++_1024_th0_2_masked"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 109430914314,
+    "size": 297568928683,
+    "dcnlp_commit_hash": "4aa347453cd2dbaf30d0e21d9e48e3eb91db7d77",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

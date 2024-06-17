@@ -1,0 +1,5 @@
+- source: cc_v3
+  weight: 1.0
+  steps:
+    - func: random_sampling_filter
+      keep_probability: 0.5

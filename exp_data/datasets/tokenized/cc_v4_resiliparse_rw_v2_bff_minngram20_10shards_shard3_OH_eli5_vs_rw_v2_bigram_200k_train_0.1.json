@@ -1,0 +1,27 @@
+{
+    "uuid": "167cff17-2d14-46ab-ae83-44d428f8c50d",
+    "name": "cc_v4_resiliparse_rw_v2_bff_minngram20_10shards_shard3_OH_eli5_vs_rw_v2_bigram_200k_train_0.1",
+    "creation_date": "2024_04_08-18_34_10",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/cc_v4_resiliparse_rw_v2_bff_minngram20_10shards_shard3_OH_eli5_vs_rw_v2_bigram_200k_train_0.1",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/cc_v4_resiliparse_rw_v2_bff_minngram20_10shards_shard3_OH_eli5_vs_rw_v2_bigram_200k_train_0.1/manifest.jsonl",
+    "mirrors": {
+        "tri": {
+            "dataset_url": "s3://***REMOVED***/openlm/dcnlp/dcnlp-west-mirror/tokenized/cc_v4_resiliparse_rw_v2_bff_minngram20_10shards_shard3_OH_eli5_vs_rw_v2_bigram_200k_train_0.1",
+            "manifest_url": "s3://***REMOVED***/openlm/dcnlp/dcnlp-west-mirror/tokenized/cc_v4_resiliparse_rw_v2_bff_minngram20_10shards_shard3_OH_eli5_vs_rw_v2_bigram_200k_train_0.1/manifest.jsonl"
+        }
+    },
+    "sources": [
+        {
+            "uuid": "ffa135e5-be7f-4354-85a1-b54b04c391dd",
+            "name": "cc_v4_resiliparse_rw_v2_bff_minngram20_10shards_shard3_OH_eli5_vs_rw_v2_bigram_200k_train_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "tokenizers/gpt_neox_tokenizer.json",
+    "num_tokens": 298680424875,
+    "size": 1037255786646,
+    "dcnlp_commit_hash": "2272e81932cddbf28e25b02df0aa50d369e56911",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

@@ -1,0 +1,16 @@
+{
+    "uuid": "1b97c8ed-516e-4c4f-89a6-fbdf6173cf08",
+    "name": "perplexity_f0.1_dfn_peS2o_rpjbooks_wikipedia_en_balanced_tokenized_v2_rw_v2_w_substr_cc_v3_f0.15",
+    "creation_date": "2024_06_02-08_27_03",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/aapl_data/users/alexfang/mlr/dcnlp_data/dfn_tokenized/perplexity_f0.1_dfn_peS2o_rpjbooks_wikipedia_en_balanced_tokenized_v2-d=576_l=24_h=8-warm=400-lr=0p003-wd=0p033-cd=3e-05-bs=512-mult=1-seed=0-tokens=307354752000_rw_v2_w_substr_cc_v3_f0.15_resiliparse_perplexity_999.0_2048/",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/aapl_data/users/alexfang/mlr/dcnlp_data/dfn_tokenized/perplexity_f0.1_dfn_peS2o_rpjbooks_wikipedia_en_balanced_tokenized_v2-d=576_l=24_h=8-warm=400-lr=0p003-wd=0p033-cd=3e-05-bs=512-mult=1-seed=0-tokens=307354752000_rw_v2_w_substr_cc_v3_f0.15_resiliparse_perplexity_999.0_2048/manifest.jsonl",
+    "sources": [],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 237581951604,
+    "size": 612779308714,
+    "dcnlp_commit_hash": "2405e3b9075ebafc576fb7b7aba4b11a84f858b7",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

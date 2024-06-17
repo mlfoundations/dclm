@@ -1,0 +1,21 @@
+{
+    "uuid": "1523b2ae-9eaa-46a9-8ee2-f6e05b1c91e6",
+    "name": "rw_v2_fasttext_openhermes_vs_rw_v2_1M_trigram_0.1",
+    "creation_date": "2024_02_17-02_20_05",
+    "dataset_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_openhermes_vs_rw_v2_1M_trigram_0.1/",
+    "manifest_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_openhermes_vs_rw_v2_1M_trigram_0.1/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "2b0192ff-b0a7-480c-9a84-f18ec42e1b59",
+            "name": "rw_v2_fasttext_openhermes_vs_rw_v2_1M_trigram_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 35242088997,
+    "size": 95259220704,
+    "dcnlp_commit_hash": "04c93712b6242f5618cc1f528c2477241582726b",
+    "dcnlp_diff": "diff --git a/run_tokenize_shuffle.sh b/run_tokenize_shuffle.sh\nindex 20eb127..a4ef6f8 100755\n--- a/run_tokenize_shuffle.sh\n+++ b/run_tokenize_shuffle.sh\n@@ -1,10 +1,9 @@\n \n-#python ray_processing/tokenize_shuffle.py --source_ref_paths exp_data/datasets/untokenized/rw_v2_fasttext_sharegpt_vs_rw_v2_bigram_0.1 --readable_name rw_v2_fasttext_sharegpt_vs_rw_v2_bigram_0.1 --output s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_sharegpt_vs_rw_v2_bigram_0.1/ --overwrite\n \n-for dataset in ultrafeedback #openwebtext2 cot open_orca human_instructions rpj \n+for dataset in openhermes #openwebtext2 cot open_orca human_instructions rpj \n do\n-    for model in unigram bigram\n+    for model in unigram bigram trigram 4gram\n     do\n-\tpython ray_processing/tokenize_shuffle.py --source_ref_paths exp_data/datasets/untokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_${model}_0.1 --readable_name rw_v2_fasttext_${dataset}_vs_rw_v2_${model}_0.1 --output s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_${model}_0.1/ --overwrite\n+\tpython ray_processing/tokenize_shuffle.py --source_ref_paths exp_data/datasets/untokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1.json --readable_name rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1 --output s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1/ --overwrite\n     done\n done",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

@@ -1,0 +1,37 @@
+{
+    "name": "rw_v2_wo_dedup_resiliparse-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000",
+    "dataset_name": "rw_v2_wo_dedup_resiliparse",
+    "dataset_uuid": "",
+    "hyperparameters": {
+        "model": "open_lm_1b",
+        "tokens": 28795904000,
+        "warmup": 5000,
+        "lr": 0.003,
+        "wd": 0.033,
+        "cd": 3e-05,
+        "global_bs": 256,
+        "acc": 1,
+        "qk_norm": true,
+        "z_loss": 0.0001,
+        "grad_checkpointing": false,
+        "params": 1439795200,
+        "params_no_embed": 1336510464,
+        "fsdp_flags": [
+            "--fsdp",
+            "--fsdp-amp",
+            "--fsdp-limit-all-gathers"
+        ],
+        "chinchilla_multiplier": 1,
+        "seed": 124
+    },
+    "checkpoint_url": "s3://***REMOVED***/users/alexfang/mlr/open_lm/general/rw_v2_wo_dedup_resiliparse_open_lm_1b_ccx1_gbs256_n4/checkpoints/epoch_2.pt",
+    "open_lm_version": "0.0.30",
+    "open_lm_args": [
+    ],
+    "results": [],
+    "params_url": "s3://***REMOVED***/users/alexfang/mlr/open_lm/general/rw_v2_wo_dedup_resiliparse_open_lm_1b_ccx1_gbs256_n4/params.txt",
+    "uuid": "b88c03e0-f865-437b-866f-6b5cb07bff2d",
+    "creation_date": "2024_05_29-00_12_18",
+    "failed": false,
+    "error": ""
+}

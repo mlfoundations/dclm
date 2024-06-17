@@ -1,0 +1,92 @@
+{
+    "uuid": "fb35adc5-2b3f-4944-b129-e167cd7bc50e",
+    "name": "rpjfull_rwv2OH_as_CC",
+    "creation_date": "2024_02_17-04_06_59",
+    "dataset_url": "s3://dcnlp-west/mixtures/rpjfull_rwv2OH_as_CC/",
+    "manifest_url": "s3://dcnlp-west/mixtures/rpjfull_rwv2OH_as_CC/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "366eecf7-2111-46ec-a349-c8ce717f3bdf",
+            "name": "rw_v2_fasttext_openhermes_vs_rw_v2_bigram_0.1"
+        },
+        {
+            "uuid": "c8b17a9b-6bd8-441a-8b9f-dbf486edf574",
+            "name": "rpj_original_arxiv"
+        },
+        {
+            "uuid": "d017c1fe-c9df-4e06-aa8f-d92b1097283b",
+            "name": "rpj_original_books"
+        },
+        {
+            "uuid": "edd67f24-49ae-4915-8c3a-dd4bcc62b9d8",
+            "name": "rpj_original_github"
+        },
+        {
+            "uuid": "3b25b18c-e724-4071-8c7a-d69c5e1aaeac",
+            "name": "rpj_original_stackexchange"
+        },
+        {
+            "uuid": "050bc436-8d61-4d73-b931-0306a4b26727",
+            "name": "rpj_original_wiki"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 38078556579,
+    "size": 98032138167,
+    "dcnlp_commit_hash": "06cef7b1f5f68cd3506da32bc0949c5ea453f815",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": {
+        "sources": [
+            {
+                "source": "RWV2OH",
+                "markers": [
+                    "rw_v2"
+                ]
+            },
+            {
+                "source": "GITHUB",
+                "markers": [
+                    "github"
+                ]
+            },
+            {
+                "source": "WIKIPEDIA",
+                "markers": [
+                    "wiki"
+                ]
+            },
+            {
+                "source": "BOOKS",
+                "markers": [
+                    "book"
+                ]
+            },
+            {
+                "source": "ARXIV",
+                "markers": [
+                    "arxiv"
+                ]
+            },
+            {
+                "source": "STACKEXCHANGE",
+                "markers": [
+                    "stackexchange"
+                ]
+            },
+            {
+                "source": "UNKNOWN",
+                "markers": []
+            }
+        ],
+        "sampling_frequencies": {
+            "RWV2OH": 1.0,
+            "GITHUB": 0.0671641791,
+            "WIKIPEDIA": 0.0671641791,
+            "BOOKS": 0.06716417909,
+            "ARXIV": 0.03731343284,
+            "STACKEXCHANGE": 0.02985074627
+        }
+    }
+}

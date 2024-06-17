@@ -1,0 +1,14 @@
+{
+    "name": "cc_v3_f0.15_resiliparse",
+    "tokenized": false,
+    "num_tokens": null,
+    "dataset_url": "s3://***REMOVED***/users/alexfang/mlr/dcnlp_data/common_crawl_v3_pre2023_0.15_frac_sample_resiliparse_jsonls/",
+    "manifest_url": null,
+    "dcnlp_commit_hash": "",
+    "dcnlp_diff": "",
+    "uuid": "a5fcd3f8-c6cf-4042-a689-452177a355c3",
+    "creation_date": "2024_02_05-23_05_44",
+    "tokenizer": null,
+    "data_key": "jsonl.gz",
+    "total_files": "535211"
+}

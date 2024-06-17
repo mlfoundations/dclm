@@ -1,0 +1,39 @@
+{
+    "name": "wiseft_a80_mix3_long_47_mix3_34",
+    "dataset_name": "fasttext_f0.07_ccv3_f0.15_math_lhq_mix3",
+    "dataset_uuid": "5a8a0af0-615f-47d6-8093-e928ad7f48a7",
+    "hyperparameters": {
+        "model": "training/open_lm_configs/open_lm_7b_swiglutorch.json",
+        "tokens": 270064893952,
+        "warmup": 0,
+        "lr": 0.001170118158,
+        "wd": 0.05,
+        "cd": 3e-05,
+        "global_bs": 2048,
+        "acc": 2,
+        "qk_norm": true,
+        "z_loss": 5e-06,
+        "grad_checkpointing": false,
+        "params": 6889410560,
+        "params_no_embed": 6682841088,
+        "fsdp_flags": [
+            "--fsdp",
+            "--fsdp-limit-all-gathers",
+            "--fsdp-pure-bf16",
+            "--fsdp-use-orig-params"
+        ],
+        "chinchilla_multiplier": 1.96,
+        "seed": 62,
+        "vocab_size": 50432,
+        "norm": "gain_only_lp_layer_norm"
+    },
+    "checkpoint_url": "s3://***REMOVED***/users/alexfang/mlr/dcnlp_data/wiseft_cd/wiseft_a80_mix3_long_47_mix3_34.pt",
+    "open_lm_version": "0.0.34",
+    "open_lm_args": [],
+    "results": [],
+    "params_url": "s3://***REMOVED***/users/vaishaal/mlr/open_lm/dcnlp/checkpoints/fasttext_f0.07_ccv3_f0.15_math_lhq_mix3-open_lm_7b_swiglutorch-warm=0-lr=0p001170118158-wd=0p05-cd=3e-05-bs=2048-mult=1p96-seed=64-tokens=270064893952/params.txt",
+    "uuid": "e5607c82-8aa4-4f6e-92bd-f2861c5e9926",
+    "creation_date": "2024_06_06-03_23_49",
+    "failed": false,
+    "error": ""
+}

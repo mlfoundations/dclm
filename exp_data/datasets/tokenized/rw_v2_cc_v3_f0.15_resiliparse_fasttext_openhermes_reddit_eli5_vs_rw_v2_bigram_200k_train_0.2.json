@@ -1,0 +1,27 @@
+{
+    "uuid": "cbf619ee-6f45-42a2-8cec-18d9e55ffb83",
+    "name": "rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.2",
+    "creation_date": "2024_04_02-03_22_33",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.2",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.2/manifest.jsonl",
+    "mirrors": {
+        "tri": {
+            "dataset_url": "s3://***REMOVED***/openlm/dcnlp/dcnlp-west-mirror/dcnlp_data/tokenized/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.2",
+            "manifest_url": "s3://***REMOVED***/openlm/dcnlp/dcnlp-west-mirror/dcnlp_data/tokenized/rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.2/manifest.jsonl"
+        }
+    },
+    "sources": [
+        {
+            "uuid": "88c1b3aa-7fcc-4512-9f7a-f405f59a6bb7",
+            "name": "rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.2.json"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 492564597222,
+    "size": 1325274440632,
+    "dcnlp_commit_hash": "b67eb4d897a80e42ce454b716d19e38c6a7e7344",
+    "dcnlp_diff": "diff --git a/ray_processing/tokenize_shuffle.py b/ray_processing/tokenize_shuffle.py\nindex bb49c83f..1fbbf289 100644\n--- a/ray_processing/tokenize_shuffle.py\n+++ b/ray_processing/tokenize_shuffle.py\n@@ -31,7 +31,7 @@ if __name__ == \"__main__\":\n     parser.add_argument(\"--num_writers_per_node\", type=int, default=1)\n     parser.add_argument(\"--ray_spill_location\", type=str, default=\"/tmp/ray\")\n     parser.add_argument(\"--mirror\", help=\"Use this dataset mirror if it exists in the dataset 'mirrors' key.\")\n-    parser.add_argument(\"--suffixes\", nargs=\"+\", default=[\"jsonl.gz\", \"jsonl.zst\", \"jsonl.zstd\"])\n+    parser.add_argument(\"--suffixes\", nargs=\"+\", default=[\"jsonl.gz\", \"jsonl.zst\", \"jsonl.zstd\", \"jsonl\"])\n \n     # Args specific to dcnlp pipeline (as opposed to tokenize_shuffle)\n     DCNLP_ARGS = ['source_ref_paths', 'readable_name', 'overwrite', 'do_sample', 'no_shuffle', \"prefix_replacement\", \"mirror\"]\n@@ -82,4 +82,4 @@ if __name__ == \"__main__\":\n         json.dump(dataset_json, ref_file, indent=4)\n     out_json_path = f\"{args.output}/{pathlib.Path(args.output).name}.json\"\n     print(f\"moving dataset json to {out_json_path}\")\n-    os.system(f\"aws s3 cp {json_path} {out_json_path}\")\n\\ No newline at end of file\n+    os.system(f\"aws s3 cp {json_path} {out_json_path}\")",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

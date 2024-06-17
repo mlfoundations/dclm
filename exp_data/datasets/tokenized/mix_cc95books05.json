@@ -1,0 +1,17 @@
+{
+    "name": "mix_cc95books05",
+    "sources": "https://huggingface.co/datasets/allenai/dolma",
+    "tokenized": true,
+    "num_tokens": 30488000000,
+    "size": 82154495800,
+    "dataset_url": "s3://dcnlp-west/mixed_datasets/cc95books5/",
+    "manifest_url": "s3://dcnlp-west/mixed_datasets/cc95books5/manifest.jsonl",
+    "dcnlp_commit_hash": "",
+    "dcnlp_diff": "",
+    "uuid": "bd4c686d-7d4b-4ad2-ba2d-20283ad4158a",
+    "creation_date": "2024_02_14-00_00_00",
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "data_key": "json.gz",
+    "sampling_yaml": null,
+    "note": "95% CC (rw_v2_fasttext_openhermes_vs_rw_v2_bigram_0.1.json), 5% dolma_gutenberg-books"
+}

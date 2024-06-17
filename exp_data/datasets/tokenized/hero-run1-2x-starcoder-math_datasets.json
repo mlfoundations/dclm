@@ -1,0 +1,37 @@
+{
+    "uuid": "c41aad88-1b0b-4f74-95da-ab7ad9ebd95d",
+    "name": "hero-run1-2x-starcoder-math_datasets",
+    "creation_date": "2024_05_06-22_26_34",
+    "dataset_url": "s3://***REMOVED***/openlm/dcnlp/datasets/hero-run1-2x-starcoder-math_datasets",
+    "manifest_url": "s3://***REMOVED***/openlm/dcnlp/datasets/hero-run1-2x-starcoder-math_datasets/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "f9ee1eac-4914-4cc0-9e77-33126565936b",
+            "name": "cc_v4_resiliparse_rw_v2_bff_minngram13_10shards_all_fasttext_OH_eli5_vs_rw_v2_bigram_200k_train"
+        },
+        {
+            "uuid": "6d473ea2-59ab-461c-a238-37c2be7f94c9",
+            "name": "starcoder"
+        },
+        {
+            "uuid": "6d473ea2-59ab-461c-a238-37c2be7f94c9",
+            "name": "starcoder"
+        },
+        {
+            "uuid": "e3387e4c-ac0d-413e-b52b-fedfd75eae74",
+            "name": "math_datasets"
+        },
+        {
+            "uuid": "e3387e4c-ac0d-413e-b52b-fedfd75eae74",
+            "name": "math_datasets"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 4488566758248,
+    "size": 11584654236482,
+    "dcnlp_commit_hash": "f39fae7cdeefab921b83b379b4ee64fce910ad7d",
+    "dcnlp_diff": "diff --git a/ray_processing/cluster_tri_tokenize_shuffle_west.yaml b/ray_processing/cluster_tri_tokenize_shuffle_west.yaml\nindex 42023cc1..f3276d39 100644\n--- a/ray_processing/cluster_tri_tokenize_shuffle_west.yaml\n+++ b/ray_processing/cluster_tri_tokenize_shuffle_west.yaml\n@@ -62,7 +62,8 @@ setup_commands:\n     - pip install pyarrow\n     - pip install sentencepiece\n     - pip install llm-foundry==0.4.0\n-    - pip install git+https://github.com/mlfoundations/open_lm.git\n+    - pip install git+https://github.com/mlfoundations/open_lm.git@allow-duplicate-input-paths\n     - pip install --upgrade transformers\n+    - pip install --upgrade boto3 botocore\n     - pip install awscli\n \ndiff --git a/ray_processing/tokenize_shuffle.py b/ray_processing/tokenize_shuffle.py\nindex e417e4ac..fd2ec350 100644\n--- a/ray_processing/tokenize_shuffle.py\n+++ b/ray_processing/tokenize_shuffle.py\n@@ -30,6 +30,7 @@ def add_tokenize_shuffle_args(parser):\n     parser.add_argument(\"--ray_spill_location\", type=str, default=\"/tmp/ray\")\n     parser.add_argument(\"--mirror\", help=\"Use this dataset mirror if it exists in the dataset 'mirrors' key.\")\n     parser.add_argument(\"--suffixes\", nargs=\"+\", default=[\"jsonl.gz\", \"jsonl.zst\", \"jsonl.zstd\"])\n+    parser.add_argument(\"--presort\", action=\"store_true\")\n \n     # Args specific to dcnlp pipeline (as opposed to tokenize_shuffle)\n     DCNLP_ARGS = ['source_ref_paths', 'readable_name', 'overwrite', 'do_sample', 'no_shuffle', \"prefix_replacement\", \"mirror\"]\n@@ -53,22 +54,25 @@ def main(args, dcnlp_arg_names):\n         source_refs = [get_source_ref(s) for s in source_ref_paths]\n         if args.mirror:\n             for s in source_refs:\n-                if args.mirror in s.get(\"mirror\", {}):\n-                    new_url = s[\"mirror\"][\"dataset_url\"]\n+                if args.mirror in s.get(\"mirrors\", {}):\n+                    new_url = s[\"mirrors\"][\"dataset_url\"]\n                     print(f\"Updating dataset url for {s['name']}: {s['dataset_url']} -> {new_url}.\")\n                     s[\"dataset_url\"] = new_url\n         args.input = \",\".join([replace_prefix(s['dataset_url'], args.prefix_replacement) for s in source_refs])  \n \n     # Collect args for tokenization and pass them into tokenize_shuffle\n-    tokenize_shuffle_args = [str(i) for k,v in vars(args).items() for i in [f\"--{k}\", v] if k not in dcnlp_arg_names and v and k != \"suffixes\"]\n+    tokenize_shuffle_args = [str(i) for k,v in vars(args).items() for i in [f\"--{k}\", v] if k not in dcnlp_arg_names and v and k not in {\"suffixes\", \"presort\"}]\n \n     tokenize_shuffle_args.append('--suffixes')\n     for suffix in args.suffixes:\n         tokenize_shuffle_args.append(str(suffix))\n-        \n+\n     if args.do_sample: \n         tokenize_shuffle_args.append('--do_sample')\n \n+    if args.presort:\n+        tokenize_shuffle_args.append('--presort')\n+\n     if args.no_shuffle: \n         tokenize_shuffle_args.append('--no_shuffle')\n     \ndiff --git a/training/configs/1b_1x.json b/training/configs/1b_1x.json\nindex bd0a40b8..9a73f4d8 100644\n--- a/training/configs/1b_1x.json\n+++ b/training/configs/1b_1x.json\n@@ -8,7 +8,7 @@\n     \"wd\": 0.033,\n     \"cd\": 3e-5,\n     \"global_bs\": 256,\n-    \"acc\": 2,\n+    \"acc\": 4,\n     \"qk_norm\": true,\n     \"z_loss\": 1e-4,\n     \"grad_checkpointing\": false,\n@@ -18,4 +18,4 @@\n         \"--fsdp-limit-all-gathers\"\n     ],\n     \"chinchilla_multiplier\": 1\n-}\n\\ No newline at end of file\n+}\ndiff --git a/training/configs/7b_1x.json b/training/configs/7b_1x.json\nindex f04d2c91..8b019235 100644\n--- a/training/configs/7b_1x.json\n+++ b/training/configs/7b_1x.json\n@@ -8,7 +8,7 @@\n     \"wd\": 0.33,\n     \"cd\": 3e-05,\n     \"global_bs\": 2048,\n-    \"acc\": 2,\n+    \"acc\": 4,\n     \"qk_norm\": true,\n     \"z_loss\": 1e-4,\n     \"grad_checkpointing\": false,\n@@ -18,4 +18,4 @@\n         \"--fsdp-pure-bf16\"\n     ],\n     \"chinchilla_multiplier\": 1\n-}\n\\ No newline at end of file\n+}\ndiff --git a/training/params.py b/training/params.py\nindex c1878f75..cc8dde99 100644\n--- a/training/params.py\n+++ b/training/params.py\n@@ -167,6 +167,7 @@ def add_dcnlp_args(parser):\n     parser.add_argument(\n         \"--skip-train\", action=\"store_true\", help=\"If true, skip training. Useful for creating a model json.\"\n     )\n+    parser.add_argument(\"--resume\", default=\"latest\")\n     parser.add_argument(\"--pretrained\", type=str, default=None, help=\"Checkpoint to start model from.\")\n     parser.add_argument(\n         \"--load-pretrained-state\",\n@@ -265,8 +266,6 @@ def get_open_lm_args(args, hparams, dr):\n         \"0.95\",\n         \"--epochs\",\n         f\"{args.num_checkpoints}\",\n-        \"--resume\",\n-        \"latest\",\n         \"--seed\",\n         f\"{args.seed}\",\n         \"--accum-freq\",\n@@ -282,6 +281,9 @@ def get_open_lm_args(args, hparams, dr):\n         f\"{args.attn_name}\",\n         \"--log-logit-mean\"\n     ]\n+    if args.resume:\n+        open_lm_args.extend([\"--resume\", str(args.resume)])\n+        assert args.pretrained is None\n \n     if args.pretrained is not None:\n         open_lm_args.extend([\"--pretrained\", f\"{args.pretrained}\"])",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

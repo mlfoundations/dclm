@@ -1,0 +1,23 @@
+{
+    "name": "dolma_v1_no_resample",
+    "sources": "https://huggingface.co/datasets/allenai/dolma",
+    "tokenized": true,
+    "num_tokens": 2923765046688,
+    "size": -1,
+    "dataset_url": "s3://***REMOVED***/users/jeffreyli/mlr/dcnlp_data/tokenized/dolma_v1/",
+    "manifest_url": "s3://***REMOVED***/users/jeffreyli/mlr/dcnlp_data/tokenized/dolma_v1/manifest.jsonl",
+    "mirrors": {
+        "tri": {
+            "dataset_url": "s3://***REMOVED***/openlm/dcnlp/datasets/dolma_v1/",
+            "manifest_url": "s3://***REMOVED***/openlm/dcnlp/datasets/dolma_v1/manifest.jsonl"
+        }
+    },
+    "dcnlp_commit_hash": "fc638e9",
+    "dcnlp_diff": "",
+    "uuid": "bdff90b2-5557-4699-a4c5-8d7b287ddc1b",
+    "creation_date": "2024_01_22-00_00_00",
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "data_key": "json.gz",
+    "sampling_yaml": null,
+    "note": "Dolma v1, without any sampling applied"
+}

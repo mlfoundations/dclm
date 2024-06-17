@@ -1,0 +1,21 @@
+{
+    "uuid": "919fb658-650b-45b3-8966-41840de636fb",
+    "name": "rw_v2_fasttext_sharegpt_vs_rw_v2_unigram_0.1",
+    "creation_date": "2024_02_10-05_41_44",
+    "dataset_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_sharegpt_vs_rw_v2_unigram_0.1/",
+    "manifest_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_sharegpt_vs_rw_v2_unigram_0.1/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "48621651-7776-484a-9fdb-4e69b4c90bdb",
+            "name": "rw_v2_fasttext_sharegpt_vs_rw_v2_unigram_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 38840854245,
+    "size": 104229112893,
+    "dcnlp_commit_hash": "4db73590cfcfe51ee43b4f224cb7cd976dbe698c",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

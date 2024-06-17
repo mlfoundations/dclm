@@ -1,0 +1,76 @@
+- source: cc_april_2019
+  weight: 1.0
+  steps:
+    # Chunk 1: Various filtering and cleaning rules (local)
+    - func: key_name_modifier
+    - func: page_length_filter
+      length_type: char
+      max_length: 190000
+    - func: word_length_modifier
+      max_length: 1000
+      model: split
+    - func: citation_removal_modifier
+    - func: punctuation_line_modifier
+      remove_ellipses: True
+    - func: line_length_modifier
+      min_length: 5
+    - func: substring_filter
+      banlist: ['lorem ipsum']
+    - func: substring_line_modifier
+      banlist: ['javascript']
+    - func: substring_filter
+      banlist: ['{']
+    - func: substring_line_modifier
+      banlist: [
+        "terms of use",
+        "privacy policy", 
+        "cookie policy", 
+        "uses cookies", 
+        "use of cookies", 
+        "use cookies"
+      ]
+    - func: page_length_filter
+      length_type: sentence
+      min_length: 3
+      tokenizer: nltk
+      tokenizer_lang: english
+    - func: split_lines_modifier
+      delimiter: "\n"
+    # Chunk 2: URL Dedup
+    - func: exact_dedup
+      content_key: url
+      normalize: normalize_url
+    # Chunk 3: Paragraph Dedup
+    - func: exact_dedup
+      content_key: text
+      normalize: normalize_whitespace_and_lowercase
+      selection_key: url
+      selection_normalize: hash_text
+    # Chunk 4: Joining after dedup + LID + Bad word filtering
+    - func: join_lines_modifier
+      delimiter: "\n"
+    - func: within_page_dedup  # TODO: Given our implementation I think we can delete this...
+      granularity: line
+      normalize: True
+    - func: page_length_filter
+      length_type: sentence
+      min_length: 3
+      tokenizer: nltk
+      tokenizer_lang: english
+    - func: substring_filter
+      banlist_from_fname: "baselines/mappers/banlists/ldnoobw.txt"
+      exact_word: True
+    - func: detect_lang_whole_page_enricher
+      model: langdetect
+      key_prefix: language_id_whole_page
+      seed: 0
+      _aggregate:
+        language_id_whole_page_langdetect:
+          type: histogram
+          transform: threshold_transform
+          threshold: 0.99
+          default: "unknown"
+    - func: language_filter
+      key: language_id_whole_page_langdetect
+      keep_languages: [ en ]
+      threshold: 0.99

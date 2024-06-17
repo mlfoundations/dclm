@@ -1,0 +1,92 @@
+{
+    "uuid": "0cbc191f-b25e-4790-8dd9-95638eec309d",
+    "name": "rpj_c4_as_CC",
+    "creation_date": "2024_01_09-22_35_14",
+    "dataset_url": "s3://***REMOVED***/openlm/dcnlp/datasets/rpj_c4_as_CC/",
+    "manifest_url": "s3://***REMOVED***/openlm/dcnlp/datasets/rpj_c4_as_CC/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "a8f160b4-c1c9-409f-a747-a08b7a17d453",
+            "name": "c4_original"
+        },
+        {
+            "uuid": "edd67f24-49ae-4915-8c3a-dd4bcc62b9d8",
+            "name": "rpj_original_github"
+        },
+        {
+            "uuid": "c8b17a9b-6bd8-441a-8b9f-dbf486edf574",
+            "name": "rpj_original_arxiv"
+        },
+        {
+            "uuid": "d017c1fe-c9df-4e06-aa8f-d92b1097283b",
+            "name": "rpj_original_books"
+        },
+        {
+            "uuid": "3b25b18c-e724-4071-8c7a-d69c5e1aaeac",
+            "name": "rpj_original_stackexchange"
+        },
+        {
+            "uuid": "050bc436-8d61-4d73-b931-0306a4b26727",
+            "name": "rpj_original_wiki"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 213103495242,
+    "size": 560480908080,
+    "dcnlp_commit_hash": "287ba500c592b05266ee17921c3e4a656f10b8ec",
+    "dcnlp_diff": "diff --git a/exp_data/datasets/untokenized/c4_wo_dedup.json b/exp_data/datasets/untokenized/c4_wo_dedup.json\nindex fd6fbbd..c5af54a 100644\n--- a/exp_data/datasets/untokenized/c4_wo_dedup.json\n+++ b/exp_data/datasets/untokenized/c4_wo_dedup.json\n@@ -2,7 +2,7 @@\n     \"uuid\": \"5431063a-bcdb-4c9e-83df-b5b08243ab1d\",\n     \"name\": \"c4_wo_dedup\",\n     \"creation_date\": \"2023_12_20-17_59_20\",\n-    \"dataset_url\": \"s3://dcnlp-west/cc_wet_2019_april_baselines/c4_wo_dedup/\",\n+    \"dataset_url\": \"s3://***REMOVED***/openlm/dcnlp/raw_datasets/cc_wet_2019_april_baselines/c4_wo_dedup/\",\n     \"manifest_url\": null,\n     \"sources\": [\n         {\ndiff --git a/exp_data/datasets/untokenized/rw_original.json b/exp_data/datasets/untokenized/rw_original.json\nindex 3cc566d..aa35e58 100644\n--- a/exp_data/datasets/untokenized/rw_original.json\n+++ b/exp_data/datasets/untokenized/rw_original.json\n@@ -2,7 +2,7 @@\n     \"uuid\": \"df16a14e-0f67-4623-933a-805522653f22\",\n     \"name\": \"rw_original\",\n     \"creation_date\": \"2023_11_22-12_31_00\",\n-    \"dataset_url\": \"s3://dcnlp-west/refinedweb_raw_jsonl_keyfix/\",\n+    \"dataset_url\": \"s3://***REMOVED***/openlm/dcnlp/raw_datasets/refinedweb_raw_jsonl_keyfix/\",\n     \"manifest_url\": null,\n     \"sources\": [],\n     \"tokenized\": false,\ndiff --git a/ray_processing/__init__.py b/ray_processing/__init__.py\nindex 5e1b41d..014c770 100644\n--- a/ray_processing/__init__.py\n+++ b/ray_processing/__init__.py\n@@ -1,4 +1,4 @@\n-from dedup_jsonl import dedup_jsonl\n+from ray_processing.dedup_jsonl import dedup_jsonl\n from baselines.core.constants import GLOBAL_FUNCTIONS\n \n-GLOBAL_FUNCTIONS['exact_dedup'] = dedup_jsonl\n\\ No newline at end of file\n+GLOBAL_FUNCTIONS['exact_dedup'] = dedup_jsonl\ndiff --git a/ray_processing/tokenize_shuffle.py b/ray_processing/tokenize_shuffle.py\nindex ba2ac32..14d4125 100644\n--- a/ray_processing/tokenize_shuffle.py\n+++ b/ray_processing/tokenize_shuffle.py\n@@ -53,7 +53,9 @@ if __name__ == \"__main__\":\n         assert all(s is not None for s in source_refs), \"Not all source reference jsons could be found.\"\n \n     # Collect args for tokenization and pass them into tokenize_shuffle\n-    tokenize_shuffle_args = [str(i) for k,v in vars(args).items() for i in [f\"--{k}\", v] if k not in DCNLP_ARGS and v]\n+    tokenize_shuffle_args = [str(i) for k,v in vars(args).items() for i in [f\"--{k}\", v] if k not in DCNLP_ARGS and k != \"do_sample\" and v]\n+    if args.do_sample:\n+        tokenize_shuffle_args += [\"--do_sample\"]\n     tokenize_shuffle.main(tokenize_shuffle_args)\n \n     dataset_json = generate_tokenized_dataset_json(args, source_refs)\ndiff --git a/run_CC_plus_rpj_nonCC.sh b/run_CC_plus_rpj_nonCC.sh\nold mode 100644\nnew mode 100755\nindex ae82cc8..10ed1f0\n--- a/run_CC_plus_rpj_nonCC.sh\n+++ b/run_CC_plus_rpj_nonCC.sh\n@@ -1,13 +1,13 @@\n # Refinedweb as the CC source\n-python ray_processing/tokenize_shuffle.py \\\n-\t--source_ref_paths exp_data/datasets/untokenized/rw_original.json exp_data/datasets/untokenized/rpj_original_github.json exp_data/datasets/untokenized/rpj_original_arxiv.json exp_data/datasets/untokenized/rpj_original_books.json exp_data/datasets/untokenized/rpj_original_stackexchange.json  exp_data/datasets/untokenized/rpj_original_wiki.json \\\n-\t--readable_name rpj_rw_as_CC \\\n-\t--output s3://***REMOVED***/openlm/dcnlp/datasets/rpj_rw_as_CC/ \\\n-\t--default_dataset_yaml ray_processing/tokenization_configs/rpj_rw_as_CC.yaml \\\n-\t--content_key text \\\n-\t--ray_spill_location /tmp/ray \\\n-\t--force_parallelism \\\n-\t--do_sample \\\n+# python ray_processing/tokenize_shuffle.py \\\n+# \t--source_ref_paths exp_data/datasets/untokenized/rw_original.json exp_data/datasets/untokenized/rpj_original_github.json exp_data/datasets/untokenized/rpj_original_arxiv.json exp_data/datasets/untokenized/rpj_original_books.json exp_data/datasets/untokenized/rpj_original_stackexchange.json  exp_data/datasets/untokenized/rpj_original_wiki.json \\\n+# \t--readable_name rpj_rw_as_CC \\\n+# \t--output s3://***REMOVED***/openlm/dcnlp/datasets/rpj_rw_as_CC/ \\\n+# \t--default_dataset_yaml ray_processing/tokenization_configs/rpj_rw_as_CC.yaml \\\n+# \t--content_key text \\\n+# \t--ray_spill_location /tmp/ray \\\n+# \t--force_parallelism 320 \\\n+# \t--do_sample\n \n \n # C4 as the CC source\n@@ -18,16 +18,16 @@ python ray_processing/tokenize_shuffle.py \\\n \t--default_dataset_yaml ray_processing/tokenization_configs/rpj_c4_as_CC.yaml \\\n \t--content_key text \\\n \t--ray_spill_location /tmp/ray \\\n-\t--force_parallelism \\\n+\t--force_parallelism 320 \\\n \t--do_sample\n-\n-# RPJ-CC as the CC source\n-python ray_processing/tokenize_shuffle.py \\\n-\t--source_ref_paths exp_data/datasets/untokenized/rpj_original_cc.json exp_data/datasets/untokenized/rpj_original_github.json exp_data/datasets/untokenized/rpj_original_arxiv.json exp_data/datasets/untokenized/rpj_original_books.json exp_data/datasets/untokenized/rpj_original_stackexchange.json  exp_data/datasets/untokenized/rpj_original_wiki.json \\\n-\t--readable_name rpj_rpjCC_as_CC \\\n-\t--output s3://***REMOVED***/openlm/dcnlp/datasets/rpj_rpjCC_as_CC/  \\\n-\t--default_dataset_yaml ray_processing/tokenization_configs/rpj_rpjCC_as_CC.yaml \\\n-\t--content_key text \\\n-\t--ray_spill_location /tmp/ray \\\n-\t--force_parallelism \\\n-\t--do_sample\n\\ No newline at end of file\n+# \n+# # RPJ-CC as the CC source\n+# python ray_processing/tokenize_shuffle.py \\\n+# \t--source_ref_paths exp_data/datasets/untokenized/rpj_original_cc.json exp_data/datasets/untokenized/rpj_original_github.json exp_data/datasets/untokenized/rpj_original_arxiv.json exp_data/datasets/untokenized/rpj_original_books.json exp_data/datasets/untokenized/rpj_original_stackexchange.json  exp_data/datasets/untokenized/rpj_original_wiki.json \\\n+# \t--readable_name rpj_rpjCC_as_CC \\\n+# \t--output s3://***REMOVED***/openlm/dcnlp/datasets/rpj_rpjCC_as_CC/  \\\n+# \t--default_dataset_yaml ray_processing/tokenization_configs/rpj_rpjCC_as_CC.yaml \\\n+# \t--content_key text \\\n+# \t--ray_spill_location /tmp/ray \\\n+# \t--force_parallelism \\\n+# \t--do_sample\ndiff --git a/training/configs/1b_1x.json b/training/configs/1b_1x.json\nindex bd0a40b..45b4656 100644\n--- a/training/configs/1b_1x.json\n+++ b/training/configs/1b_1x.json\n@@ -8,7 +8,7 @@\n     \"wd\": 0.033,\n     \"cd\": 3e-5,\n     \"global_bs\": 256,\n-    \"acc\": 2,\n+    \"acc\": 1,\n     \"qk_norm\": true,\n     \"z_loss\": 1e-4,\n     \"grad_checkpointing\": false,\n@@ -18,4 +18,4 @@\n         \"--fsdp-limit-all-gathers\"\n     ],\n     \"chinchilla_multiplier\": 1\n-}\n\\ No newline at end of file\n+}\ndiff --git a/training/configs/3b_1x.json b/training/configs/3b_1x.json\nindex d77a4d4..2e9e15b 100644\n--- a/training/configs/3b_1x.json\n+++ b/training/configs/3b_1x.json\n@@ -8,7 +8,7 @@\n     \"wd\": 0.33,\n     \"cd\": 3e-05,\n     \"global_bs\": 2048,\n-    \"acc\": 2,\n+    \"acc\": 4,\n     \"qk_norm\": true,\n     \"z_loss\": 1e-4,\n     \"grad_checkpointing\": false,",
+    "data_key": "json.gz",
+    "sampling_yaml": {
+        "sources": [
+            {
+                "source": "C4",
+                "markers": [
+                    "c4/"
+                ]
+            },
+            {
+                "source": "GITHUB",
+                "markers": [
+                    "github"
+                ]
+            },
+            {
+                "source": "WIKIPEDIA",
+                "markers": [
+                    "wiki"
+                ]
+            },
+            {
+                "source": "BOOKS",
+                "markers": [
+                    "book"
+                ]
+            },
+            {
+                "source": "ARXIV",
+                "markers": [
+                    "arxiv"
+                ]
+            },
+            {
+                "source": "STACKEXCHANGE",
+                "markers": [
+                    "stackexchange"
+                ]
+            },
+            {
+                "source": "UNKNOWN",
+                "markers": []
+            }
+        ],
+        "sampling_frequencies": {
+            "C4": 1.0,
+            "GITHUB": 0.16275090959761035,
+            "WIKIPEDIA": 0.3861274802860062,
+            "BOOKS": 0.36855746588206445,
+            "ARXIV": 0.1896381595832778,
+            "STACKEXCHANGE": 0.20748787993022244
+        }
+    }
+}

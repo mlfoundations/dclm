@@ -1,0 +1,25 @@
+{
+    "uuid": "8253d6fe-ef7d-43a9-832b-7952224aac2b",
+    "name": "mix_rw_v2_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1_arxiv_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1",
+    "creation_date": "2024_03_04-21_45_31",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/mix_rw_v2_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1_arxiv_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/tokenized/mix_rw_v2_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1_arxiv_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "db36c0a1-2e85-4deb-8b01-b2fe06a985e0",
+            "name": "rw_v2_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1"
+        },
+        {
+            "uuid": "d77fc7ae-257d-48ad-be5b-5e900395b797",
+            "name": "arxiv_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 31532454408,
+    "size": 85204073436,
+    "dcnlp_commit_hash": "c76d83771f139b04fd125154898d2f8447831e11",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

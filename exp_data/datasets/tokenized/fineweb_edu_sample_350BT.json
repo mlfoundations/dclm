@@ -1,0 +1,21 @@
+{
+    "uuid": "6f931ca0-500d-4891-82b7-6020e204c8b5",
+    "name": "fineweb_edu_sample_350BT",
+    "creation_date": "2024_06_03-17_31_30",
+    "dataset_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/aapl_data/users/alexfang/mlr/dcnlp_data/fineweb_edu/fineweb_edu_sample_350BT_tokenized",
+    "manifest_url": "s3://***REMOVED***/users/vaishaal/mlr/dcnlp_data/aapl_data/users/alexfang/mlr/dcnlp_data/fineweb_edu/fineweb_edu_sample_350BT_tokenized/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "ff68c62e-0f0d-4119-899e-6957ab974fc1",
+            "name": "fineweb_edu_sample_350BT"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 348172515909,
+    "size": 940508511273,
+    "dcnlp_commit_hash": "9f0a49c6c66d816bce6623c48d432db56a12d3cb",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

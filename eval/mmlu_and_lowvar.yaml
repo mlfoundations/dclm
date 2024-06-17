@@ -1,0 +1,155 @@
+epoch: 1.25T
+dataset: bigdata
+num_params: 1B
+max_seq_len: 2048
+seed: 1
+precision: fp32
+
+# Tokenizer
+tokenizer:
+  # name: [Add name from memory]
+  pretrained_model_name_or_path:
+  kwargs:
+    model_max_length: 2048
+
+model:
+  name: open_lm
+  # pretrained_model_name_or_path: [add name from memory]
+  init_device: cpu
+  pretrained: true
+
+load_path: # Add your (optional) Composer checkpoint path here!
+
+device_eval_batch_size: 2
+
+# FSDP config for model sharding
+fsdp_config:
+  sharding_strategy: FULL_SHARD
+  mixed_precision: FULL
+
+
+icl_tasks:
+-
+  label: mmlu_fewshot
+  dataset_uri: local_data/world_knowledge/mmlu.jsonl
+  num_fewshot: [5]
+  icl_task_type: multiple_choice
+  continuation_delimiter: "\nAnswer: " # this separates questions from answers
+  has_categories: true
+-
+  label: hellaswag_zeroshot
+  dataset_uri: local_data/language_understanding/hellaswag.jsonl
+  num_fewshot: [0]
+  icl_task_type: multiple_choice
+-
+  label: jeopardy
+  dataset_uri: local_data/world_knowledge/jeopardy_all.jsonl
+  num_fewshot: [10]
+  icl_task_type: language_modeling
+  continuation_delimiter: "\nAnswer: " # this separates questions from answers
+  has_categories: true
+-
+  label: bigbench_qa_wikidata
+  dataset_uri: local_data/world_knowledge/bigbench_qa_wikidata.jsonl
+  num_fewshot: [10]
+  icl_task_type: language_modeling
+-
+  label: arc_easy
+  dataset_uri: local_data/world_knowledge/arc_easy.jsonl
+  num_fewshot: [10]
+  icl_task_type: multiple_choice
+  continuation_delimiter: "\nAnswer: " # this separates questions from answers
+-
+  label: arc_challenge
+  dataset_uri: local_data/world_knowledge/arc_challenge.jsonl
+  num_fewshot: [10]
+  icl_task_type: multiple_choice
+  continuation_delimiter: "\nAnswer: " # this separates questions from answers
+-
+  label: copa
+  dataset_uri: local_data/commonsense_reasoning/copa.jsonl
+  num_fewshot: [0]
+  icl_task_type: multiple_choice
+-
+  label: commonsense_qa
+  dataset_uri: local_data/commonsense_reasoning/commonsense_qa.jsonl
+  num_fewshot: [10]
+  icl_task_type: multiple_choice
+-
+  label: piqa
+  dataset_uri: local_data/commonsense_reasoning/piqa.jsonl
+  num_fewshot: [10]
+  icl_task_type: multiple_choice
+  continuation_delimiter: "\nAnswer: " # this separates questions from answers
+-
+  label: openbook_qa
+  dataset_uri: local_data/commonsense_reasoning/openbook_qa.jsonl
+  num_fewshot: [0]
+  icl_task_type: multiple_choice
+-
+  label: lambada_openai
+  dataset_uri: local_data/language_understanding/lambada_openai.jsonl
+  num_fewshot: [0]
+  icl_task_type: language_modeling
+-
+  label: hellaswag
+  dataset_uri: local_data/language_understanding/hellaswag.jsonl
+  num_fewshot: [10]
+  icl_task_type: multiple_choice
+-
+  label: winograd
+  dataset_uri: local_data/language_understanding/winograd_wsc.jsonl
+  num_fewshot: [0]
+  icl_task_type: schema
+-
+  label: winogrande
+  dataset_uri: local_data/language_understanding/winogrande.jsonl
+  num_fewshot: [0]
+  icl_task_type: schema
+-
+  label: bigbench_dyck_languages
+  dataset_uri: local_data/symbolic_problem_solving/bigbench_dyck_languages.jsonl
+  num_fewshot: [10]
+  icl_task_type: language_modeling
+-
+  label: agi_eval_lsat_ar
+  dataset_uri: local_data/symbolic_problem_solving/agi_eval_lsat_ar.jsonl
+  num_fewshot: [3]
+  icl_task_type: multiple_choice
+-
+  label: bigbench_cs_algorithms
+  dataset_uri: local_data/symbolic_problem_solving/bigbench_cs_algorithms.jsonl
+  num_fewshot: [10]
+  icl_task_type: language_modeling
+-
+  label: bigbench_operators
+  dataset_uri: local_data/symbolic_problem_solving/bigbench_operators.jsonl
+  num_fewshot: [10]
+  icl_task_type: language_modeling
+-
+  label: bigbench_repeat_copy_logic
+  dataset_uri: local_data/symbolic_problem_solving/bigbench_repeat_copy_logic.jsonl
+  num_fewshot: [10]
+  icl_task_type: language_modeling
+-
+  label: squad
+  dataset_uri: local_data/reading_comprehension/squad.jsonl
+  num_fewshot: [10]
+  icl_task_type: language_modeling
+-
+  label: coqa
+  dataset_uri: local_data/reading_comprehension/coqa.jsonl
+  num_fewshot: [0]
+  icl_task_type: language_modeling
+-
+  label: boolq
+  dataset_uri: local_data/reading_comprehension/boolq.jsonl
+  num_fewshot: [10]
+  icl_task_type: multiple_choice
+  continuation_delimiter: "\nAnswer: " # this separates questions from answers
+-
+  label: bigbench_language_identification
+  dataset_uri: local_data/language_understanding/bigbench_language_identification.jsonl
+  num_fewshot: [10]
+  icl_task_type: multiple_choice
+  

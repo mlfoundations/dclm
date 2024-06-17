@@ -1,0 +1,21 @@
+{
+    "uuid": "a3a6fe9d-8621-4223-a005-a7d6355c1169",
+    "name": "RW_orig_bge-base_shareGPT_heuristic",
+    "creation_date": "2024_02_12-08_45_03",
+    "dataset_url": "s3://dcnlp-west/sharegpt_filtering/tokenized_wo_rep/refinedweb_raw_jsonl_keyfix_random/BGE-base_sharegpt_heuristic/",
+    "manifest_url": "s3://dcnlp-west/sharegpt_filtering/tokenized_wo_rep/refinedweb_raw_jsonl_keyfix_random/BGE-base_sharegpt_heuristic/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "ea1e5caa-4c7e-4c36-9793-c83ef45ac180",
+            "name": "RW_orig_bge-base_shareGPT_heurisitc"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 48684936660,
+    "size": 128581127798,
+    "dcnlp_commit_hash": "39de1ff46cd66bf3b154e17db333a7ec32fa043f",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

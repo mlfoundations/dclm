@@ -1,0 +1,21 @@
+{
+    "uuid": "290af17e-097e-4293-b2cd-8286e6844811",
+    "name": "rw_v2_fasttext_open_orca_vs_rw_0.1",
+    "creation_date": "2024_02_06-01_34_33",
+    "dataset_url": "s3://dcnlp-west/binary_filtering_datasets/tokenized/rw_v2_fasttext_open_orca_vs_rw_0.1_tokenized/",
+    "manifest_url": "s3://dcnlp-west/binary_filtering_datasets/tokenized/rw_v2_fasttext_open_orca_vs_rw_0.1_tokenized/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "ad1f2f1f-ad0c-41d6-a850-cb6e4f56091d",
+            "name": "rw_v2_fasttext_open_orca_vs_rw_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 39058902678,
+    "size": 105865834663,
+    "dcnlp_commit_hash": "fe1fb9f3583b3266e7c8d28ad6fcd729006a9439",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

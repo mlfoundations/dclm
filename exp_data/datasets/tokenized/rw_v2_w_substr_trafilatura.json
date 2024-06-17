@@ -1,0 +1,16 @@
+{
+    "uuid": "b7074900-0cef-4183-a674-169cb1b1a31b",
+    "name": "rw_v2_w_substr_trafilatura",
+    "creation_date": "2024_02_20-15_26_07",
+    "dataset_url": "s3://dcnlp-west/common_crawl_v3_pre2023-baselines/rw_v2_w_substr_trafilatura_tokenized/",
+    "manifest_url": "s3://dcnlp-west/common_crawl_v3_pre2023-baselines/rw_v2_w_substr_trafilatura_tokenized/manifest.jsonl",
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 97806562347,
+    "size": null,
+    "data_key": "json.gz",
+    "sources": "",
+    "dcnlp_commit_hash": "",
+    "dcnlp_diff": "",
+    "sampling_yaml": null
+}

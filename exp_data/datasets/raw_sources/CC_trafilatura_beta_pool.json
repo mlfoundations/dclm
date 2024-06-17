@@ -1,0 +1,15 @@
+{
+    "uuid": "ab694f27-9bf5-4e27-ac2a-89fa081e2937",
+    "name": "CC_trafilatura_beta_pool",
+    "creation_date": "2023_08_07-16_23_34",
+    "dataset_url": "s3://dcnlp-west/cc_trafilatura_beta/crawl-data/",
+    "manifest_url": null,
+    "sources": [],
+    "tokenized": false,
+    "tokenizer": null,
+    "num_tokens": null,
+    "size": 1204142059195,
+    "dcnlp_commit_hash": null,
+    "dcnlp_diff": null,
+    "data_key": "jsonl"
+}

@@ -1,0 +1,15 @@
+{
+    "uuid": "b60484e4-dba7-4a8c-b5a9-b5c924d5d5f2",
+    "name": "CC_WARC_resiliparse_april_2019",
+    "creation_date": "2023_12_22-12_33_14",
+    "dataset_url": "s3://dcnlp-west/cc_resiliparse_2019_18_keyfix/",
+    "manifest_url": null,
+    "sources": [],
+    "tokenized": false,
+    "tokenizer": null,
+    "num_tokens": null,
+    "size": 3808835559100,
+    "dcnlp_commit_hash": null,
+    "dcnlp_diff": null,
+    "data_key": "jsonl.zst"
+}

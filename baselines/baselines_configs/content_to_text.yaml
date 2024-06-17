@@ -1,0 +1,6 @@
+- source: cc
+  weight: 1.0
+  steps:
+    - func: key_name_modifier
+      old_key: content
+      new_key: text

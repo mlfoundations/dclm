@@ -1,0 +1,43 @@
+epoch: 1.25T
+dataset: bigdata
+num_params: 1B
+max_seq_len: 2048
+seed: 1
+precision: fp32
+
+# Tokenizer
+tokenizer:
+  # name: [Add name from memory]
+  pretrained_model_name_or_path:
+  kwargs:
+    model_max_length: 2048
+
+model:
+  name: open_lm
+  # pretrained_model_name_or_path: [add name from memory]
+  init_device: cpu
+  pretrained: true
+
+load_path: # Add your (optional) Composer checkpoint path here!
+
+device_eval_batch_size: 4
+
+# FSDP config for model sharding
+fsdp_config:
+  sharding_strategy: FULL_SHARD
+  mixed_precision: FULL
+
+
+icl_tasks:
+-
+  label: hellaswag_zeroshot
+  dataset_uri: local_data/language_understanding/hellaswag.jsonl
+  num_fewshot: [0]
+  icl_task_type: multiple_choice
+-
+  label: mmlu_zeroshot
+  dataset_uri: local_data/world_knowledge/mmlu.jsonl # ADD YOUR OWN DATASET URI
+  num_fewshot: [0]
+  icl_task_type: multiple_choice
+  continuation_delimiter: 'Answer: ' # this separates questions from answers
+  has_categories: true

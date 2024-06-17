@@ -1,0 +1,22 @@
+{
+    "name": "c4_original",
+    "sources": "",
+    "tokenized": true,
+    "num_tokens": 174605508363,
+    "size": 1123288754203,
+    "dataset_url": "s3://laion-west/original_c4/",
+    "manifest_url": "s3://laion-west/original_c4/manifest.jsonl",
+    "mirrors": {
+        "tri": {
+            "dataset_url": "s3://tri-ml-datasets/openlm/dcnlp/datasets/original_c4/",
+            "manifest_url": "s3://tri-ml-datasets/openlm/dcnlp/datasets/original_c4/manifest.jsonl"
+        }
+    },
+    "dcnlp_commit_hash": "",
+    "dcnlp_diff": "",
+    "uuid": "7e0f5507-aa36-4d8c-9026-d049f885adf1",
+    "creation_date": "2023_11_21-17_30_33",
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "data_key": "txt",
+    "sampling_yaml": null
+}

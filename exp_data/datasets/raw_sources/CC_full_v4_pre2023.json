@@ -1,0 +1,13 @@
+{
+    "uuid": "7034d929-3fd3-4a8a-b63c-9030e287a05e",
+    "name": "CC_full_v4_pre2023",
+    "creation_date": "2024-03-06 17:39:28",
+    "sources": "s3://dcnlp-west-test/commoncrawl_paths.txt.gz",
+    "tokenized": false,
+    "tokenizer": null,
+    "size": 664080608,
+    "seed": 42,
+    "json_path": "s3://dcnlp-west/CC_full_v4_pre2023_jsons/CC_full_v4_pre2023.json.gz",
+    "dcnlp_commit_hash": "483faef02615ae529ea0ae45736948b8975644c4",
+    "dcnlp_diff": ""
+}

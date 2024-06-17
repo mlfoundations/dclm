@@ -1,0 +1,21 @@
+{
+    "uuid": "a2e142a5-326a-45cb-b0e6-270cd020f97a",
+    "name": "rw_v2_fasttext_openhermes_vs_rw_v2_1M_4gram_0.1",
+    "creation_date": "2024_02_17-05_39_01",
+    "dataset_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_openhermes_vs_rw_v2_1M_4gram_0.1/",
+    "manifest_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_openhermes_vs_rw_v2_1M_4gram_0.1/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "1af539fe-4c71-46d4-a762-c4fd79eb713c",
+            "name": "rw_v2_fasttext_openhermes_vs_rw_v2_1M_4gram_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 34652769960,
+    "size": 93622242402,
+    "dcnlp_commit_hash": "875c619b8b04bc4472fa9215d00387ee51c9e8e4",
+    "dcnlp_diff": "diff --git a/run_tokenize_shuffle.sh b/run_tokenize_shuffle.sh\nindex a4ef6f8..de8dfe5 100755\n--- a/run_tokenize_shuffle.sh\n+++ b/run_tokenize_shuffle.sh\n@@ -2,7 +2,7 @@\n \n for dataset in openhermes #openwebtext2 cot open_orca human_instructions rpj \n do\n-    for model in unigram bigram trigram 4gram\n+    for model in 4gram\n     do\n \tpython ray_processing/tokenize_shuffle.py --source_ref_paths exp_data/datasets/untokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1.json --readable_name rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1 --output s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1/ --overwrite\n     done",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

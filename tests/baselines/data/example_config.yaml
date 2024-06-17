@@ -1,0 +1,29 @@
+- source: mock_data
+  weight: 1.0
+  steps:
+    - func: detect_lang_whole_page_enricher
+      model: langdetect
+      key_prefix: language_id_whole_page
+      seed: 42
+      _aggregate:
+        language_id_whole_page_langdetect:
+          type: histogram
+          transform: threshold_transform
+          threshold: 0.5
+          default: "unknown"
+    - commit
+    - func: language_filter
+      key: language_id_whole_page_langdetect
+      keep_languages: [ en ]
+      threshold: 0.5
+    - func: tests.baselines.data.custom_mappers.mock_text_type_enricher
+      key: mock_text_type
+      overwrite: true
+      _aggregate:
+        mock_text_type: histogram
+    - func: substring_line_modifier
+      substring: "<javascript>"
+    - func: tests.baselines.data.custom_mappers.min_character_filter # relative path from working directory
+      min_characters: 25
+    - func: tests.baselines.data.custom_mappers.pattern_splitter
+      pattern: "sent"

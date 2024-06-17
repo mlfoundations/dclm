@@ -1,0 +1,21 @@
+{
+    "uuid": "7e239ad7-9b8e-408f-b032-dc4c1e93e259",
+    "name": "rw_v2_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1",
+    "creation_date": "2024_02_23-03_36_14",
+    "dataset_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1/",
+    "manifest_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "db36c0a1-2e85-4deb-8b01-b2fe06a985e0",
+            "name": "rw_v2_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 31532454408,
+    "size": 85203960929,
+    "dcnlp_commit_hash": "67815901b36ca97d767e6589ae56ea97cbddc731",
+    "dcnlp_diff": "diff --git a/run_tokenize_shuffle.sh b/run_tokenize_shuffle.sh\nindex a4ef6f8..65530cb 100755\n--- a/run_tokenize_shuffle.sh\n+++ b/run_tokenize_shuffle.sh\n@@ -1,9 +1,12 @@\n \n \n-for dataset in openhermes #openwebtext2 cot open_orca human_instructions rpj \n+#for t in openhermes #openwebtext2 cot open_orca human_instructions rpj \n+for model in reddit_all_vs_rw_v2_bigram_400k_train reddit_all_vs_rw_v2_bigram_maxn3_400k_train  openhermes_decontaminated_vs_rw_v2_bigram_100k_train  openhermes_decontaminated_vs_rw_v2_bigram_maxn3_100k_train  openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train \n do\n-    for model in unigram bigram trigram 4gram\n-    do\n-\tpython ray_processing/tokenize_shuffle.py --source_ref_paths exp_data/datasets/untokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1.json --readable_name rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1 --output s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1/ --overwrite\n-    done\n+\tpython ray_processing/tokenize_shuffle.py --source_ref_paths exp_data/datasets/untokenized/rw_v2_fasttext_${model}_0.1.json --readable_name rw_v2_fasttext_${model}_0.1 --output s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_${model}_0.1/ --overwrite\n done\n+\n+        #python ray_processing/process.py --source_ref_paths exp_data/datasets/untokenized/rw_v2_fasttext_quality_filter_enriched.json \\\n+        #--output_dir s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2/${model}_0.1/ --readable_name rw_v2_fasttext_${model}_0.1 \\\n+        #--config_path baselines/baselines_configs/fasttext_${model}.yaml --source_name cc --overwrite\n+",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

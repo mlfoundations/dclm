@@ -1,0 +1,15 @@
+{
+    "uuid": "d1b34147-11c9-40d3-87f5-67f0bf453196",
+    "name": "CC_trafilatura_v2",
+    "creation_date": "2023_11_06-00_03_39",
+    "dataset_url": "s3://dcnlp-west/cc_trafilatura_v2/crawl-data/",
+    "manifest_url": null,
+    "sources": [],
+    "tokenized": false,
+    "tokenizer": null,
+    "num_tokens": null,
+    "size": 4542446860897,
+    "dcnlp_commit_hash": null,
+    "dcnlp_diff": null,
+    "data_key": "jsonl.zstd"
+}

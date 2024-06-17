@@ -1,0 +1,15 @@
+{
+    "uuid": "f12dc026-cc4a-4203-ba9f-9ba08c5945f9",
+    "name": "CC_WET_april_2019",
+    "creation_date": "2023_10_16-15_37_18",
+    "dataset_url": "s3://dcnlp-west/cc_wet_2019_april_urlfix/",
+    "manifest_url": null,
+    "sources": [],
+    "tokenized": false,
+    "tokenizer": null,
+    "num_tokens": null,
+    "size": 29936838588460,
+    "dcnlp_commit_hash": null,
+    "dcnlp_diff": null,
+    "data_key": "jsonl"
+}

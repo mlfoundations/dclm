@@ -1,0 +1,21 @@
+{
+    "uuid": "a0978eb7-d636-451c-828e-e3e1f9c61dcd",
+    "name": "rw_v2_fasttext_reddit_eli5_vs_rw_v2_100k_train_4gram_0.1",
+    "creation_date": "2024_02_18-19_36_38",
+    "dataset_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_reddit_eli5_vs_rw_v2_100k_train_4gram_0.1/",
+    "manifest_url": "s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_reddit_eli5_vs_rw_v2_100k_train_4gram_0.1/manifest.jsonl",
+    "sources": [
+        {
+            "uuid": "3d1fc82f-1b90-43ce-847b-fb003803b651",
+            "name": "rw_v2_fasttext_reddit_eli5_vs_rw_v2_100k_train_4gram_0.1"
+        }
+    ],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 33198049626,
+    "size": 89799349660,
+    "dcnlp_commit_hash": "12dcc7c98d723061680446314a0341aa73f1d873",
+    "dcnlp_diff": "diff --git a/run_tokenize_shuffle.sh b/run_tokenize_shuffle.sh\nindex a4ef6f8..5f2845c 100755\n--- a/run_tokenize_shuffle.sh\n+++ b/run_tokenize_shuffle.sh\n@@ -1,9 +1,9 @@\n \n \n-for dataset in openhermes #openwebtext2 cot open_orca human_instructions rpj \n+for dataset in reddit_eli5 #openwebtext2 cot open_orca human_instructions rpj \n do\n     for model in unigram bigram trigram 4gram\n     do\n-\tpython ray_processing/tokenize_shuffle.py --source_ref_paths exp_data/datasets/untokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1.json --readable_name rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1 --output s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_1M_${model}_0.1/ --overwrite\n+\tpython ray_processing/tokenize_shuffle.py --source_ref_paths exp_data/datasets/untokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_100k_train_${model}_0.1.json --readable_name rw_v2_fasttext_${dataset}_vs_rw_v2_100k_train_${model}_0.1 --output s3://dcnlp-west/binary_filtering_datasets/fasttext_hq_vs_rw_v2_tokenized/rw_v2_fasttext_${dataset}_vs_rw_v2_100k_train_${model}_0.1/ --overwrite\n     done\n done",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

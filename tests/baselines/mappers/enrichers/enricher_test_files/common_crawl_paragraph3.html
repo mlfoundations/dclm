@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Белорусский портал в Казахстане: Беларусь Казахстан Таможенный союз Компании Товары Культура Диаспора Новости Экономика Бизнес Нур-Султан Алматы</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="keywords" content="" /><meta name="description" content="" />
+ <script src="js/javascript.php" type="text/javascript"></script>
+ <script src="js/editor.php" type="text/javascript"></script>
+ <script src="js/jquery-1.3.2.min.js" type="text/javascript"></script>
+ <script src="js/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
+ <script src="js/jquery/hotkeys/jquery.hotkeys.min.js" type="text/javascript"></script>
+    <link href="css/styles_site.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Этот сайт был разработан творческой группой "Весна". www.vesna.kz, E-mail: info@vesna.kz создание сайтов любой сложности, хостинг, дизайн, полиграфия -->
+<table class="main">
+<tr>
+    <td class="null-left"><div class="null">&nbsp;</div></td>
+    <td class="body-page">
+        <div class="mbg-b"><div class="mbg-l"><div class="mbg-r"><div class="mbg-a3"><div class="mbg-a4">
+            <table width="100%"><tr>
+                <td class="w-5"><div class="null-5">&nbsp;</div></td>
+                <td class="vt pb-5">
+                    <table width="100%"><tr>
+                        <td class="logo"><a href="/"><img src="images/01_logo.gif" width="154" height="66" alt="" /></a></td>
+                        <td class="navi">
+                            <div class="navi-a"><a href="/"><img src="images/01_link_home_1.gif" width="11" height="9" alt="" title="На главную" /></a></div><div class="navi-p"><img src="images/01_link_letter_2.gif" width="10" height="7" alt="" title="Написать письмо" /></div><div class="navi-a"><a href="/sitemap"><img src="images/01_link_map_1.gif" width="11" height="9" alt="" title="Карта сайта" /></a></div><div class="rss"><a href="/rss/ajax"><img src="images/01_mark_rss.gif" width="33" height="11" alt="" title="Подписаться на RSS" /></a></div><div class="clear">&nbsp;</div><table width="100%"><tr><td><div class="today-date" style="padding-top:10px; color:#00A7C3">Nur-Sultan</div><div id="astanatime" style="padding-top:2px;text-align:center;font-size:13px;font-weight:bold;color:gray;"></div></td><td><div class="today-date" style="padding-top:10px; color:#00A7C3">Мiнск</div><div id="minsktime" style="padding-top:2px;text-align:center;font-size:13px;font-weight:bold;color:gray;"></div></td></tr></table><input type="hidden" name="astanah" id="astanah" value="12"><input type="hidden" name="minskh" id="minskh" value="9"><input type="hidden" name="min" id="min" value="03"><input type="hidden" name="sec" id="sec" value="04"><script type="text/javascript">
+function refreshTime(){
+            var almaty = new Date();
+            var h = almaty.getHours();
+            var m = almaty.getMinutes();
+            var s = almaty.getSeconds();
+            h = h < 10 ? '0' + h : h;
+            m = m < 10 ? '0' + m : m;
+            s = s < 10 ? '0' + s : s;
+            $("#astanatime").html(h+":"+m+":"+s);
+            var min = almaty.getTime()-(3600*3000);
+            var minsk = new Date();
+            minsk.setTime(min);
+            var h = minsk.getHours();
+            var m = minsk.getMinutes();
+            var s = minsk.getSeconds();
+            h = h < 10 ? '0' + h : h;
+            m = m < 10 ? '0' + m : m;
+            s = s < 10 ? '0' + s : s;
+            $("#minsktime").html(h+":"+m+":"+s);
+            setTimeout("refreshTime();",1000);
+}
+//refreshTime();
+//Так трушнее все же:
+function getTime() {
+   var astanah = parseInt($("#astanah").val());
+   var minskh = parseInt($("#minskh").val());
+   var min = parseInt($("#min").val());
+   var sec = parseInt($("#sec").val());
+   if (astanah < 10) {var ah = "0"+astanah;}
+   else {var ah = astanah;}
+   if (minskh < 10) {var mh = "0"+minskh;}
+   else {var mh = minskh;}
+   if (min < 10) {var m = "0"+min;}
+   else {var m = min;}
+   if (sec < 10) {var s = "0"+sec;}
+   else {var s = sec;}
+            var astanatime = ah+":"+m+":"+s;
+            var minsktime = mh+":"+m+":"+s;
+            $("#astanatime").html(astanatime);
+            $("#minsktime").html(minsktime);
+            sec = sec+1;
+            if (sec >= 60) {
+      sec = 0;
+      min = min+1;
+               if (min >= 60) {
+                           min = 0;
+                                    astanah = astanah+1;
+                                    minskh = minskh+1;
+                                    if (astanah >= 24) {astanah = 0;}
+                                    if (minskh >= 24) {minskh = 0;}
+                        }
+            }
+            $("#astanah").val(astanah);
+            $("#minskh").val(minskh);
+            $("#min").val(min);
+            $("#sec").val(sec);
+   setTimeout("getTime();",1000);
+}
+getTime();
+</script>
+                        </td>
+                        <td class="autorize">
+                            <form name="auth_form" action="" method="post"><div class="autorize-block"><div class="login"><input type="text" name="auth_email" value="E-mail" onFocus="if (this.value=='E-mail'){this.value='';}" onBlur="if (this.value==''){this.value='E-mail';}" class="login" /></div><div class="password"><input type="password" name="auth_pwd" value="Пароль" onFocus="if (this.value=='Пароль'){this.value='';}" onBlur="if (this.value==''){this.value='Пароль';}" class="login" /></div><div class="enter"><a href="javascript:void(0);" onclick="document.getElementById('auth').click();" class="enter">Вход</a></div><div class="clear">&nbsp;</div></div><div class="registration"><a href="/registration">Регистрация</a></div><div class="forgot-password"><a href="/remind">Забыли пароль?</a></div><div class="clear">&nbsp;</div><input type="submit" name="auth" id="auth" value="auth" style="display:none;"/></form><div style="padding-top:15px;"><!-- AddThis Button BEGIN -->
+<div class="addthis_toolbox addthis_default_style addthis_15x15_style">
+<a class="addthis_button_preferred_1"></a>
+<a class="addthis_button_preferred_2"></a>
+<a class="addthis_button_preferred_3"></a>
+<a class="addthis_button_preferred_6"></a>
+<a class="addthis_button_compact"></a>
+</div>
+<script type="text/javascript">var addthis_config = {"data_track_clickback":true};</script>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4d817ea82c87317b"></script>
+<!-- AddThis Button END --></div>
+                        </td>
+                    </tr></table>
+      <div class="top-menu-shadow"><div class="top-menu"><a href="/aktueller">Новости</a></div><div class="top-menu"><a href="/invest_comm_belpradpyjemstva">Оферты Коммерция Инвестиции </a></div><div class="top-menu"><a href="/bel_kit_industrpark">Индустриальный парк в Беларуси</a></div><div class="top-menu"><a href="/catalogue">Товары из Беларуси</a></div><div class="top-menu"><a href="/eaes01012015">ЕАЭС</a></div><div class="top-menu"><a href="/company/business">Бизнес</a></div><div class="top-menu"><a href="/transpart">Транспорт</a></div><div class="top-menu"><a href="/company/grooups">Образование</a></div><div class="top-menu"><a href="/kultura">Культура</a></div><div class="top-menu"><a href="/company/gathering">Белорусские центры</a></div><div class="top-menu"><a href="/testavannie_bel2021">Тесты</a></div><div class="clear">&nbsp;</div></div>
+      <div class="path"><a href="/">Главная</a>&nbsp;&gt;&nbsp;&nbsp;&gt;&nbsp;</div>
+                    <table width="100%"><tr>
+                        <td class="col-left">
+                            <div class="today-date" style="text-align:left; padding-left:35px; padding-bottom:5px; padding-top:0px;" nowrap>Серада&nbsp;22&nbsp;сакавіка&nbsp;2023&nbsp;г.</div><div class="holidays"><div class="today">Сегодня</div><div class="link"><a href="/kultura/nauryz_mjejramy">Наурыз мейрамы</a></div><div class="link"><a href="/kultura/saraki">Саракі</a></div><div class="link"><a href="/kultura/chatyn1943">Дзень памяці трагедыі ў вёсцы Хатынь</a></div><div class="link"><a href="/kultura/dzien_vody19">Всемирный день водных ресурсов</a></div><br /><div class="soon" style="padding-bottom:5px;">Скоро</div><div class="link"><a href="/kultura/czachotka18">Всемирный день борьбы с туберкулёзом</a></div></div><br><div style="text-align:center"><a href="https://kurs.kz/" target="_blank"><img src="https://kurs.kz/informers/informer_graph.php?city=211" width="100" height="100" border="0" alt="https://www.kurs.kz/ - Курсы валют в обменных пунктах г. Алматы и других городах Казахстана"/></a></div><div class="h-30">&nbsp;</div><div class="pl-35" style="padding-left:50px;"><br><br><div style="padding-left:35px;"><a href="http://belarus.kz/invest_comm_belpradpyjemstva" target="_blank"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="150" height="150" id="17" align="middle"><param name="movie" value="/images/banners/1271230993-bannerbtv04.swf?clickTAG=http://belarus.kz/invest_comm_belpradpyjemstva"><param name="quality" value="high"><param name="bgcolor" value="#FFFFFF"><embed src="/images/banners/1271230993-bannerbtv04.swf?clickTAG=http://belarus.kz/invest_comm_belpradpyjemstva" quality="high" bgcolor="#FFFFFF" width="150" height="150" name="17" align="middle" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></object></a></div></div><div class="h-30">&nbsp;</div><div class="pl-35"><div style="text-align:center;"><a href="/other/banner.php?bid=Институт им. М.Ауэзова" target="_blank"><img src="/images/banners/1645891810-auez2.jpg" alt="" width="150" height="150" border="0" /></a></div><br/><div style="text-align:center;"><a href="/other/banner.php?bid=Виртуальный проект НББ" target="_blank"><img src="/images/banners/1646562349-lesa-belarusiklass.jpg" alt="" width="150" height="150" border="0" /></a></div><br/><div style="text-align:center;"><a href="/other/banner.php?bid=скарбніца" target="_blank"><img src="/images/banners/1661088937-sluckiPasBAN.jpg" alt="" width="200" height="100" border="0" /></a></div><br/><div style="text-align:center;"><a href="/other/banner.php?bid=Созвучие. Литература и публицистика стран Содружества" target="_blank"><img src="/images/banners/1430368393-sozvuchie.jpg" alt="" width="250" height="67" border="0" /></a></div><br/><div style="text-align:center;"><a href="/other/banner.php?bid=Беларусь 24" target="_blank"><img src="/images/banners/1423546728-ban.png" alt="" width="250" height="100" border="0" /></a></div><br/></div><div class="pl-35" style="padding-left:85px;"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="150" height="150" id="124" align="middle"><param name="movie" value="/images/banners/1463727735-belarus_150_150.swf?clickTAG=http://budzma.by/budzma/pyacisothodnasc-raspachynayem-kampaniyu-da-yubilyeyu-byelaruskaha-knihadruku.html"><param name="quality" value="high"><param name="bgcolor" value="#FFFFFF"><embed src="/images/banners/1463727735-belarus_150_150.swf?clickTAG=http://budzma.by/budzma/pyacisothodnasc-raspachynayem-kampaniyu-da-yubilyeyu-byelaruskaha-knihadruku.html" quality="high" bgcolor="#FFFFFF" width="150" height="150" name="124" align="middle" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></object></div><form name="searchform" id="searchform" action="/search/simple" method="post"><div class="find"><table><tr><td class="pr-15"><input type="text" name="search_keyword" id="search_keyword" value="Поиск" onFocus="if (this.value=='Поиск'){this.value='';}" onBlur="if (this.value==''){this.value='Поиск';}" class="field w-200" /></td><td><a href="javascript:void(0);" onclick="document.getElementById('search_submit').click();"><img src="images/03_find_button.gif" width="16" height="17" alt="Найти" title="Найти" /></a></td></tr></table></div><input type="submit" name="search_submit" id="search_submit" value="Найти" style="display:none;" /></form><div id="scr-1" class="rss-close"><div class="rss-head"><a href="javascript:void(0)" onclick="document.getElementById('scr-1').style.display='none';document.getElementById('scr-2').style.display='block';" class="head">Подпишитесь на нашу рассылку</a></div></div><div id="scr-2" class="rss-open" style="display:none"><div class="rss-head"><a href="javascript:void(0)"  onclick="document.getElementById('scr-2').style.display='none';document.getElementById('scr-1').style.display='block';" class="head">Подпишитесь на нашу рассылку</a></div><div class="sc-js"><table><tr><td class="mail-text">E-mail</td><td class="mail-inp"><input type="text" name="sub_email" value="" id="sub_email" class="field" /></td></tr></table><div class="pb-5">Какую информацию Вы хотите получать?</div><table class="sc-f"><tr><td class="check"><input type="checkbox" name="subscribe_all" value="on" id="subscribe_all" onclick="selallsub();" checked="checked" /></td><td class="text"><label for="subscribe_all">Все</label></td></tr><tr><td class="check"><input type="checkbox" name="subscribe_news" value="on" id="subscribe_news" checked="checked" /></td><td class="text"><label for="subscribe_news">Новости</label></td></tr><tr><td class="check"><input type="checkbox" name="subscribe_presscenter" value="on" id="subscribe_presscenter" checked="checked" /></td><td class="text"><label for="subscribe_presscenter">Анонсы и пресс-релизы</label></td></tr><tr><td class="check"><input type="checkbox" name="subscribe_events" value="on" id="subscribe_events" checked="checked" /></td><td class="text"><label for="subscribe_events">Мероприятия</label></td></tr><tr><td class="check"><input type="checkbox" name="subscribe_catalogue" value="on" id="subscribe_catalogue" checked="checked" /></td><td class="text"><label for="subscribe_catalogue">Белорусские товары</label></td></tr><tr><td class="check">&nbsp;</td><td class="text"><input type="button" name="subscribe_button" value="Подписаться" onclick="subscribe();" class="butt-subscribe" /></td></tr></table><div class="sc-hide"><a href="javascript:void(0);" onclick="document.getElementById('scr-2').style.display='none';document.getElementById('scr-1').style.display='block';">&#8593; Свернуть</a></div><div id="sub_result">&nbsp;</div></div></div><script type="text/javascript">
+function selallsub() {
+   if (document.getElementById('subscribe_all').checked==true) {
+      document.getElementById('subscribe_news').checked=true;
+      document.getElementById('subscribe_presscenter').checked=true;
+      document.getElementById('subscribe_events').checked=true;
+      document.getElementById('subscribe_catalogue').checked=true;
+   }
+   else {
+      document.getElementById('subscribe_news').checked=false;
+      document.getElementById('subscribe_presscenter').checked=false;
+      document.getElementById('subscribe_events').checked=false;
+      document.getElementById('subscribe_catalogue').checked=false;
+   }
+}
+function subscribe() {
+   $.post('other/load.php?mod=subscribe&email='+$("#sub_email").val()+'&subscribe_news='+$("#subscribe_news").val()+'&subscribe_presscenter='+$("#subscribe_presscenter").val()+'&subscribe_events='+$("#subscribe_events").val()+'&subscribe_catalogue='+$("#subscribe_catalogue").val(), subscribe_return);
+   $("#sub_email").val("");
+}
+function subscribe_return(data) {$("#sub_result").html(data);}
+</script><div class="h-30">&nbsp;</div><div class="h-30">&nbsp;</div><div class="clouds" style="text-align:center"><div class="head" style="text-align:left"><div class="rel"><div class="angle"><img src="images/03_label_angle.gif" width="9" height="5" alt="" class="db" /></div></div>Популярные метки</div><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Цифровизация';document.getElementById('search_submit').click();">Цифровизация</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-3"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Вакцина';document.getElementById('search_submit').click();">Вакцина</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Тарасава';document.getElementById('search_submit').click();">Тарасава</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-2"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Электротранспорт';document.getElementById('search_submit').click();">Электротранспорт</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Буда-Кашалёва';document.getElementById('search_submit').click();">Буда-Кашалёва</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Перасудавічы';document.getElementById('search_submit').click();">Перасудавічы</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Ценообразование';document.getElementById('search_submit').click();">Ценообразование</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Терроризм';document.getElementById('search_submit').click();">Терроризм</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Малыя Ляды';document.getElementById('search_submit').click();">Малыя Ляды</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Кинематограф';document.getElementById('search_submit').click();">Кинематограф</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-3"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Пожары';document.getElementById('search_submit').click();">Пожары</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-3"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Украина';document.getElementById('search_submit').click();">Украина</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Шчучын';document.getElementById('search_submit').click();">Шчучын</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Альманы';document.getElementById('search_submit').click();">Альманы</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Пінск';document.getElementById('search_submit').click();">Пінск</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-2"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Беларусы ў свеце';document.getElementById('search_submit').click();">Беларусы ў свеце</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Забоззе';document.getElementById('search_submit').click();">Забоззе</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Забер';document.getElementById('search_submit').click();">Забер</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-3"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Армения';document.getElementById('search_submit').click();">Армения</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Бабруйск';document.getElementById('search_submit').click();">Бабруйск</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Радамля';document.getElementById('search_submit').click();">Радамля</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Замки Беларуси';document.getElementById('search_submit').click();">Замки Беларуси</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Лёзна';document.getElementById('search_submit').click();">Лёзна</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-2"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Криптовалюта';document.getElementById('search_submit').click();">Криптовалюта</a></noindex></span>&nbsp; &nbsp;</span><span><span class="cl-4"><noindex><a href="javascript:void(0);" onclick="document.getElementById('search_keyword').value='Ономастика';document.getElementById('search_submit').click();">Ономастика</a></noindex></span>&nbsp; &nbsp;</span></div><br /><br /><div style="padding-left:35px;padding-top:20px;"></div>
+                        </td>
+                        <td class="col-right">
+                         <form name="feedback_form" id="feedback_form" action="" method="post"><h1>Сообщить администратору</h1><br /><div class="t-blue t-11">* поля обязательны для заполнения</div><br /><div class="pb-5"><strong>Ваше имя и фамилия</strong> <span class="t-blue">*</span></div><div class="pb-15"><input type="text" name="title" value="" maxlength="60" class="field w-505" /></div><div class="pb-5"><strong>E-mail</strong> <span class="t-blue">*</span></div><div class="pb-15"><input type="text" name="email" value="" maxlength="40" class="field w-505" /></div><div class="pb-5"><strong>Жалоба на файл</strong> <span class="t-blue">*</span></div><div class="pb-15"><input type="text" name="url_text" value="http://belarus.kz/1/42" disabled maxlength="255" class="field w-505" /></div><input type="hidden" name="url" value="http://belarus.kz/1/42" /><div class="pb-5"><strong>Тема</strong></div><div class="pb-15"><input type="text" name="subject" value="" maxlength="100" class="field w-505" /></div><div><strong>Ошибка</strong></div><div class="line-dotted">&nbsp;</div><div class="pb-15"><table width="100%"><tr><td class="pr-30 vt"><div class="chek-elem"><input type="checkbox" name="ferror[]" id="ferror_1" value="1" /></div><div class="chek-text"><label for="ferror_1">Ошибка / нельзя просмотреть</div><div class="clear">&nbsp;</div><div class="chek-elem"><input type="checkbox" name="ferror[]" id="ferror_2" value="2" /></div><div class="chek-text"><label for="ferror_2">Флуд / не в том месте</div><div class="clear">&nbsp;</div><div class="chek-elem"><input type="checkbox" name="ferror[]" id="ferror_3" value="3" /></div><div class="chek-text"><label for="ferror_3">Неприличное</div><div class="clear">&nbsp;</div></td><td class="pr-30 vt"><div class="chek-elem"><input type="checkbox" name="ferror[]" id="ferror_4" value="4" /></div><div class="chek-text"><label for="ferror_4">Потерявшийся</div><div class="clear">&nbsp;</div><div class="chek-elem"><input type="checkbox" name="ferror[]" id="ferror_5" value="5" /></div><div class="chek-text"><label for="ferror_5">Ошибка программы</div><div class="clear">&nbsp;</div><div class="chek-elem"><input type="checkbox" name="ferror[]" id="ferror_6" value="6" /></div><div class="chek-text"><label for="ferror_6">Другое</div><div class="clear">&nbsp;</div></td></table><div class="line-dotted">&nbsp;</div><div class="pb-5"><strong>Текст сообщения</strong> <span class="t-blue">*</span></div><div class="pb-15"><textarea cols="61" rows="5" name="content" class="w-505"></textarea></div><div class="clear">&nbsp;</div><br /><div class="pb-5"><strong>Код подтверждения</strong></div><table><tr><td class="pr-10 vt"><div class="pb-5"><input type="text" name="code" value="" class="field w-120" /></div><a href="javascript:void(0);" onclick="reloadcode();" class="dotted-blue">Показать новый код</a></td><td class="vt" id="code_td"><a href="javascript:void(0);" onclick="reloadcode();"><img src="other/code.php?1679464984" width="118" height="50" alt="" /></a></td></tr></table><script type="text/javascript">
+      function reloadcode() {$.post('other/load.php?mod=code',codedata);}
+      function codedata(data) {$("#code_td").html(data);}
+      </script><div class="pb-5 pt-30"><span class="pr-50"><button type="submit" name="send" id="send" value="send" class="button-blue" style="width: 190px;">Отправить</button></span><button type="button" onclick="javascript:document.location.href='/1/42';" class="button-gray" style="width: 150px;">Отмена</button></div><script type="text/javascript">
+function setValidator(id, regex) {
+   var element = document.getElementById(id);
+   if (element) {
+      var lastValue = element.value;
+      if (!regex.test(lastValue))
+         lastValue = '';
+      setInterval(function() {
+         var value = element.value;
+         if (value != lastValue) {
+            if (regex.test(value))
+               lastValue = value;
+            else
+               element.value = lastValue;
+         }
+      }, 10);
+  }
+}
+function kill_phone (text) {
+   setValidator('phone', /^[0-9_]*$/);
+}
+</script><form name="error_form" action="/feedback/error" method="post"><input type="hidden" name="error_text" value="error_text" id="error_text"><input type="submit" name="error_submit" value="error_submit" id="error_submit" style="display:none;"></form><script type="text/javascript">
+$(document).bind('keydown', 'Ctrl+return', function (){get_err()});
+function get_err() {
+   var txt = "";
+   if (window.getSelection) {
+      error_text = window.getSelection();
+   }
+            else if (document.getSelection){
+      error_text = document.getSelection();
+   }
+            else if (document.selection){
+      error_text = document.selection.createRange().text;
+   }
+            document.getElementById('error_text').value=error_text;
+   document.getElementById('error_submit').click();
+}
+</script>
+                        </td>
+                        <td class="w-35"><div class="null-35">&nbsp;</div></td>
+                    </tr></table>
+                    <table width="100%"><tr><td width="100" class="bann-first" style="text-align:left;"><div sytyle="text-align:center;"><a href="/other/banner.php?bid=http://zviazda.by/be/soyuz-evraziya" target="_blank"><img src="/images/banners/1393693621-seur1.jpg" alt="" width="160" height="50" border="0" /></a></div></td><td><img src="images/00_pixel.gif" width="100%" height="100%"></td><td><img src="images/00_pixel.gif" width="100%" height="100%"></td><td><img src="images/00_pixel.gif" width="100%" height="100%"></td><td><img src="images/00_pixel.gif" width="100%" height="100%"></td><td class="bann" style="text-align:center;"><div sytyle="text-align:center;"><a href="/other/banner.php?bid=НББ лого" target="_blank"><img src="/images/banners/1646562665-1646558946227.jpg" alt="" width="700" height="150" border="0" /></a></div></td><td width="100" class="bann-last" style="text-align:right;"><div sytyle="text-align:center;"><a href="/other/banner.php?bid=Будзьма!" target="_blank"><img src="/images/banners/1333895987-budzma.jpg" alt="" width="100" height="100" border="0" /></a></div></td></tr></table>
+                </td>
+                <td class="w-5"><div class="null-5">&nbsp;</div></td>
+            </tr></table>
+        </div></div></div></div></div>
+    </td>
+    <td class="null-right"><div class="null">&nbsp;</div></td>
+</tr>
+<tr>
+    <td class="null-left"><div class="null">&nbsp;</div></td>
+    <td class="w-1000">
+        <table width="100%"><tr><td class="foot-links"><span class="pr-20"><a href="/187">Контакты</a></span><span class="pr-20"><a href="/zakonodatjelstvo">Законодательство</a></span><span class="pr-20"><a href="/nashi_bannjery">Наши&nbsp;баннеры</a></span><span class="pr-20"><a href="/" rel="sidebar" onclick="window.external.AddFavorite(location.href,'Белорусский портал в Казахстане'); return false;">Добавить&nbsp;в&nbsp;избранное</a></span><span class="pr-20"><a href="/Poleznye_ssylki">Полезные&nbsp;ссылки</a></span><span class="pr-20"><a href="/o_proekte">О&nbsp;проекте</a></span><br /><div style="padding-bottom:0px;">&copy; 2006-2010 SF7.</div><span style="font-size:10px;color:#0088a1;">Разработка сайта: <a href="http://www.vesna.kz" target="_blank" style="font-size:10px;color:#0088a1;">веб-студия</a> творческой группы "Весна".</span></td><td style="width:88px;padding-right:10px;">
+<!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t14.2;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet: показано число просмотров за 24"+
+" часа, посетителей за 24 часа и за сегодня' "+
+"border='0' width='88' height='31'><\/a>")
+//--></script><!--/LiveInternet-->
+</td><td class="vesna"><div class="vesna"><a href="javascript:void(0);" onclick="window.open('http://www.vesna.kz');"  class="inverse black">Сделано Весной</a></div><div class="clear">&nbsp;</div></td></tr></table>
+    </td>
+    <td class="null-right"><div class="null">&nbsp;</div></td>
+</tr>
+</table>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16504261-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6327917463104831",
+          enable_page_level_ads: true
+     });
+</script>
+</body>
+</html>

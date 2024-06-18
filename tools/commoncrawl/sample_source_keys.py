@@ -1,6 +1,7 @@
 """
 Sample keys from an S3 bucket and generate a dataset JSON file.
 """
+
 import argparse
 import gzip
 import io

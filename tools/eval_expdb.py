@@ -152,9 +152,17 @@ def download_from_s3(s3_url, output_dir, prefix_replacement=None, profile=None):
         return None
 
 
-def download_checkpoint(model_row, output_dir, prefix_replacement, tri_s3_path=None, local_download=True, profile=None, checkpoint_replacement=None):
+def download_checkpoint(
+    model_row,
+    output_dir,
+    prefix_replacement,
+    tri_s3_path=None,
+    local_download=True,
+    profile=None,
+    checkpoint_replacement=None,
+):
     checkpoint_url = model_row["checkpoint_url"]
-    
+
     if checkpoint_replacement is not None:
         checkpoint_dir = os.path.split(checkpoint_url)[0]
         checkpoint_url = os.path.join(checkpoint_dir, checkpoint_replacement)
@@ -276,7 +284,6 @@ def check_path_exists(path):
 @click.option("--profile", default=None, help="AWS profile to use")
 @click.option("--force_xformers", is_flag=True, help="Force xformers attention")
 @click.option("--checkpoint_replacement", type=str, default=None, help="Checkpoint name to evaluate at.")
-
 def main(
     database_path,
     tri_s3_path,
@@ -320,7 +327,14 @@ def main(
             logger.info(f"Eval exists at: {destination}...skipping")
             continue
         os.chdir(eval_dir)
-        model_checkpoint = download_checkpoint(model_row, eval_dir, prefix_replacement, tri_s3_path, profile=profile, checkpoint_replacement=checkpoint_replacement)
+        model_checkpoint = download_checkpoint(
+            model_row,
+            eval_dir,
+            prefix_replacement,
+            tri_s3_path,
+            profile=profile,
+            checkpoint_replacement=checkpoint_replacement,
+        )
         params_file = download_params(model_row, eval_dir, prefix_replacement, tri_s3_path, profile=profile)
         if model_row["hyperparameters.model"].startswith("open_lm"):  # check for open lm config
             model_config = f"{model_row['hyperparameters.model']}"
@@ -341,12 +355,13 @@ def main(
                 hf_model,
                 hf_cache_dir,
                 num_gpus,
-                force_xformers
+                force_xformers,
             )
             shutil.rmtree(eval_dir)
             os.makedirs(eval_dir)
             os.chdir(CWD)
             modify_and_save_evaluation_json(eval_output, model_row["uuid"], output_dir, eval_name)
+
 
 if __name__ == "__main__":
     main()

@@ -16,9 +16,10 @@ import pandas as pd
 import ray
 from ray._private.internal_api import memory_summary
 from ray.data.context import DataContext
-import random 
+import random
 
-def convert_warc_to_wet(warc_path): 
+
+def convert_warc_to_wet(warc_path):
     return warc_path.replace("/warc/", "/wet/").replace(".warc.gz", ".warc.wet.gz")
 
 
@@ -37,11 +38,12 @@ def open_file(path, mode="rb"):
 
 def write_output(output_path, data, mode="wt"):
     if output_path.startswith("s3://"):
-        f=open_file(output_path, "wb")
+        f = open_file(output_path, "wb")
         f.put(Body=gzip.compress("\n".join(data).encode("utf-8")))
     else:
         with gzip.open(output_path, mode) as f:
             f.write("\n".join(data))
+
 
 @ray.remote
 class GlobalCounter:
@@ -72,9 +74,7 @@ def process_file(path, documents_per_jsonl, is_wet, output_dir, counter):
         path = convert_warc_to_wet(path)
     s = time.time()
 
-    output_file_template = os.path.join(
-        output_dir, os.path.basename(path).replace(".gz", "") + "_{}.jsonl.gz"
-    )
+    output_file_template = os.path.join(output_dir, os.path.basename(path).replace(".gz", "") + "_{}.jsonl.gz")
 
     num_tries = 0
     delay = 1
@@ -86,15 +86,15 @@ def process_file(path, documents_per_jsonl, is_wet, output_dir, counter):
             break
         except:
             num_tries += 1
-            backoff = delay * 2 ** num_tries
+            backoff = delay * 2**num_tries
             jitter = backoff * random.uniform(0.5, 1.5)
             time.sleep(jitter)
-    
+
     if num_tries >= MAX_NUM_TRIES:
         print(f"Not found in time: {time.time() - s}")
         yield {"time": time.time() - s}
 
-    else: 
+    else:
         with GZipStream(gz_file) as stream:
             record_type_filter = (
                 WarcRecordType.conversion if is_wet else WarcRecordType.response
@@ -129,11 +129,11 @@ def process_file(path, documents_per_jsonl, is_wet, output_dir, counter):
 
         wet_count = ray.get(counter.increment_token_count.remote(1))
 
-        if wet_count % 100 == 0: 
+        if wet_count % 100 == 0:
             print(f"Current wet count {wet_count}")
 
         print(f"Extracted and converted in time {time.time() - s}")
-        
+
         yield {"time": time.time() - s}
 
 
@@ -144,9 +144,7 @@ def load_json_file(json_file_path):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Convert WARC/WET to JSONL.GZ with metadata"
-    )
+    parser = argparse.ArgumentParser(description="Convert WARC/WET to JSONL.GZ with metadata")
     parser.add_argument(
         "--json_file_path", type=str, required=True, help="Path to the JSON file containing WARC/WET paths"
     )
@@ -154,8 +152,8 @@ if __name__ == "__main__":
         "--output_path",
         help="output path",
         type=str,
-        required=True
-        ## OLD 
+        required=True,
+        ## OLD
         # e.g s3://dcnlp-west/common_crawl_1e12_approx_tokens_sample_v2_data/
         ## NEW
         # e.g s3://dcnlp-west/common_crawl_v3_pre2023_0.01_frac_sample_jsonls/
@@ -166,22 +164,13 @@ if __name__ == "__main__":
         default=1000,
         help="Number of documents per JSONL file",
     )
-    parser.add_argument(
-        "--wet", action="store_true", help="Indicate if the files are WET format"
-    )
+    parser.add_argument("--wet", action="store_true", help="Indicate if the files are WET format")
 
+    parser.add_argument("--subset", type=int, default=None, help="Process only a subset of file paths")
 
-    parser.add_argument(
-        "--subset", type=int, default=None, help="Process only a subset of file paths"
-    )
+    parser.add_argument("--subset_frac", type=float, default=None, help="Process only a subset fraction of file paths")
 
-    parser.add_argument(
-        "--subset_frac", type=float, default=None, help="Process only a subset fraction of file paths"
-    )
-
-    parser.add_argument(
-        "--allow_errors", type=int, default=100, help="Ignore errors on these many number of files"
-    )
+    parser.add_argument("--allow_errors", type=int, default=100, help="Ignore errors on these many number of files")
 
     parser.add_argument("--ray_address", type=str, default=None)
     parser.add_argument("--force_parallelism", type=int, default=None)
@@ -189,15 +178,14 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    '''
+    """
     Example usage: 
 
     python process_common_crawl_w_ray.py --json_file_path CC_200e12_approx_tokens_sample_v3_pre2023.json \
     --output_path s3://dcnlp-west/common_crawl_v3_pre2023_0.01_frac_sample_jsonls/ --documents_per_jsonl 5000 \
     --subset_frac 0.01  --force_parallelism 128 --wet
 
-    '''
-
+    """
 
     # configure remote spilling
     creds = {k: v for k, v in os.environ.items() if k.startswith("AWS")}
@@ -207,8 +195,11 @@ if __name__ == "__main__":
     #     ray.init(runtime_env=runtime_env, _temp_dir=args.ray_spill_location)
     # else:
     #     ray.init(address=args.ray_address, runtime_env=runtime_env, _temp_dir=args.ray_spill_location)
-    
-    ray.init(address="auto", runtime_env=runtime_env,)
+
+    ray.init(
+        address="auto",
+        runtime_env=runtime_env,
+    )
 
     num_nodes = len(ray.nodes())
 
@@ -218,12 +209,11 @@ if __name__ == "__main__":
 
     file_paths = load_json_file(args.json_file_path)
 
-
     if args.subset:
         file_paths = file_paths[: args.subset]
 
-    if not args.subset and args.subset_frac: 
-        file_paths = file_paths[: int(args.subset_frac*len(file_paths))]
+    if not args.subset and args.subset_frac:
+        file_paths = file_paths[: int(args.subset_frac * len(file_paths))]
 
     print(f"num paths ={len(file_paths)}")
 
@@ -245,16 +235,16 @@ if __name__ == "__main__":
     counter = GlobalCounter.remote()
 
     start_time = time.time()
-    
+
     ds = ray.data.from_pandas(pd.DataFrame(file_paths, columns=["path"])).repartition(parallelism)
-    
+
     ds = ds.flat_map(
         lambda x: process_file(
             x,
-            documents_per_jsonl=args.documents_per_jsonl, 
-            is_wet=args.wet, 
-            output_dir=args.output_path, 
-            counter=counter
+            documents_per_jsonl=args.documents_per_jsonl,
+            is_wet=args.wet,
+            output_dir=args.output_path,
+            counter=counter,
         )
     ).count()
     end_time = time.time()

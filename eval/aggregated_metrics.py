@@ -20,11 +20,13 @@ def gen_parser():
 
 def get_aggregated_results(data, eval_metadata, aggregation_json):
 
-    data['missing tasks'] = str([task for task in eval_metadata['Eval Task'] if task not in data["eval_metrics"]["icl"]])
+    data["missing tasks"] = str(
+        [task for task in eval_metadata["Eval Task"] if task not in data["eval_metrics"]["icl"]]
+    )
     eval_metadata["results"] = eval_metadata["Eval Task"].map(data["eval_metrics"]["icl"])
-    eval_metadata["centered results"] = (eval_metadata["results"].astype(float) - 0.01 * eval_metadata[
-        "Random baseline"
-    ].astype(float)) / (1.0 - 0.01 * eval_metadata["Random baseline"].astype(float))
+    eval_metadata["centered results"] = (
+        eval_metadata["results"].astype(float) - 0.01 * eval_metadata["Random baseline"].astype(float)
+    ) / (1.0 - 0.01 * eval_metadata["Random baseline"].astype(float))
     result_df = eval_metadata.groupby("Task Category").agg({"centered results": "mean"}).reset_index()
     data["aggregated_task_categories_centered"] = result_df.set_index("Task Category").to_dict()["centered results"]
     data["aggregated_centered_results"] = eval_metadata["centered results"].mean()
@@ -33,9 +35,10 @@ def get_aggregated_results(data, eval_metadata, aggregation_json):
     for key in aggregation_json:
         tasks = aggregation_json[key]
         data[key] = eval_metadata[eval_metadata["Eval Task"].isin(tasks)]["results"].mean()
-        data[f"{key}_centered"] = eval_metadata[eval_metadata["Eval Task"].isin(tasks)]["centered results"].mean() 
+        data[f"{key}_centered"] = eval_metadata[eval_metadata["Eval Task"].isin(tasks)]["centered results"].mean()
 
-    return data 
+    return data
+
 
 def main():
     parser = gen_parser()
@@ -57,4 +60,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

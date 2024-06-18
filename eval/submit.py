@@ -11,16 +11,17 @@ import requests
 import yaml
 from requests.structures import CaseInsensitiveDict
 
+
 def submit_to_slack(filename):
     data = json.load(open(filename))
-    score = data.get('aggregated_centered_results', -1)
-    low_var_score = data.get('low_variance_datasets', -1)
-    mmlu = data['eval_metrics']['icl'].get("mmlu_fewshot", -1)
-    name = data['name']
-    model = data['model']
-    uuid = data['uuid']
-    url = f'https://github.com/mlfoundations/dcnlp/tree/main/{filename}'
-    
+    score = data.get("aggregated_centered_results", -1)
+    low_var_score = data.get("low_variance_datasets", -1)
+    mmlu = data["eval_metrics"]["icl"].get("mmlu_fewshot", -1)
+    name = data["name"]
+    model = data["model"]
+    uuid = data["uuid"]
+    url = f"https://github.com/mlfoundations/dcnlp/tree/main/{filename}"
+
     message = f"New submission ({model}). Low Variance Score: {low_var_score:.4f}., Aggregated centered score: {score:.4f}. MMLU 5-shot Score: {mmlu: .4f}. Name: {name}. UUID: {uuid}. Full results at {url}"
 
     root = "hooks.slack.com"
@@ -39,9 +40,9 @@ def submit_to_slack(filename):
 
 if __name__ == "__main__":
     files = sys.argv[1].split()
-    print(f'Starting submission for files: {files}')
+    print(f"Starting submission for files: {files}")
     for file in files:
         if not os.path.exists(file):
-            print(f'Skipping {file} because it does not exist')
+            print(f"Skipping {file} because it does not exist")
             continue
         submit_to_slack(file)

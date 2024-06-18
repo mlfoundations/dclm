@@ -98,6 +98,7 @@ if __name__ == "__main__":
 
     if not args.skip_train:
         from open_lm.main import main
+
         print(f"Running with args:\n{open_lm_args}")
 
         try:

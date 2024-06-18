@@ -109,7 +109,9 @@ def migrate_object(s3_key, source_profile, dest_profile, tmp_bucket, dest_bucket
 @click.option("--filter", "-f", multiple=True, help="Filter rows based on column conditions")
 @click.option("--update-json", is_flag=True, help="Update path in json to copied path")
 @click.option("--sync", is_flag=True, help="use aws s3 sync instead of cp")
-def main(source_profile, dest_profile, tmp_location, dest_location, table, column, database_path, filter, update_json, sync):
+def main(
+    source_profile, dest_profile, tmp_location, dest_location, table, column, database_path, filter, update_json, sync
+):
     source_session = boto3.Session(profile_name=source_profile)
     dest_session = boto3.Session(profile_name=dest_profile)
     tmp_bucket = tmp_location.replace("s3://", "").split("/", 1)[0]

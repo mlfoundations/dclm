@@ -104,7 +104,19 @@ def check_and_download_data():
     if not os.path.exists("gpqa_data"):
         repo_dir = os.path.dirname(os.path.realpath(__file__))
         if dist.get_global_rank() == 0:
-            subprocess.run(["unzip", "-P", "deserted-untie-orchid", os.path.join(repo_dir, "gpqa/dataset.zip"), "-d", "gpqa_data_orig/"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.run(
+                [
+                    "unzip",
+                    "-P",
+                    "deserted-untie-orchid",
+                    os.path.join(repo_dir, "gpqa/dataset.zip"),
+                    "-d",
+                    "gpqa_data_orig/",
+                ],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
             convert_gpqa("gpqa_data_orig/dataset", "gpqa_data")
             shutil.rmtree("gpqa_data_orig")
         else:
@@ -220,8 +232,12 @@ def main():
     """
     parser = argparse.ArgumentParser()
     # Arguments that openlm requires when we call load_model
-    parser.add_argument("--seed", type=int, default=None,
-                        help="Seed for reproducibility, when None, will use the seed from the eval config file.")
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Seed for reproducibility, when None, will use the seed from the eval config file.",
+    )
     parser.add_argument("--fsdp", default=False, action="store_true")
     parser.add_argument("--distributed", default=True, action="store_true")
     parser.add_argument("--resume", default=None, type=str)
@@ -238,10 +254,13 @@ def main():
     parser.add_argument("--hf-model", default=None)
     parser.add_argument("--hf-cache-dir", default=None)
     parser.add_argument("--output-file", type=str, default=None)
-    parser.add_argument("--use-temp-working-dir", action='store_true',
-                        help="Use a temporary working directory for the evaluation. removing it when done. "
-                             "This is required if you wish to run multiple evaluations with the same datasets"
-                             " in parallel on the same node.")
+    parser.add_argument(
+        "--use-temp-working-dir",
+        action="store_true",
+        help="Use a temporary working directory for the evaluation. removing it when done. "
+        "This is required if you wish to run multiple evaluations with the same datasets"
+        " in parallel on the same node.",
+    )
     parser.add_argument(
         "--eval_meta_data", default=f"{os.path.dirname(__file__)}/eval_meta_data.csv", help="Eval meta data file"
     )
@@ -352,7 +371,7 @@ def main():
     parser.add_argument("--donot-compute-perplexity", action="store_true")
     parser.add_argument("--compute-downstream-perplexity", action="store_true")
     parser.add_argument("--compute-paloma-perplexity", action="store_true")
-    parser.add_argument("--force-xformers", action="store_true" )
+    parser.add_argument("--force-xformers", action="store_true")
 
     args = parser.parse_args()
     orig_seed = args.seed  # may be overridden by config file if it exists
@@ -392,7 +411,6 @@ def main():
         for icl_cfg in eval_cfg.icl_tasks:
             icl_cfg.fewshot_random_seed = orig_seed
 
-
     args.resume = args.checkpoint
     args.remote_sync = args.output_file
     directory = os.path.dirname(args.output_file)
@@ -401,7 +419,7 @@ def main():
 
     CWD = os.getcwd()
     if args.use_temp_working_dir:
-        temp_dir = os.path.join(CWD, 'eval_openlm_ckpt_temp_dirs', f"{uuid.uuid4()}")
+        temp_dir = os.path.join(CWD, "eval_openlm_ckpt_temp_dirs", f"{uuid.uuid4()}")
         os.makedirs(temp_dir, exist_ok=True)  # in case rank > 0
         os.chdir(temp_dir)
         print(f"Using temporary working directory: {temp_dir}")
@@ -437,7 +455,7 @@ def main():
             if "epoch" in checkpoint:
                 # resuming a train checkpoint w/ epoch and optimizer state
                 start_epoch = checkpoint["epoch"]
-                avg_sd = torch.load(args.checkpoint, map_location='cpu')
+                avg_sd = torch.load(args.checkpoint, map_location="cpu")
                 if next(iter(avg_sd.items()))[0].startswith("module"):
                     avg_sd = {k[len("module.") :]: v for k, v in avg_sd.items()}
                 eval_model.model.load_state_dict(avg_sd)
@@ -449,7 +467,7 @@ def main():
     # Set requires grad = False to reduce memory consumption - o/w composer makes a copy of the model.
     for p in eval_model.parameters():
         p.requires_grad = False
-    
+
     device = init_distributed_device(args)
     eval_model = eval_model.to(device)
     eval_metrics = {}
@@ -523,8 +541,6 @@ def main():
 
         with open(args.output_file, "w") as f:
             json.dump(output, f, indent=4)
-
-
 
     return output
 

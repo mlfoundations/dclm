@@ -95,7 +95,6 @@ def load_smart_html(df):
             column["width"] = col_widths[column["field"]]
             column["initialWidth"] = col_widths[column["field"]]
 
-
     # Convert DataFrame rows to dictionaries for ag-Grid
     df = df.fillna("")
     df["_source_json"] = df["_source_json"].str.replace("exp_data/evals/", "")
@@ -364,7 +363,7 @@ def convert_shorthand_to_number(s):
 
 def filter_df(df, filter_str):
     for f in filter_str:
-        if "=" in f and '>' not in f and "<" not in f:
+        if "=" in f and ">" not in f and "<" not in f:
             parts = f.split("=", 1)
             column_name, pattern = parts
             print(df)

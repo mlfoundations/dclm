@@ -320,7 +320,11 @@ def maybe_save_model_json(partial_model_dir, exp_root, name, data, hparams, open
     logging.info("Checking for partial model.")
     fs, path = fsspec.core.url_to_fs(exp_root)
     if exp_root.startswith("s3://"):
-        result = subprocess.run(["aws", "s3", "ls", os.path.join(exp_root, "checkpoints"), "--recursive"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run(
+            ["aws", "s3", "ls", os.path.join(exp_root, "checkpoints"), "--recursive"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
         files = [l.strip().split(" ")[-1] for l in result.stdout.decode().splitlines()]
         stats = [os.path.join(exp_root, "checkpoints", Path(f).name) for f in files if "stats" in Path(f).name]
     else:

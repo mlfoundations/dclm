@@ -296,7 +296,7 @@ def get_open_lm_args(args, hparams, dr):
         "--data-tolerate-error-p",
         f"{args.data_tolerate_error_p}",
         "--data-tolerate-num-ckpts",
-        f"{args.data_tolerate_num_ckpts}"
+        f"{args.data_tolerate_num_ckpts}",
     ]
 
     if args.pretrained is not None:

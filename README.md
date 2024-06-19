@@ -175,7 +175,7 @@ When you finished training and evaluating your model, a model eval json file has
 You can now open a pull request to the main repository to share your results with the team and submit it to the leaderboard.
 
 ## Contributing
-We welcome contributions to improve the DCLM framework. Please follow our guidelines for submitting pull requests and reporting issues.
+We welcome contributions to improve the DCLM framework. Please follow our [contributing guide](contributing.md) for submitting pull requests and reporting issues.
 
 ## How to Cite Us
 

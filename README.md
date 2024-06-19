@@ -90,6 +90,8 @@ To get started with DCLM, follow these steps:
 3. **Set up your environment**:
     DCLM uses AWS for storage and possible as a compute backend, and ray for distributed processing.
     Ensure you have the necessary environment variables and configurations for AWS and Ray clusters.
+    
+    We recommend the use of Python 3.10 with DCLM.
 
 ## Selecting Raw Sources
 If you are creating a new source:

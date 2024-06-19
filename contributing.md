@@ -9,7 +9,6 @@ Thank you for your interest in contributing to the dclm project! We welcome cont
 - [Finding an Issue to Work On](#finding-an-issue-to-work-on)
 - [Submitting a Pull Request](#submitting-a-pull-request)
 - [Coding Guidelines](#coding-guidelines)
-- [Community and Communication](#community-and-communication)
 - [Code of Conduct](#code-of-conduct)
 
 ## Ways to Contribute
@@ -66,7 +65,6 @@ To maintain consistency and quality in the codebase, please adhere to the follow
 - **Testing**: Write tests for your code to ensure its correctness and prevent future regressions.
 For comparison, see the existing `tests` module.
 - **Documentation**: Update or add documentation as necessary to explain your changes.
-
 
 
 ## Code of Conduct

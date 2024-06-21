@@ -1,6 +1,5 @@
 # DataComp-LM (DCLM)
 
-**Deprecation notice** This repository is now deprecated. For the most up to date code, data and documentation, please visit [https://github.com/mlfoundations/dclm](https://github.com/mlfoundations/dclm).
 
 ## Table of Contents
 1. [Introduction](#introduction)

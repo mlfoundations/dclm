@@ -37,7 +37,7 @@ The smallest scale is 400m-1x, a 400m parameter model trained compute optimally 
 * **(D)** evaluated on 53 downstream tasks to judge dataset quality.
 ![Workflow](assets/workflow_dclm.png)
 
-For more details, please refer to our [paper](https://placeholder-link-to-paper.com).
+For more details, please refer to our [paper](https://arxiv.org/abs/2406.11794).
 
 ## Leaderboard
 

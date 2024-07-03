@@ -1,18 +1,20 @@
 # DataComp-LM (DCLM)
 
 ## Table of Contents
-1. [Introduction](#introduction)
-2. [Leaderboard](#leaderboard)
-3. [Getting Started](#getting-started)
-4. [Selecting Raw Sources](#selecting-raw-sources)
-5. [Processing the Data](#processing-the-data)
-6. [Tokenize and Shuffle](#tokenize-and-shuffle)
-7. [Model Training](#model-training)
-8. [Evaluation](#evaluation)
-9. [Submission](#submission)
-10. [Contributing](#contributing)
-11. [How to Cite Us](#how-to-cite-us)
-12. [License](#license)
+- [DataComp-LM (DCLM)](#datacomp-lm-dclm)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Leaderboard](#leaderboard)
+  - [Getting Started](#getting-started)
+  - [Selecting Raw Sources](#selecting-raw-sources)
+  - [Processing the Data](#processing-the-data)
+  - [Tokenize and Shuffle](#tokenize-and-shuffle)
+  - [Model Training](#model-training)
+  - [Evaluation](#evaluation)
+  - [Submission](#submission)
+  - [Contributing](#contributing)
+  - [How to Cite Us](#how-to-cite-us)
+  - [License](#license)
 
 ## Introduction
 
@@ -113,30 +115,61 @@ To process raw data, follow these steps:
     See our [reproduction of C4 for example](baselines/baselines_configs/c4.yaml). 
     Further details on defining a pipeline can be found [here](baselines/README.md).
 
-2. **Launch a Ray cluster**:
-    Use an appropriate Ray cluster based on the size of your dataset and specific YAML configurations.
+2. **Set up a Ray cluster**:
+    The data processing script relies on Ray for distributed processing of data. This cluster can be either launched on a single node (for small scale data processing) or using AWS EC2 instances.
+
+    To launch a local cluster, use the following command:
+    ```bash
+    ray start --head --port 6379
+    ```
+
+    To launch a cluster using AWS EC2 instances, use the following:
+    ```bash
+    ray up <your_cluster_config>
+    ```
+    where ```<your_cluster_config>``` is a cluster configuration script that depends on your specific use case. We invite the reader to go over the [Ray documentation](https://docs.ray.io/en/latest/cluster/vms/references/ray-cluster-cli.html) for instructions on how to create this config file.
+
+    **Important**: When using EC2 instances, make sure to tear down your cluster after your job finishes, so as to not incur unnecessary costs!
 
 3. **Run the processing script**:
+    To run the processing script, in the case of a local cluster, simply run the following command:
     ```bash
+    python3 ray_processing/process.py --source_ref_paths <source_json> --readable_name <name> --output_dir <s3_output_dir> --config_path <config_yaml> --source_name <source_name>
+    ```
+
+    When using EC2 instances, you need to connect to the cluster and then launch the command
+    ```bash
+    # In your local terminal
     ray attach <your_cluster_config>
+
+    # Inside the cluster EC2 instance
     cd dcnlp
     export PYTHONPATH=$(pwd)
     python3 ray_processing/process.py --source_ref_paths <source_json> --readable_name <name> --output_dir <s3_output_dir> --config_path <config_yaml> --source_name <source_name>
     ```
 
 4. **Monitor and tear down**:
-    Track progress via the `global_stats.jsonl` file in the output directory and ensure to tear down your cluster after processing.
+   You can track the progress of data processing via the `global_stats.jsonl` file in the output directory. After the job finishes, you can tear down your cluster via `ray stop` (in the local cluster case) or `ray down <your_cluster_config>` (in the AWS EC2 case). **THIS IS VERY IMPORTANT TO NOT INCUR ADDITIONAL COSTS WHEN USING EC2!**
 
 ## Tokenize and Shuffle
-To convert raw text into tokenized datasets and perform shuffling:
+After processing the raw text, you should convert it into tokenized datasets and perform shuffling for training:
 
 1. **Set up a Ray cluster**:
-    Follow similar steps as processing, but use [ray_processing/cluster_tokenize_shuffle.yaml](ray_processing/cluster_tokenize_shuffle.yaml).
+    Set up a Ray cluster in the same way as the processing step.
 
 2. **Run the tokenize and shuffle script**:
     ```bash
     python ray_processing/tokenize_shuffle.py --source_ref_paths <source_jsons> --readable_name <name> --output <s3_output_dir> --content_key text --do_sample --default_dataset_yaml <mixing_yaml>
     ```
+
+3. **Tear down**:
+   Tear down the Ray cluster as in the processing step.
+
+The `tokenize_shuffle.py` script creates a dataset in `webdataset` format, along with a `manifest.jsonl` file. This file is required by the training script, and it contains information on the number of sequences inside each shard of the dataset. If needed, this manifest file can also be created manually, via the following command:
+
+```bash
+python -m open_lm.utils.make_wds_manifest --data-dir <tokenized_data_dir>
+```
 
 ## Model Training
 To train a model using the tokenized dataset:

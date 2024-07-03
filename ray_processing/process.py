@@ -10,7 +10,7 @@ import json
 
 from baselines.core import process_single_file
 from baselines.core.file_utils import read_jsonl, write_jsonl, delete_file, is_exists
-from ray_processing import GLOBAL_FUNCTIONS
+from baselines.core.constants import GLOBAL_FUNCTIONS
 from ray_processing.utils import generate_untokenized_dataset_json, get_source_ref, get_source_ref_by_key
 
 

@@ -2,6 +2,7 @@
   weight: 1.0
   steps:
     # Chunk 1: Various filtering and cleaning rules (local)
+    - func: move_url_modifier   # Necessary because 'url' was not set up in these jsonls, was in page['metadata']['WARC-Target-URI']
     - func: key_name_modifier
     - func: page_length_filter
       length_type: char

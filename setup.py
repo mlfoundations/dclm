@@ -10,6 +10,7 @@ import pickle
 import re
 import nltk
 import boto3
+from huggingface_hub import hf_hub_download
 
 PROJECT_ROOT = os.path.dirname(__file__)
 
@@ -124,11 +125,10 @@ class DownloadAssetsCommand(install):
                 print(f"File {destination} already exists")
 
     def _download_curated_refinedweb_banlists(self):
-        CURATED_BANLIST_PATH = "baselines/mappers/banlists/refinedweb_banned_domains_curated.txt"
+        CURATED_BANLIST_PATH = "baselines/mappers/banlists"
         print("Downloading curated banlist")
         if not os.path.exists(CURATED_BANLIST_PATH):
-            s3 = boto3.client('s3')
-            s3.download_file('dcnlp-west', 'refinedweb_url_banlists/refinedweb_banned_domains_curated.txt', CURATED_BANLIST_PATH)  
+            hf_hub_download(repo_id="mlfoundations/refinedweb_banned_domains_curated", filename="refinedweb_banned_domains_curated.txt", repo_type="dataset", local_dir=CURATED_BANLIST_PATH)            
         else:
             print(f"Curated banlist for refinedweb already exists at {CURATED_BANLIST_PATH}")
 

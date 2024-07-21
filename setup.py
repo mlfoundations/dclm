@@ -11,6 +11,7 @@ import re
 import nltk
 import boto3
 
+
 PROJECT_ROOT = os.path.dirname(__file__)
 
 class BaselineInstall(install):
@@ -107,9 +108,10 @@ class DownloadAssetsCommand(install):
 
         # Models and their URLs
         models = {
-            "model.bin": "https://wmtis.s3.eu-west-1.amazonaws.com/quality_prediction_model/model.bin",
+            #"model.bin": "https://wmtis.s3.eu-west-1.amazonaws.com/quality_prediction_model/model.bin",
+            "fasttext_oh_eli5.bin": "https://huggingface.co/mlfoundations/fasttext-oh-eli5/resolve/main/openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train.bin",
             "en.arpa.bin": "https://huggingface.co/edugp/kenlm/resolve/main/wikipedia/en.arpa.bin",
-            "en.sp.model": "https://huggingface.co/edugp/kenlm/resolve/main/wikipedia/en.sp.model"
+            "en.sp.model": "https://huggingface.co/edugp/kenlm/resolve/main/wikipedia/en.sp.model",
         }
 
         for MODEL_FILENAME, url in models.items():

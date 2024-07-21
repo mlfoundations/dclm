@@ -32,3 +32,4 @@ Unidecode
 beautifulsoup4
 zstandard
 llm-foundry
+lxml_html_clean

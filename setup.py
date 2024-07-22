@@ -20,6 +20,7 @@ class BaselineInstall(install):
         install.run(self)
         # Custom setup for baseline
         print("Setting up baseline requirements...")
+        nltk.download('punkt')
 
 class TrainingInstall(install):
     def run(self):
@@ -45,7 +46,7 @@ class DownloadAssetsCommand(install):
         ('skip-downloads=', 's', "whether to skip all downloads"),
         ('skip-model-downloads=', None, "whether to skip model downloads"),
         ('skip-banlist-downloads=', None, "whether to skip banlist downloads"),
-        ('rw-banlist-type=', None, "whether to skip banlist downloads")
+        ('rw-banlist-type=', None, "whether to use the curated banlist or the uncurated banlist")
     ]
 
     def initialize_options(self):
@@ -225,7 +226,7 @@ setup(
         'dev': ['pytest', 'sphinx']
     },
     cmdclass={
-        'install': install,
+        'install': DownloadAssetsCommand,
         'install_baselines': BaselineInstall,
         'install_training': TrainingInstall,
         'install_eval': EvalInstall,

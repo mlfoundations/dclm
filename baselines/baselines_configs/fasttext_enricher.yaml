@@ -1,5 +1,0 @@
-- source: cc
-  steps:
-    - func: classify_fasttext_hq_prob_enricher
-      model_filename: fasttext_oh_eli5.bin
-      key: fasttext_oh_eli5_vs_rw_v2_prob

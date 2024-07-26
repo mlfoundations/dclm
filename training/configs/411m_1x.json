@@ -1,0 +1,21 @@
+{
+    "model": "training/open_lm_configs/d=1024_l=24_h=8.json",
+    "params": 411616256,
+    "params_no_embed": 359973888,
+    "tokens": 8232325120,
+    "warmup": 2000,
+    "lr": 0.003,
+    "wd": 0.033,
+    "cd": 3e-05,
+    "global_bs": 512,
+    "acc": 8,
+    "qk_norm": true,
+    "z_loss": 1e-4,
+    "grad_checkpointing": false,
+    "fsdp_flags": [
+        "--fsdp",
+        "--fsdp-amp",
+        "--fsdp-limit-all-gathers"
+    ],
+    "chinchilla_multiplier": 1
+}

@@ -86,8 +86,6 @@ SCALE_CONFIG_PATHS = [
 SCALE_CONFIGS = {}
 
 for s in SCALE_CONFIG_PATHS:
-    if not os.path.isdir(s):
-        continue
     for p in os.listdir(s):
         with open(os.path.join(s, p), "r") as f:
             SCALE_CONFIGS[Path(p).stem] = Hyperparameters(**json.load(f))

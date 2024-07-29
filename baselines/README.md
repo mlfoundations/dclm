@@ -4,8 +4,10 @@
 1. [Introduction](#introduction)
 2. [Key Concepts for Processing](#key-concepts-for-processing)
 3. [Example YAML Configuration for Processing](#example-yaml-configuration-for-processing)
-4. [Running the Processing Pipeline](#running-the-processing-pipeline)
-5. [Setting Up a Ray Cluster](#setting-up-a-ray-cluster)
+4. [Using Custom Mappers](#using-custom-mappers)
+5. [Factory Functions](#factory-functions)
+6. [Running the Processing Pipeline](#running-the-processing-pipeline)
+7. [Setting Up a Ray Cluster](#setting-up-a-ray-cluster)
 
 ## Introduction
 This document provides detailed descriptions of the key concepts involved in the data processing pipeline of the DCLM framework, including mappers, filters, and modifiers. It also includes instructions on setting up and running the processing pipeline using Ray clusters.
@@ -56,6 +58,16 @@ pipeline:
   - name: enrich_language_id
     type: enricher
 ```
+
+## Using Custom Mappers
+By default, the pipeline configuration YAML can reference any mapper defined under [mappers](mappers), as detailed 
+[here](mappers/README.md). If you wish to use a custom mapper, you can specify it in the `func` 
+argument by providing a relative path from the working directory, separated with dots ('.'), 
+and including the mapper function name. For example, if you define a module `custom_mappers/my_filters.py` with a 
+mapper named `foo_filter`, you would set `func: custom_mappers.my_filters.foo_filter` in the YAML file.
+
+## Factory Functions
+Factory functions are used to create instances of mappers, filters, modifiers, and enrichers where some initialization needs to be done once and then reused for every application of the mapper. For example, when using regexes, they should be compiled once. Similarly, when using models, they should be loaded only once and not for every page. Factory functions are defined using the [factory_function](../core/factory_utils) decorator. In the function itself, you can load any necessary resources ahead of time, define a `filter_fn(page: Dict) -> List[Dict]` with a closure, and return the `filter_fn`. For an example, see `url_substring_filter` in [metadata_filters](mappers/filters/metadata_filters.py).
 
 ## Running the Processing Pipeline
 

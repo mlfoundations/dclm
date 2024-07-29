@@ -1,20 +1,18 @@
 # DataComp-LM (DCLM)
 
 ## Table of Contents
-- [DataComp-LM (DCLM)](#datacomp-lm-dclm)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Leaderboard](#leaderboard)
-  - [Getting Started](#getting-started)
-  - [Selecting Raw Sources](#selecting-raw-sources)
-  - [Processing the Data](#processing-the-data)
-  - [Tokenize and Shuffle](#tokenize-and-shuffle)
-  - [Model Training](#model-training)
-  - [Evaluation](#evaluation)
-  - [Submission](#submission)
-  - [Contributing](#contributing)
-  - [How to Cite Us](#how-to-cite-us)
-  - [License](#license)
+- [Introduction](#introduction)
+- [Leaderboard](#leaderboard)
+- [Getting Started](#getting-started)
+- [Selecting Raw Sources](#selecting-raw-sources)
+- [Processing the Data](#processing-the-data)
+- [Tokenize and Shuffle](#tokenize-and-shuffle)
+- [Model Training](#model-training)
+- [Evaluation](#evaluation)
+- [Submission](#submission)
+- [Contributing](#contributing)
+- [How to Cite Us](#how-to-cite-us)
+- [License](#license)
 
 ## Introduction
 
@@ -224,6 +222,9 @@ If you use our dataset or models in your research, please cite us as follows:
       journal={arXiv preprint arXiv:2406.11794}
 }
 ```
+When using DCLM evaluation suite, please make sure to cite all the original evaluation papers. [evaluation_bibtex](bib/evalutaion.bib).
+
+When using DCLM for training, please make sure to cite the main training framework dependencies as well. [training_bibtex](bib/training.bib).
 
 ## License
 This project is licensed under the MIT License. See the [license](LICENSE.txt) file for details.

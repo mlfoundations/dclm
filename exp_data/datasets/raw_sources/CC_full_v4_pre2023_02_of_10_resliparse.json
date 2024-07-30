@@ -2,7 +2,7 @@
     "uuid": "9bc06884-5ff9-4c90-9755-bc12c0e0db70",
     "name": "CC_full_v4_pre2023_02_of_10_resliparse",
     "creation_date": "2024-03-14 20:12:09",
-    "sources": "s3://dcnlp-west-test/commoncrawl_paths.txt.gz",
+    "sources": "s3://***REMOVED***/commoncrawl_paths.txt.gz",
     "tokenized": false,
     "tokenizer": null,
     "size": "26 TB",

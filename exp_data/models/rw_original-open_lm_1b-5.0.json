@@ -30,7 +30,7 @@
         "--workers",
         "2",
         "--dataset-manifest",
-        "s3://laion-west/refined_web_tokenized/manifest.jsonl",
+        "s3://***REMOVED***/refined_web_tokenized/manifest.jsonl",
         "--precision",
         "amp_bfloat16",
         "--global-batch-size",

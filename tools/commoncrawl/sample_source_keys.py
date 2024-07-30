@@ -117,7 +117,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--keys-path",
         help="File path (local or S3 URL) containing the keys",
-        default="s3://dcnlp-west-test/commoncrawl_paths.txt.gz",
+        default="s3://***REMOVED***/commoncrawl_paths.txt.gz",
     )
     parser.add_argument(
         "--prefix",

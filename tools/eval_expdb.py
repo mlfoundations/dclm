@@ -83,23 +83,23 @@ def tri_copy_model_via_hop(src, dst, profile):
             print("Copying from dcnlp-west to dcnlp-east")
             if os.getenv("AWS_DCNLP_ACCESS_KEY_ID") is None:
                 print("Trying to use dcnlp-west profile, it should be defined in your ~/.aws/config file")
-                os.system(f"aws s3 cp {src} s3://dcnlp-hub/tri-tmp/model/{model_name} --profile dcnlp-west")
+                os.system(f"aws s3 cp {src} s3://***REMOVED***/tri-tmp/model/{model_name} --profile dcnlp-west")
             else:
                 print("Using env variables for dcnlp-west")
                 access_key = os.getenv("AWS_DCNLP_ACCESS_KEY_ID")
                 secret_key = os.getenv("AWS_DCNLP_SECRET_ACCESS_KEY")
                 os.system(
-                    f"AWS_ACCESS_KEY_ID={access_key} AWS_SECRET_ACCESS_KEY={secret_key} aws s3 cp {src} s3://dcnlp-hub/tri-tmp/model/{model_name}"
+                    f"AWS_ACCESS_KEY_ID={access_key} AWS_SECRET_ACCESS_KEY={secret_key} aws s3 cp {src} s3://***REMOVED***/tri-tmp/model/{model_name}"
                 )
             print("Copying from dcnlp-east to tmp-lm-data")
             os.system(
-                f"aws {profile_arg} s3 cp s3://dcnlp-hub/tri-tmp/model/{model_name} s3://tmp-lm-data/copy-data/model/{model_name}"
+                f"aws {profile_arg} s3 cp s3://***REMOVED***/tri-tmp/model/{model_name} s3://tmp-lm-data/copy-data/model/{model_name}"
             )
-            os.system(f"aws {profile_arg} s3 rm s3://dcnlp-hub/tri-tmp/model/{model_name}")
+            os.system(f"aws {profile_arg} s3 rm s3://***REMOVED***/tri-tmp/model/{model_name}")
             print("Copying from tmp-lm-data to destination")
             os.system(f"aws {profile_arg} s3 cp s3://tmp-lm-data/copy-data/model/{model_name} {dst}{model_name}")
             os.system(f"aws {profile_arg} s3 rm s3://tmp-lm-data/copy-data/model/{model_name}")
-        elif src.split("/")[2] == "dcnlp-hub":
+        elif src.split("/")[2] == "***REMOVED***":
             print("Copying from dcnlp-east to tmp-lm-data")
             os.system(f"aws {profile_arg} s3 cp {src} s3://tmp-lm-data/copy-data/model/{model_name}")
             print("Copying from tmp-lm-data to destination")

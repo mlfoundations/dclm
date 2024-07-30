@@ -8,6 +8,7 @@
 5. [Factory Functions](#factory-functions)
 6. [Running the Processing Pipeline](#running-the-processing-pipeline)
 7. [Setting Up a Ray Cluster](#setting-up-a-ray-cluster)
+8. [Sample Workflows](#sample-workflows)
 
 ## Introduction
 This document provides detailed descriptions of the key concepts involved in the data processing pipeline of the DCLM framework, including mappers, filters, and modifiers. It also includes instructions on setting up and running the processing pipeline using Ray clusters.
@@ -154,3 +155,29 @@ python3 ray_processing/process.py \
 ```bash
 ray down <your_cluster_config>
 ```
+
+## Sample Workflows
+
+### Fasttext Filtering
+
+Running model-based filtering with our processor typically involves using two mappers. First is an *enricher* that handles the model inference and adds quality scores to each page. Second is a *filter* that thresholds these scores and removes documents. 
+
+See [this](baselines_configs/fasttext_filter.yaml) for an example that corresponds to the specific OH2.5 + ELI5 classifier that we use for DCLM-Baseline. Notably, the steps involved are. 
+
+```
+  steps:
+    - func: classify_fasttext_hq_prob_enricher
+      model_filename: fasttext_oh_eli5.bin  # Change this to the name of your model file
+      key: fasttext_oh_eli5_vs_rw_v2_prob   # Change this to the name of the desired key
+    - func: quality_filter
+      key: fasttext_oh_eli5_vs_rw_v2_prob   # Make sure this matches with the key from the enricher
+      threshold: 0.018112                   # Chnage this to your chosen threshold.
+```
+
+Important Notes: 
+- In many scenarios, such as when you wish to tune the threshold, it may make sense to save the outputs of the first enriching step as an intermediate dataset to avoid having to repeatedly run inference on the same pages. This can be done by placing these two mappers in separate processing pipelines (i.e., yaml files) instead of the same one. 
+- It is assumed that the fasttext model has been downloaded and available in `baselines/mappers/enrichers/quality_prediction_enrichment_models` on all nodes _prior_ to invoking the baselines processor `process.py`. If setting up a ray cluster, a natural strategy would be to place model downloads within the `setup_commands` of your ray cluster config. As an example, our [`setup.py`](../setup.py#L107) contains code for downloading  the OH2.5 + ELI5 classifier from HuggingFace so we simply add `python setup.py install` as one of our `setup_commands` steps. 
+- You may need to increase `--ray_num_cpus` to be avoid running into memory issues (since this mapper involves loading/running a fasttext model which can be multiple GBs). We use `--ray_num_cpus 2` with EC2 `i4i.4xlarge` ndoes. 
+- Do not use `--ray_use_working_dir` when running this step or your ray tasks may have trouble accessing the model binary.
+- For filtering, we currently share the threshold used in the DCLM-Baseline. A (global) function for aggregating scores and dynamically computing percentile-based thresholds will be coming soon.
+

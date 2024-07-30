@@ -1,16 +1,10 @@
+# Pipeline for RW filters used in DCLM-Baseline. The only difference is we remove the "high-quality" url filter (e.g. for wikipedia, github, etc.)
 - source: cc
   weight: 1.0
   steps:
     - func: move_url_modifier   # Necessary because 'url' was not set up in these jsonls, was in page['metadata']['WARC-Target-URI']
     - func: url_substring_filter
       banlist_from_fname: baselines/mappers/banlists/refinedweb_banned_domains_curated.txt
-      exact_domain_match: True
-      ignore_chars: ['www']
-    - func: url_substring_filter
-      banlist: ["arxiv.org", "askubuntu.com", "stackoverflow.com", "stackapps.com", 
-                "stackexchange.com", "mathoverflow.net", "exporter.nih.gov", "ncbi.nlm.nih.gov",
-                "github.com", "irclogs.ubuntu.com", "news.ycombinator.com", "courtlistener.com",
-                "reddit.com", "statmt.org", "uspto.gov", "en.wikipedia.org"]
       exact_domain_match: True
       ignore_chars: ['www']
     - func: url_substring_filter

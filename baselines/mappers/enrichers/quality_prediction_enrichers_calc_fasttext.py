@@ -22,6 +22,12 @@ def load_fasttext_model(model_filename):
     else:
         model_path = os.path.join(PROJECT_ROOT, MODEL_SUBDIRECTORY, model_filename)
 
+    assert os.path.exists(model_path), (
+        f"Model {model_path} does not exist. "
+        "Please download the model to this path before running a baselines pipeline involving fasttext filtering. "
+        "See https://github.com/mlfoundations/dclm/blob/main/baselines/README.md#fasttext-filtering for more details."
+    )
+
     return fasttext.load_model(model_path)
 
 def classify_fasttext_hq_prob(model: fasttext.FastText._FastText, content: str) -> dict:

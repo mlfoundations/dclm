@@ -58,8 +58,8 @@ class DatasetReference:
 #     1_600_000_000_000,
 #     -1,
 #     [
-#         "s3://laion-west/rpj_tokenized_upsampled_eleutherai/manifest.jsonl",
-#         "s3://laion-west/2T_no_rpj_tokenized_upsampled_25k_shards/manifest.jsonl",
+#         "s3://***REMOVED***/rpj_tokenized_upsampled_eleutherai/manifest.jsonl",
+#         "s3://***REMOVED***/2T_no_rpj_tokenized_upsampled_25k_shards/manifest.jsonl",
 #     ],
 #     [
 #         0.725,
@@ -77,8 +77,8 @@ class DatasetReference:
 #     1_600_000_000_000,
 #     -1,
 #     [
-#         "s3://laion-west/rpj_tokenized_upsampled_eleutherai/manifest.jsonl",
-#         "s3://laion-west/2T_no_rpj_tokenized_upsampled_25k_shards/manifest.jsonl",
+#         "s3://***REMOVED***/rpj_tokenized_upsampled_eleutherai/manifest.jsonl",
+#         "s3://***REMOVED***/2T_no_rpj_tokenized_upsampled_25k_shards/manifest.jsonl",
 #     ],
 #     [
 #         0.725,

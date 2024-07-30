@@ -11,6 +11,7 @@ import re
 import nltk
 import boto3
 
+
 PROJECT_ROOT = os.path.dirname(__file__)
 
 class BaselineInstall(install):
@@ -19,6 +20,7 @@ class BaselineInstall(install):
         install.run(self)
         # Custom setup for baseline
         print("Setting up baseline requirements...")
+        nltk.download('punkt')
 
 class TrainingInstall(install):
     def run(self):
@@ -44,7 +46,7 @@ class DownloadAssetsCommand(install):
         ('skip-downloads=', 's', "whether to skip all downloads"),
         ('skip-model-downloads=', None, "whether to skip model downloads"),
         ('skip-banlist-downloads=', None, "whether to skip banlist downloads"),
-        ('rw-banlist-type=', None, "whether to skip banlist downloads")
+        ('rw-banlist-type=', None, "whether to use the curated banlist or the uncurated banlist")
     ]
 
     def initialize_options(self):
@@ -65,7 +67,7 @@ class DownloadAssetsCommand(install):
         if self.skip_downloads:
             self.skip_model_downloads = 'yes'
             self.skip_banlist_downloads = 'yes'
-        
+
 
     def run(self):
         # Call the parent class to perform the installation
@@ -107,9 +109,10 @@ class DownloadAssetsCommand(install):
 
         # Models and their URLs
         models = {
-            "model.bin": "https://wmtis.s3.eu-west-1.amazonaws.com/quality_prediction_model/model.bin",
+            #"model.bin": "https://wmtis.s3.eu-west-1.amazonaws.com/quality_prediction_model/model.bin",
+            "fasttext_oh_eli5.bin": "https://huggingface.co/mlfoundations/fasttext-oh-eli5/resolve/main/openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train.bin",
             "en.arpa.bin": "https://huggingface.co/edugp/kenlm/resolve/main/wikipedia/en.arpa.bin",
-            "en.sp.model": "https://huggingface.co/edugp/kenlm/resolve/main/wikipedia/en.sp.model"
+            "en.sp.model": "https://huggingface.co/edugp/kenlm/resolve/main/wikipedia/en.sp.model",
         }
 
         for MODEL_FILENAME, url in models.items():
@@ -125,10 +128,12 @@ class DownloadAssetsCommand(install):
 
     def _download_curated_refinedweb_banlists(self):
         CURATED_BANLIST_PATH = "baselines/mappers/banlists/refinedweb_banned_domains_curated.txt"
-        print("Downloading curated banlist")
+        CURATED_BANLIST_URL = "https://huggingface.co/datasets/mlfoundations/refinedweb_banned_domains_curated/resolve/main/refinedweb_banned_domains_curated.txt"
         if not os.path.exists(CURATED_BANLIST_PATH):
-            s3 = boto3.client('s3')
-            s3.download_file('dcnlp-west', 'refinedweb_url_banlists/refinedweb_banned_domains_curated.txt', CURATED_BANLIST_PATH)  
+            print("Downloading curated banlist necessary to run refinedweb.yaml...")
+            os.makedirs(os.path.dirname(CURATED_BANLIST_PATH), exist_ok=True)
+            urllib.request.urlretrieve(CURATED_BANLIST_URL, CURATED_BANLIST_PATH)
+            print(f"Finished downloading {os.path.basename(CURATED_BANLIST_PATH)} to {CURATED_BANLIST_PATH}")
         else:
             print(f"Curated banlist for refinedweb already exists at {CURATED_BANLIST_PATH}")
 
@@ -136,17 +141,17 @@ class DownloadAssetsCommand(install):
         UNCURATED_BANLISTS_URL = "ftp://ftp.ut-capitole.fr/pub/reseau/cache/squidguard_contrib/blacklists.tar.gz"
         BANLIST_OUTPUT_DIR = "baselines/mappers/banlists"
         BANNED_CATEGORIES = [
-            'adult', 
-            'phishing', 
-            'dating', 
-            'gambling', 
+            'adult',
+            'phishing',
+            'dating',
+            'gambling',
             'filehosting',
-            'ddos', 
-            'agressif', 
-            'chat', 
-            'mixed_adult', 
+            'ddos',
+            'agressif',
+            'chat',
+            'mixed_adult',
             'arjel'
-        ]       
+        ]
 
         if not os.path.exists(f"{BANLIST_OUTPUT_DIR}/refinedweb_banned_domains_and_urls.txt"):
             print(f"Downloading {UNCURATED_BANLISTS_URL}...")
@@ -223,7 +228,7 @@ setup(
         'dev': ['pytest', 'sphinx']
     },
     cmdclass={
-        'install': install,
+        'install': DownloadAssetsCommand,
         'install_baselines': BaselineInstall,
         'install_training': TrainingInstall,
         'install_eval': EvalInstall,

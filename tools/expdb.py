@@ -107,7 +107,8 @@ def load_smart_html(df):
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>DCNLP Results Viewer</title>
-        <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@31.3.2/dist/ag-grid-community.min.js"></script>
+        <link href=" https://cdn.jsdelivr.net/npm/ag-grid-community@31.3.2/styles/ag-grid.min.css " rel="stylesheet">
         <style type='text/css'>
         .ag-theme-quartz {{
             --ag-grid-size: 5px;
@@ -388,7 +389,7 @@ def filter_df(df, filter_str):
     return df
 
 
-def enrich_evals(table_dfs):
+def enrich_evals(table_dfs, additional_model_keys=None):
     # Enrich table with some extra information for evals.
     #   - # tokens, # params
     #   - chinchilla multiplier
@@ -396,9 +397,12 @@ def enrich_evals(table_dfs):
     datasets_df = table_dfs["datasets"].set_index("uuid")
     models_df = table_dfs["models"].set_index("uuid")
     evals_df = table_dfs["evals"].set_index("uuid")
+    model_keys = ["hyperparameters.tokens", "hyperparameters.params", "dataset_name", "dataset_uuid"]
+    if additional_model_keys:
+        model_keys += additional_model_keys
     evals_df = pd.merge(
         left=evals_df,
-        right=models_df[["hyperparameters.tokens", "hyperparameters.params", "dataset_name", "dataset_uuid"]],
+        right=models_df[model_keys],
         how="left",
         left_on="model_uuid",
         right_index=True,

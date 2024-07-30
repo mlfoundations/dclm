@@ -2,7 +2,7 @@
     "uuid": "6fc6d79c-0bce-4f70-a7f8-cf427760e518",
     "name": "CC_full_v4_pre2023",
     "creation_date": "2024-03-06 17:56:17",
-    "sources": "s3://dcnlp-west-test/commoncrawl_paths.txt.gz",
+    "sources": "s3://***REMOVED***/commoncrawl_paths.txt.gz",
     "tokenized": false,
     "tokenizer": null,
     "size": 66405499,

@@ -4,8 +4,8 @@
     "tokenized": true,
     "num_tokens": 579578773317,
     "size": 1565888774322,
-    "dataset_url": "s3://laion-west/refined_web_tokenized/",
-    "manifest_url": "s3://laion-west/refined_web_tokenized/manifest.jsonl",
+    "dataset_url": "s3://***REMOVED***/refined_web_tokenized/",
+    "manifest_url": "s3://***REMOVED***/refined_web_tokenized/manifest.jsonl",
     "mirrors": {
         "tri": {
             "dataset_url": "s3://***REMOVED***/openlm/dcnlp/datasets/refined_web_tokenized/",

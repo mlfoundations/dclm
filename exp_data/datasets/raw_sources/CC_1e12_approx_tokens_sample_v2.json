@@ -2,7 +2,7 @@
     "uuid": "6e1dde94-4bc5-43e3-ba7a-67ec825790ac",
     "name": "CC_1e12_approx_tokens_sample_v2",
     "creation_date": "2023-11-29 20:06:41",
-    "sources": "s3://dcnlp-west-test/commoncrawl_paths.txt.gz",
+    "sources": "s3://***REMOVED***/commoncrawl_paths.txt.gz",
     "tokenized": false,
     "tokenizer": null,
     "size": 1439243,

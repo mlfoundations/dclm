@@ -1,4 +1,4 @@
-- source: cc_v3_fasttext
+- source: cc
   weight: 1.0
   steps:
     - func: move_url_modifier   # Necessary because 'url' was not set up in these jsonls, was in page['metadata']['WARC-Target-URI']
@@ -10,7 +10,7 @@
       banlist: ["arxiv.org", "askubuntu.com", "stackoverflow.com", "stackapps.com", 
                 "stackexchange.com", "mathoverflow.net", "exporter.nih.gov", "ncbi.nlm.nih.gov",
                 "github.com", "irclogs.ubuntu.com", "news.ycombinator.com", "courtlistener.com",
-                "reddit.com", "statmt.org", "uspto.gov", "wikipedia.org"]
+                "reddit.com", "statmt.org", "uspto.gov", "en.wikipedia.org"]
       exact_domain_match: True
       ignore_chars: ['www']
     - func: url_substring_filter
@@ -79,4 +79,3 @@
     - func: word_removal_ratio_filter
       prev_word_count_key: previous_word_count
       max_removed_ratio: 0.05
-    # TODO: Deduplication

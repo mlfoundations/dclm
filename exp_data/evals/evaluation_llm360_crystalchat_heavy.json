@@ -78,5 +78,6 @@
     "99%_CI_above": 0.6380235204230185,
     "99%_CI_above_centered": 0.5417409376048751,
     "low_variance_datasets": 0.6183974771337076,
-    "low_variance_datasets_centered": 0.5240621761028209
+    "low_variance_datasets_centered": 0.5240621761028209,
+    "_filename": "exp_data/evals/evaluation_llm360_crystalchat_heavy.json"
 }

@@ -33,6 +33,10 @@ def parse_args():
         "--raw_data_dirpath",
         help="the path to the top data directory in the data hierarchy (from which to mirror the output path)",
     )
+    parser.add_argument("--shard_list_file", type=str, default=None, help="Path to a file containing a list of input shards.")
+    parser.add_argument(
+        "--shard_list_filters", type=str, nargs='+', help="List of substrings to filter the input shard list by."
+    )
 
     parser.add_argument("--output_dir", required=True, help="Path to the output dir of the processed file.")
     parser.add_argument(
@@ -52,10 +56,12 @@ def parse_args():
     )
     parser.add_argument("--overwrite", action="store_true", help="If set to true, will overwrite results.")
     parser.add_argument("--ray_address", type=str, default="localhost:6379")
-    parser.add_argument("--num_pages", type=int, default=None, help="Run on the first number of pages (for debugging)")
+    parser.add_argument("--num_shards", type=int, default=None, help="Run on the first number of shards (for debugging)")
     parser.add_argument(
         "--ignore_failures", action="store_true", help="Skip steps if there are partial failures. Use sparingly."
     )
+    parser.add_argument("--ray_use_working_dir", action='store_true', help="Working directory for ray.")
+    parser.add_argument("--ray_num_cpus", type=int, default=1, help="Number of CPUs to use for each ray task.")
 
     return parser.parse_args()
 
@@ -88,19 +94,27 @@ def to_iterator(obj_ids, batch_size=100):
             yield ray.get(d)
 
 
-def list_shard_files(data_dirpath, num_pages=None):
-    s3 = boto3.resource("s3")
-    bucket_name, path_within_bucket = data_dirpath.replace("s3://", "").split("/", 1)
-    path_within_bucket = path_within_bucket if path_within_bucket.endswith("/") else f"{path_within_bucket}/"
-    bucket = s3.Bucket(bucket_name)
-    shard_files = [
-        x.key.replace(path_within_bucket, "")
-        for x in bucket.objects.filter(Prefix=path_within_bucket)
-        if all(s not in x.key for s in ["/stats/", "global_stats.jsonl"])
-    ]
+def list_shard_files(data_dirpath, num_shards=None, shard_list_file=None, shard_list_filters=None):
 
-    if num_pages is not None:
-        shard_files = shard_files[:num_pages]
+    assert bool(shard_list_file) ^ bool(data_dirpath), "Either shard_list_file or data_dirpath must be provided, but not both."
+
+    if shard_list_file is not None:
+        with open(shard_list_file, "r") as f:
+            shard_files = f.read().splitlines()
+    else:
+        s3 = boto3.resource('s3')
+        bucket_name, path_within_bucket = data_dirpath.replace("s3://","").split("/", 1)
+        path_within_bucket = path_within_bucket if path_within_bucket.endswith("/") else f'{path_within_bucket}/'
+        bucket = s3.Bucket(bucket_name)
+        shard_files = [x.key.replace(path_within_bucket, "") 
+                       for x in bucket.objects.filter(Prefix=path_within_bucket) 
+                       if all(s not in x.key for s in ['/stats/', 'global_stats.jsonl'])]
+
+    if num_shards is not None:
+        shard_files = shard_files[:num_shards]
+
+    if shard_list_filters is not None:
+        shard_files = [s for s in shard_files if any(f in s for f in shard_list_filters)]
 
     return shard_files
 
@@ -125,7 +139,11 @@ if __name__ == "__main__":
     else:
         source_refs = [get_source_ref_by_key(args.raw_data_dirpath, "dataset_url")]
 
-    ray.init(address=args.ray_address, runtime_env={"working_dir": "./", "excludes": ["tests/"]})
+    if args.ray_use_working_dir:
+        ray.init(address=args.ray_address, runtime_env={"working_dir": "./", "excludes": ["tests/"]})
+    else:
+        ray.init(address=args.ray_address)
+
     config_path = args.config_path
     output_dir = args.output_dir
     source_name = args.source_name
@@ -188,7 +206,7 @@ if __name__ == "__main__":
                 working_dir = global_stats[i - 1]["working_dir"] if i > 0 else working_dir
 
         # Retrieve the list of files before processing a chunk (in case of deletions)
-        shard_files = list_shard_files(working_dir, args.num_pages)
+        shard_files = list_shard_files(working_dir, args.num_shards, args.shard_list_file)
         shard_extension = os.path.splitext(shard_files[0])[-1][1:]
         print(f"Starting chunk {i} with name {step_name}, # of input jsonls = {len(shard_files)}")
 
@@ -200,7 +218,7 @@ if __name__ == "__main__":
             ret = []
             for idx, jsonl_relpath in enumerate(shard_files):
                 ret.append(
-                    process_local_chunk.remote(
+                    process_local_chunk.options(num_cpus=args.ray_num_cpus).remote(
                         config_data, working_dir, jsonl_relpath, source_name, base_output_path, args.workers, overwrite
                     )
                 )

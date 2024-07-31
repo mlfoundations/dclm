@@ -1,0 +1,8 @@
+- source: cc
+  steps:
+    - func: classify_fasttext_hq_prob_enricher
+      model_filename: fasttext_oh_eli5.bin  # Change this to the name of your model file
+      key: fasttext_oh_eli5_vs_rw_v2_prob   # Change this to the name of the desired key
+    - func: quality_filter
+      key: fasttext_oh_eli5_vs_rw_v2_prob   # Make sure this matches with the key from the enricher
+      threshold: 0.018112                   # Chnage this to your chosen threshold.

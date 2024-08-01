@@ -6,6 +6,7 @@
 - [Getting Started](#getting-started)
 - [Selecting Raw Sources](#selecting-raw-sources)
 - [Processing the Data](#processing-the-data)
+- [Deduplication](#deduplication)
 - [Tokenize and Shuffle](#tokenize-and-shuffle)
 - [Model Training](#model-training)
 - [Evaluation](#evaluation)
@@ -148,6 +149,11 @@ To process raw data, follow these steps:
 
 4. **Monitor and tear down**:
    You can track the progress of data processing via the `global_stats.jsonl` file in the output directory. After the job finishes, you can tear down your cluster via `ray stop` (in the local cluster case) or `ray down <your_cluster_config>` (in the AWS EC2 case). **THIS IS VERY IMPORTANT TO NOT INCUR ADDITIONAL COSTS WHEN USING EC2!**
+
+## Deduplication
+To deduplicate the raw text as we have done in DCLM-Baseline, use the tools provided in the [dedup](dedup/) subdirectory. Here we include several rust tools for deduplication, but we recommend using BFF, located in [dedup/bff](dedup/bff). Specific instructions to run deduplication are contained in the readme in each of the directories containing the rust tools. 
+
+We note that the code in [dedup](dedup/)  specifically refers to inter-document fuzzy deduplication, i.e., identifying near-duplicates across documents in the corpus. Tooling built in Ray to identify exact content and URL duplicates is contained in [ray_processing/dedup_jsonl.py](ray_processing/dedup_jsonl.py) (but we do not use this form of dedup in DCLM-Baseline).
 
 ## Tokenize and Shuffle
 After processing the raw text, you should convert it into tokenized datasets and perform shuffling for training:

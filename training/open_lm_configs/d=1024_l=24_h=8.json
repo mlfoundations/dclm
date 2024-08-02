@@ -1,0 +1,9 @@
+{
+    "hidden_dim": 1024,
+    "n_layers": 24,
+    "n_heads": 8,
+    "seq_len": 2048,
+    "vocab_size": 50432,
+    "post_embed_norm": false,
+    "weight_tying": false
+}

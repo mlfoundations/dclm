@@ -1,19 +1,22 @@
 # DataComp-LM (DCLM)
 
 ## Table of Contents
-- [Introduction](#introduction)
-- [Leaderboard](#leaderboard)
-- [Getting Started](#getting-started)
-- [Selecting Raw Sources](#selecting-raw-sources)
-- [Processing the Data](#processing-the-data)
-- [Deduplication](#deduplication)
-- [Tokenize and Shuffle](#tokenize-and-shuffle)
-- [Model Training](#model-training)
-- [Evaluation](#evaluation)
-- [Submission](#submission)
-- [Contributing](#contributing)
-- [How to Cite Us](#how-to-cite-us)
-- [License](#license)
+- [DataComp-LM (DCLM)](#datacomp-lm-dclm)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Leaderboard](#leaderboard)
+  - [Getting Started](#getting-started)
+  - [Selecting Raw Sources](#selecting-raw-sources)
+  - [Processing the Data](#processing-the-data)
+  - [Deduplication](#deduplication)
+  - [Tokenize and Shuffle](#tokenize-and-shuffle)
+  - [Model Training](#model-training)
+  - [Evaluation](#evaluation)
+  - [Submission](#submission)
+  - [Contributing](#contributing)
+  - [Model Finetuning](#model-finetuning)
+  - [How to Cite Us](#how-to-cite-us)
+  - [License](#license)
 
 ## Introduction
 
@@ -215,6 +218,70 @@ You can now open a pull request to the main repository to share your results wit
 
 ## Contributing
 We welcome contributions to improve the DCLM framework. Please follow our [contributing guide](contributing.md) for submitting pull requests and reporting issues.
+
+## Model Finetuning
+
+Using the OpenLM library, it is also possible to finetune the models trained with DCLM. This can be done via the following steps:
+
+- First, create input data as `jsonl` files, with each line being a sample containing two fields: `"instruction"` and `"response"` (so each line of a jsonl file contains at minimum a json object of the form `{"instruction": "Sample Instruction", "response": "Sample response"}`). An example for the OpenMathInstruct dataset can be run with the following commands:
+
+```bash
+cd finetuning/
+python download_data.py
+```
+
+- Afterwards, assuming your data is in the directory `finetuning/sft_data/", run the following commands to process the data into the format expected by OpenLM:
+
+```bash
+python preprocess_data.py --input-files "./sft_data/**/*" --output-dir ./sft_data_tokenized/ --num-workers 1 --num-consumers 1
+python -m open_lm.utils.make_wds_manifest --data-dir ./sft_data_tokenized/2048-v1/0 --tmp-dir tmp --num-workers 16
+```
+
+- Finally, you can finetune the model by using [OpenLM](https://github.com/mlfoundations/open_lm), by including the following arguments in your OpenLM training command:
+
+```bash
+...
+--squash-mask-left \
+--target-mask-individual 50400 \
+--target-mask-left 50300 \
+...
+```
+
+An example full command for this is the following:
+```bash
+git clone https://github.com/mlfoundations/open_lm.git
+cd open_lm
+torchrun <additional torchrun options> open_lm/main.py \
+    --dataset-manifest ../sft_data_tokenized/manifest.jsonl \
+    --epochs 20 \
+    --fsdp \
+    --fsdp-amp \
+    --fsdp-limit-all-gathers \
+    --global-batch-size 1024 \
+    --grad-checkpointing \
+    --grad-clip-norm 1 \
+    --log-every-n-steps 100 \
+    --logs <path to logs> \
+    --lr 2e-05 \
+    --lr-cooldown-end 5e-06 \
+    --model training/open_lm_configs/open_lm_1b_swiglutorch.json \
+    --model-norm gain_only_lp_layer_norm \
+    --multiple-data-passes \
+    --name <experiment name> \
+    --precision amp_bfloat16 \
+    --pretrained <path to pretrained checkpoint> \
+    --qk-norm \
+    --report-to wandb \
+    --seed 124 \
+    --squash-mask-left \
+    --target-mask-individual 50400 \
+    --target-mask-left 50300 \
+    --train-num-samples <number of training tokens per epoch> \
+    --warmup 1738 \
+    --wd 0.1 \
+    --workers 1
+```
+
 
 ## How to Cite Us
 

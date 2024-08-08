@@ -96,12 +96,12 @@ def to_iterator(obj_ids, batch_size=100):
 
 def list_shard_files(data_dirpath, num_shards=None, shard_list_file=None, shard_list_filters=None):
 
-    assert bool(shard_list_file) ^ bool(data_dirpath), "Either shard_list_file or data_dirpath must be provided, but not both."
+    # assert bool(shard_list_file) ^ bool(data_dirpath), "Either shard_list_file or data_dirpath must be provided, but not both."
 
     if shard_list_file is not None:
         with open(shard_list_file, "r") as f:
             shard_files = f.read().splitlines()
-    else:
+    elif data_dirpath.startswith("s3://"):
         s3 = boto3.resource('s3')
         bucket_name, path_within_bucket = data_dirpath.replace("s3://","").split("/", 1)
         path_within_bucket = path_within_bucket if path_within_bucket.endswith("/") else f'{path_within_bucket}/'
@@ -109,6 +109,8 @@ def list_shard_files(data_dirpath, num_shards=None, shard_list_file=None, shard_
         shard_files = [x.key.replace(path_within_bucket, "") 
                        for x in bucket.objects.filter(Prefix=path_within_bucket) 
                        if all(s not in x.key for s in ['/stats/', 'global_stats.jsonl'])]
+    else:
+        shard_files = os.listdir(data_dirpath)
 
     if num_shards is not None:
         shard_files = shard_files[:num_shards]
@@ -124,7 +126,8 @@ if __name__ == "__main__":
     args = parse_args()
 
     # Before proceeding, make sure that an existing dataset reference json won't be overwritten
-    json_path = f"exp_data/datasets/untokenized/{args.readable_name}.json"
+    # json_path = f"exp_data/datasets/untokenized/{args.readable_name}.json"
+    json_path = os.path.join(os.path.dirname(args.source_ref_paths[0]), f"{args.readable_name}.json")
     if not args.overwrite:
         assert not os.path.exists(
             json_path
@@ -149,6 +152,7 @@ if __name__ == "__main__":
     source_name = args.source_name
     config_name = os.path.basename(config_path).split(".")[0]
     base_output_path = os.path.join(output_dir, config_name)
+    os.makedirs(base_output_path, exist_ok=True)
 
     # Collect the global stats file, which is used to record / resume a data processing pipeline
     global_stats_path = os.path.join(base_output_path, "global_stats.jsonl")
@@ -189,29 +193,46 @@ if __name__ == "__main__":
         step_name = LOCAL_CHUNK if c == LOCAL_CHUNK else c["func"]
         resumed_chunk = False
 
+        all_shard_files = list_shard_files(working_dir, None, args.shard_list_file)
+        num_all_shards = len(all_shard_files)
+
         # If chunk has already been processed according to global stats, then skip it
         if i < len(global_stats) and step_name == global_stats[i]["name"]:
             # TODO: Right now, only local chunks will output a num_failures
             num_failures = global_stats[i].get("num_failures", 0)
-            if num_failures == 0 or args.ignore_failures:
+            num_shards_prev = global_stats[i].get("num_successes", 0) + num_failures   # num shards processed in the previous run
+
+            if args.num_shards is None:
+                all_shards_attempted = num_shards_prev == num_all_shards
+            else:
+                all_shards_attempted = num_shards_prev == args.num_shards
+
+            if (num_failures == 0 or args.ignore_failures) and all_shards_attempted:
+                # No failures and all shards processed
                 if num_failures > 0:
                     warnings.warn(
-                        f"{num_failure} failures are being ignored, which may significantly and unpredictably impact final results."
+                        f"{num_failures} failures are being ignored, which may significantly and unpredictably impact final results."
                     )
                 print(f"Skipping chunk {i} with name {step_name}")
                 working_dir = global_stats[i]["working_dir"]
                 continue
-            elif num_failures > 0 and not args.overwrite:
+            elif (num_failures > 0 or not all_shards_attempted) and not args.overwrite:
                 resumed_chunk = True
                 working_dir = global_stats[i - 1]["working_dir"] if i > 0 else working_dir
 
         # Retrieve the list of files before processing a chunk (in case of deletions)
         shard_files = list_shard_files(working_dir, args.num_shards, args.shard_list_file)
-        shard_extension = os.path.splitext(shard_files[0])[-1][1:]
-        print(f"Starting chunk {i} with name {step_name}, # of input jsonls = {len(shard_files)}")
 
         if resumed_chunk:
-            shard_files = global_stats[i]["failed_shards"]
+            resume_shard_files = global_stats[i]["failed_shards"]
+
+            if not all_shards_attempted:  # add the shards that were not processed in the previous runs
+                resume_shard_files += shard_files[num_shards_prev:]
+            
+            shard_files = resume_shard_files
+        
+        shard_extension = os.path.splitext(shard_files[0])[-1][1:]
+        print(f"Starting chunk {i} with name {step_name}, # of input jsonls = {len(shard_files)}")
 
         # Process the chunk according to whether it is local or global
         if c == LOCAL_CHUNK:

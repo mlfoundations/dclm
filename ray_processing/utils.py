@@ -57,6 +57,13 @@ def generate_untokenized_dataset_json(args, source_refs, base_output_path, data_
     sources = [{"uuid": s["uuid"], "name": s["name"]} for s in source_refs] if source_refs else []
     dcnlp_commit_hash, dcnlp_diff = get_git_info()
 
+    use_s3 = args.output_dir.startswith("s3://")
+    if use_s3:
+        size = get_s3_dir_size(args.output_dir)
+    else:
+        size = None
+    
+
     dataset_json = {
         "uuid": str(uuid.uuid4().__str__()),
         "name": args.readable_name,
@@ -67,7 +74,7 @@ def generate_untokenized_dataset_json(args, source_refs, base_output_path, data_
         "tokenized": False,
         "tokenizer": None,
         "num_tokens": None,
-        "size": get_s3_dir_size(args.output_dir),
+        "size": size,
         "dcnlp_commit_hash": dcnlp_commit_hash,
         "dcnlp_diff": dcnlp_diff,
         "data_key": data_key,

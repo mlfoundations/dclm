@@ -104,7 +104,10 @@ def main(args, dcnlp_arg_names):
         json.dump(dataset_json, ref_file, indent=4)
     out_json_path = f"{args.output}/{pathlib.Path(args.output).name}.json"
     print(f"moving dataset json to {out_json_path}")
-    os.system(f"aws s3 cp {json_path} {out_json_path}")
+    if out_json_path.startswith("s3://"):
+        os.system(f"aws s3 cp {json_path} {out_json_path}")
+    else:
+        os.system(f"mv {json_path} {out_json_path}")
 
 
 if __name__ == "__main__":

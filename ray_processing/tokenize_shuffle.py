@@ -21,7 +21,7 @@ def add_tokenize_shuffle_args(parser):
     parser.add_argument("--wds_chunk_size", type=int, default=8192)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--subset", type=int, default=None)
-    parser.add_argument("--ray_address", type=str, default=None)
+    parser.add_argument("--ray_address", type=str, default="localhost:6379")
     parser.add_argument("--force_parallelism", type=int, default=None)
     parser.add_argument("--no_shuffle", action="store_true")
     parser.add_argument("--do_sample", action="store_true")
@@ -34,6 +34,7 @@ def add_tokenize_shuffle_args(parser):
     parser.add_argument(
         "--suffixes", nargs="+", default=[".jsonl", ".jsonl.gz", ".jsonl.zst", ".jsonl.zstd", ".tar", ".tar.gz"]
     )
+    parser.add_argument("--allow_imbalanced_write", action="store_true")
 
     # Args specific to dcnlp pipeline (as opposed to tokenize_shuffle)
     DCNLP_ARGS = [
@@ -60,7 +61,8 @@ def add_tokenize_shuffle_args(parser):
 
 def main(args, dcnlp_arg_names):
     # Before proceeding with tokenization, make sure that an existing json won't be overwritten
-    json_path = f"exp_data/datasets/tokenized/{args.readable_name}.json"
+    # json_path = f"exp_data/datasets/tokenized/{args.readable_name}.json"
+    json_path = os.path.join(os.path.dirname(args.source_ref_paths[0]), f"{args.readable_name}.json")
     if not args.overwrite:
         assert not os.path.exists(
             json_path
@@ -84,7 +86,7 @@ def main(args, dcnlp_arg_names):
         str(i)
         for k, v in vars(args).items()
         for i in [f"--{k}", v]
-        if k not in dcnlp_arg_names and v and k != "suffixes"
+        if k not in dcnlp_arg_names and v and k != "suffixes" and k != "allow_imbalanced_write"
     ]
 
     tokenize_shuffle_args.append("--suffixes")
@@ -97,6 +99,9 @@ def main(args, dcnlp_arg_names):
     if args.no_shuffle:
         tokenize_shuffle_args.append("--no_shuffle")
 
+    if args.allow_imbalanced_write:
+        tokenize_shuffle_args.append("--allow_imbalanced_write")
+
     tokenize_shuffle.main(tokenize_shuffle_args)
 
     dataset_json = generate_tokenized_dataset_json(args, source_refs)
@@ -107,7 +112,7 @@ def main(args, dcnlp_arg_names):
     if out_json_path.startswith("s3://"):
         os.system(f"aws s3 cp {json_path} {out_json_path}")
     else:
-        os.system(f"mv {json_path} {out_json_path}")
+        os.system(f"cp {json_path} {out_json_path}")
 
 
 if __name__ == "__main__":

@@ -86,7 +86,7 @@ icl_tasks:
   label: triviaqa_sm_sub
   dataset_uri: local_data/world_knowledge/triviaqa_sm_sub.jsonl
   num_fewshot: [3]
-  icl_task_type: question_answering
+  icl_task_type: generation_task_with_answers
 -
   label: winograd
   dataset_uri: local_data/language_understanding/winograd_wsc.jsonl

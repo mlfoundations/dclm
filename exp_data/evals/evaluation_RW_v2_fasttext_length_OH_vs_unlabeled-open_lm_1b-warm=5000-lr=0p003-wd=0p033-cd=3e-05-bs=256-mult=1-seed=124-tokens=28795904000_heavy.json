@@ -143,5 +143,7 @@
     "low_variance_datasets_centered": 0.30483361265418796,
     "model_uuid": "db2839d0-499f-4c60-90a5-bcd0cebb896f",
     "_filename": "exp_data/evals/evaluation_RW_v2_fasttext_length_OH_vs_unlabeled-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.30483361265418796,
+    "Extended": 0.15163749364626566
 }

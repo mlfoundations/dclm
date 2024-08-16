@@ -79,5 +79,7 @@
     "low_variance_datasets": 0.6816133203831586,
     "low_variance_datasets_centered": 0.6097545601033576,
     "_filename": "exp_data/evals/evaluation_phi-3-medium_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.6097545601033576,
+    "Extended": 0.5788348752955026
 }

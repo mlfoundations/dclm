@@ -143,5 +143,7 @@
     "low_variance_datasets_centered": 0.29235458007622533,
     "model_uuid": "4f93af19-44bd-475b-a41d-acbe586bba8d",
     "_filename": "exp_data/evals/evaluation_rw_v2_fasttext_openhermes_vs_rw_v2_bigram_0.1-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_rho1_d40a9cf2_0.6_0.8_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.29235458007622533,
+    "Extended": 0.15091424677091436
 }

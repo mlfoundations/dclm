@@ -140,5 +140,7 @@
     "low_variance_datasets_centered": 0.13601288049934543,
     "model_uuid": "fdca1b79-e7f5-4728-b216-13e91897eb1b",
     "_filename": "exp_data/evals/evaluation_dolma_v1_no_resample-d=1024_l=24_h=8-warm=2000-lr=0p003-wd=0p033-cd=3e-05-bs=512-mult=1-seed=124-tokens=8232325120_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.13601288049934543,
+    "Extended": 0.09021491158233788
 }

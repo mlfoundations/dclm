@@ -79,5 +79,7 @@
     "99%_CI_above_centered": 0.5783511025806951,
     "low_variance_datasets": 0.6528136169368571,
     "low_variance_datasets_centered": 0.5746248774239971,
-    "_filename": "exp_data/evals/evaluation_Qwen_Qwen2-7B.json"
+    "_filename": "exp_data/evals/evaluation_Qwen_Qwen2-7B.json",
+    "Core": 0.5746248774239971,
+    "Extended": 0.5052443373710365
 }

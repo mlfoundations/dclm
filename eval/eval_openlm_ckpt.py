@@ -29,7 +29,8 @@ from llmfoundry.utils.builders import build_icl_evaluators, build_logger
 from omegaconf import OmegaConf as om
 from open_lm.attention import ATTN_ACTIVATIONS, ATTN_SEQ_SCALARS
 from open_lm.data import get_data
-from open_lm.distributed import init_distributed_device, is_master, world_info_from_env
+from open_lm.distributed import broadcast_object, init_distributed_device, is_master, world_info_from_env
+from open_lm.evaluate import evaluate_loop
 from open_lm.model import create_params
 from open_lm.main import load_model
 from open_lm.evaluate import evaluate_loop
@@ -39,8 +40,7 @@ from open_lm.utils.transformers.hf_config import OpenLMConfig
 from open_lm.utils.transformers.hf_model import OpenLMforCausalLM
 from pytz import timezone
 from transformers import AutoModelForCausalLM, AutoTokenizer, GPTNeoXTokenizerFast, LlamaTokenizerFast
-
-from training.file_utils import download_val_data, load_ppl_yaml
+from training.file_utils import download_val_data, get_downstream_task_name, load_ppl_yaml
 
 builtin_print = __builtin__.print
 
@@ -126,7 +126,6 @@ def check_and_download_data():
     print("Done downloading data.")
     return
 
-
 @torch.no_grad()
 def evaluate(model, tokenizer, cfg):
     cfg.dist_timeout = cfg.get("dist_timeout", 600.0)
@@ -145,8 +144,9 @@ def evaluate(model, tokenizer, cfg):
     )
     icl_tasks_w_categories = list(map(lambda x: x["label"], icl_tasks_w_categories))
 
+    cfg_icl_tasks = [om.to_container(i, resolve=True) for i in cfg.icl_tasks]
     evaluators, logger_keys = build_icl_evaluators(
-        cfg.icl_tasks, tokenizer, cfg.max_seq_len, cfg.device_eval_batch_size
+        cfg_icl_tasks, tokenizer, cfg.max_seq_len, cfg.device_eval_batch_size
     )
     in_memory_logger = InMemoryLogger()  # track metrics in the in_memory_logger
     loggers: List[LoggerDestination] = [
@@ -217,6 +217,53 @@ def set_args_for_val(args, data, key):
     return args
 
 
+def dump_or_update_output(args, local_rank, eval_metrics=None, helm_eval_metrics=None, helm_reference_uuid=None):
+    date_format = "%Y_%m_%d-%H_%M_%S"
+    date = datetime.now(tz=pytz.utc)
+    date = date.astimezone(timezone("US/Pacific"))
+    date = date.strftime(date_format)
+
+    output = {
+        "uuid": helm_reference_uuid if helm_reference_uuid else str(uuid.uuid4()),
+        "model": args.model,
+        "creation_date": date,
+    }
+
+    assert eval_metrics is not None or helm_eval_metrics is not None, "No eval metrics provided"
+
+    if os.path.exists(args.output_file):
+        with open(args.output_file) as f:
+            output = json.load(f)
+
+        output["update_date"] = date
+
+    if eval_metrics is not None:
+        output["name"] = str(args.eval_yaml)[:-5]
+        output["eval_metrics"] = eval_metrics
+
+        with open(args.additional_aggregation, "r") as f:
+            aggregation_json = json.load(f)
+
+        eval_metadata = pd.read_csv(args.eval_meta_data)
+
+        output = get_aggregated_results(output, eval_metadata, aggregation_json)
+
+    elif helm_eval_metrics is not None:
+        output["helm_eval_name"] = str(args.run_spec)[:-5]
+        output["helm_eval_metrics"] = helm_eval_metrics
+        # UUID is passed into HELM is for separating different runs. Given the
+        # uuid creation time, it might be different from the eval's uuid. This
+        # helm_eval_metric is useful when viewing results in HELM's built-in
+        # viewer.
+        output["helm_reference_uuid"] = helm_reference_uuid
+
+    print("Eval output: ")
+    print(json.dumps(output, indent=4, sort_keys=True))
+    if local_rank == 0:
+        with open(args.output_file, "w") as f:
+            json.dump(output, f, indent=4)
+
+
 def main():
     """
     Usage:
@@ -229,6 +276,16 @@ def main():
     torchrun --nproc_per_node 3 eval_openlm_ckpt.py --checkpoint ../checkpoints/llama2_7b.pt --model llama2_7b.json --eval-yaml in_memory_hf_eval.yaml --tokenizer <path_to_tokenizer>
 
     torchrun --nproc_per_node 3 eval_openlm_ckpt.py --checkpoint checkpoint.pt --config params.txt
+
+    helm_eval:
+    Note: before running helm_eval, make sure you have helm installed:
+        `pip install crfm-helm[scenarios,slurm,cleva,metrics]@git+https://github.com/stanford-crfm/helm.git@v0.5.1`
+    By default it is multi-gpu on all gpus found by `torch.cuda.device_count()`. To run on single gpu, set num_gpus=1
+    You should be able to run this with the same arguments as above, but with the addition of `--use-helm`
+
+    multi-gpu example:
+    cd eval
+    python eval_openlm_ckpt.py --use-helm --checkpoint checkpoint.pt --config params.txt --run-spec helm_heavy_exhaustive.conf
     """
     parser = argparse.ArgumentParser()
     # Arguments that openlm requires when we call load_model
@@ -373,8 +430,55 @@ def main():
     parser.add_argument("--compute-paloma-perplexity", action="store_true")
     parser.add_argument("--force-xformers", action="store_true")
 
+    # HELM args
+    parser.add_argument("--use-helm", action="store_true", help="Use helm to eval models")
+    parser.add_argument("--run-spec", type=str, default=None, help="Run spec file name.")
+    parser.add_argument(
+        "--parallelization-method",
+        type=str,
+        choices=["slurm", "gpu"],
+        default="gpu",
+        help="The parallelization method to use. Defaults to using gpus.",
+    )
+    parser.add_argument("--num-gpus", type=int, default=0, help="Number of GPUs to use.")
+
+    parser.add_argument(
+        "--experiment",
+        type=str,
+        default="default",
+        help="Name of the experiment. Useful if not using model names to differentiate among experiments.",
+    )
+    parser.add_argument("--copy-model", action="store_true", help="Copy the model to the evaluation directory.")
+    parser.add_argument(
+        "--handle-existing-model",
+        type=str,
+        choices=["keep", "overwrite"],
+        default="overwrite",
+        help="How to handle existing model.",
+    )
+    parser.add_argument("--clear-cache", action="store_true", help="Clear the cache before running.")
+
     args = parser.parse_args()
     orig_seed = args.seed  # may be overridden by config file if it exists
+
+    if args.use_helm:
+        from eval_openlm_ckpt_helm import main
+
+        if args.run_spec is None:
+            args.run_spec = args.eval_yaml
+
+        helm_reference_uuid = str(uuid.uuid4())
+        if os.path.exists(args.output_file):
+            with open(args.output_file) as f:
+                output = json.load(f)
+            if "uuid" in output:
+                helm_reference_uuid = output["uuid"]
+        args.uuid = helm_reference_uuid
+
+        helm_eval_metrics = main(args, write_to_output_file=False)
+        dump_or_update_output(args, 0, helm_eval_metrics=helm_eval_metrics, helm_reference_uuid=helm_reference_uuid)
+        return
+
     if args.config is not None:
         assert args.hf_model is None, (
             "If you are using a config file, "
@@ -442,6 +546,7 @@ def main():
             eval_model.resize_token_embeddings(len(tokenizer))
     else:
         tokenizer = AutoTokenizer.from_pretrained(args.tokenizer, trust_remote_code=True, cache_dir=args.hf_cache_dir)
+    print(tokenizer)
 
     if args.checkpoint is not None:
         if not args.averager_name:
@@ -512,37 +617,7 @@ def main():
     icl_results = evaluate(eval_model, tokenizer, eval_cfg)
     eval_metrics["icl"] = icl_results
 
-    date_format = "%Y_%m_%d-%H_%M_%S"
-    date = datetime.now(tz=pytz.utc)
-    date = date.astimezone(timezone("US/Pacific"))
-    date = date.strftime(date_format)
-
-    output = {
-        "name": str(args.eval_yaml)[:-5],
-        "uuid": str(uuid.uuid4()),
-        "model": args.model,
-        "creation_date": date,
-        "eval_metrics": eval_metrics,
-    }
-
-    with open(args.additional_aggregation, "r") as f:
-        aggregation_json = json.load(f)
-
-    eval_metadata = pd.read_csv(args.eval_meta_data)
-
-    output = get_aggregated_results(output, eval_metadata, aggregation_json)
-    print("Eval output: ")
-    print(json.dumps(output, indent=4, sort_keys=True))
-    if local_rank == 0:
-        if args.use_temp_working_dir:
-            print(f"Removing temporary working directory: {temp_dir} amd changing back to {CWD}")
-            shutil.rmtree(temp_dir)
-            os.chdir(CWD)  # need to change back BEFORE we save the output file
-
-        with open(args.output_file, "w") as f:
-            json.dump(output, f, indent=4)
-
-    return output
+    dump_or_update_output(args, local_rank, eval_metrics=eval_metrics)
 
 
 if __name__ == "__main__":

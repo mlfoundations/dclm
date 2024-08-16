@@ -80,5 +80,7 @@
     "low_variance_datasets": 0.6419368878006936,
     "low_variance_datasets_centered": 0.5595859787025268,
     "model_uuid": "e5607c82-8aa4-4f6e-92bd-f2861c5e9926",
-    "_filename": "exp_data/evals/evaluation_wiseft_a80_mix3_long_47_mix3_34_heavy.json"
+    "_filename": "exp_data/evals/evaluation_wiseft_a80_mix3_long_47_mix3_34_heavy.json",
+    "Core": 0.5595859787025268,
+    "Extended": 0.4374474047556267
 }

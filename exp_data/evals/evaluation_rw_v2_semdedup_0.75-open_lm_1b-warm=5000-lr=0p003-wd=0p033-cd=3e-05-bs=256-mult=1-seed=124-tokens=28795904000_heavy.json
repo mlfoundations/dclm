@@ -143,5 +143,7 @@
     "low_variance_datasets_centered": 0.27139839859536424,
     "model_uuid": "2895723a-fd72-4cf6-8ea4-1c8c6b69b484",
     "_filename": "exp_data/evals/evaluation_rw_v2_semdedup_0.75-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.27139839859536424,
+    "Extended": 0.1383729929774548
 }

@@ -25,4 +25,3 @@ RUN cp /opt/ml/code/tools/eval_expdb.py /opt/ml/code/eval_expdb.py
 # # Prevent sagemaker from installing requirements again.
 # RUN rm /opt/ml/code/setup.py
 RUN rm /opt/ml/code/requirements.txt
-

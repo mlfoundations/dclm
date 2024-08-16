@@ -80,5 +80,7 @@
     "low_variance_datasets": 0.5019821374253793,
     "low_variance_datasets_centered": 0.38219729999691493,
     "model_uuid": "366cdc59-18bf-49b4-bbc4-39d3c92f9146",
-    "_filename": "exp_data/evals/evaluation_dolma_v1_no_resample-open_lm_7b_swiglutorch-warm=5000-lr=0p002-wd=0p05-cd=3e-05-bs=2048-mult=1-seed=124-tokens=137788211200_heavy.json"
+    "_filename": "exp_data/evals/evaluation_dolma_v1_no_resample-open_lm_7b_swiglutorch-warm=5000-lr=0p002-wd=0p05-cd=3e-05-bs=2048-mult=1-seed=124-tokens=137788211200_heavy.json",
+    "Core": 0.38219729999691493,
+    "Extended": 0.19572869723418201
 }

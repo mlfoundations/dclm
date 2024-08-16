@@ -10,4 +10,3 @@ COPY . /opt/ml/code/
 
 # # Prevent sagemaker from installing requirements again.
 RUN rm -f /opt/ml/code/requirements.txt
-

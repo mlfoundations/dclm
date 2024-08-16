@@ -79,5 +79,7 @@
     "low_variance_datasets": 0.6025454017249021,
     "low_variance_datasets_centered": 0.5021283209217525,
     "_filename": "exp_data/evals/evaluation_map_neo_7b_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.5021283209217525,
+    "Extended": 0.4037407489406917
 }

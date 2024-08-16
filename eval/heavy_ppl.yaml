@@ -52,12 +52,12 @@ icl_tasks:
   label: triviaqa_sm_sub
   dataset_uri: local_data/world_knowledge/triviaqa_sm_sub.jsonl
   num_fewshot: [0]
-  icl_task_type: question_answering
+  icl_task_type: generation_task_with_answers
 -
   label: gsm8k
   dataset_uri: local_data/symbolic_problem_solving/gsm8k.jsonl
   num_fewshot: [0]
-  icl_task_type: question_answering
+  icl_task_type: generation_task_with_answers
   cot_delimiter: ' #### '
   continuation_delimiter: "\nA: Let's think step by step. "
   question_prelimiter: "Q: "
@@ -68,7 +68,7 @@ icl_tasks:
   label: agi_eval_sat_math
   dataset_uri: local_data/symbolic_problem_solving/agi_eval_sat_math.jsonl
   num_fewshot: [0]
-  icl_task_type: question_answering
+  icl_task_type: generation_task_with_answers
   cot_delimiter: ' #### '
   continuation_delimiter: "\nA: Let's think step by step. "
   early_stopping_criteria:
@@ -78,7 +78,7 @@ icl_tasks:
   label: aqua
   dataset_uri: local_data/symbolic_problem_solving/aqua.jsonl
   num_fewshot: [0]
-  icl_task_type: question_answering
+  icl_task_type: generation_task_with_answers
   cot_delimiter: ' #### '
   continuation_delimiter: "\nA: Let's think step by step. "
   early_stopping_criteria:
@@ -88,7 +88,7 @@ icl_tasks:
   label: svamp
   dataset_uri: local_data/symbolic_problem_solving/svamp.jsonl
   num_fewshot: [0]
-  icl_task_type: question_answering
+  icl_task_type: generation_task_with_answers
   continuation_delimiter: "\nUsing the formula below:\n"
   cot_delimiter: ' #### '
   question_prelimiter: "Q: "

@@ -143,5 +143,7 @@
     "low_variance_datasets_centered": 0.1511452835813303,
     "model_uuid": "cb37d0fe-84ba-4db3-9f18-1accb622b028",
     "_filename": "exp_data/evals/evaluation_rw_original-d=1024_l=24_h=8-warm=2000-lr=0p003-wd=0p033-cd=3e-05-bs=512-mult=1-seed=124-tokens=8232325120_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.1511452835813303,
+    "Extended": 0.08873898212327695
 }

@@ -80,5 +80,7 @@
     "low_variance_datasets": 0.46790396110578014,
     "low_variance_datasets_centered": 0.33785174598594225,
     "model_uuid": "db0a67c4-dcad-4840-8817-15d07934008e",
-    "_filename": "exp_data/evals/evaluation_fineweb_edu_sample_350BT-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=5-seed=124-tokens=143979520000_heavy.json"
+    "_filename": "exp_data/evals/evaluation_fineweb_edu_sample_350BT-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=5-seed=124-tokens=143979520000_heavy.json",
+    "Core": 0.33785174598594225,
+    "Extended": 0.17566830821169455
 }

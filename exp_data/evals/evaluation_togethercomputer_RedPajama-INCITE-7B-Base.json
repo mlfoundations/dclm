@@ -79,5 +79,7 @@
     "low_variance_datasets": 0.5189953022382476,
     "low_variance_datasets_centered": 0.3943374582313441,
     "_filename": "exp_data/evals/evaluation_togethercomputer_RedPajama-INCITE-7B-Base.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.3943374582313441,
+    "Extended": 0.21784672349507964
 }

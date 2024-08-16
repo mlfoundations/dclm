@@ -138,5 +138,7 @@
     "rw_small_centered": 0.2514259473622194,
     "95%_CI_above_centered": 0.22407812899570184,
     "99%_CI_above_centered": 0.26112330489764224,
-    "low_variance_datasets_centered": 0.2730876919569242
+    "low_variance_datasets_centered": 0.2730876919569242,
+    "Core": 0.2730876919569242,
+    "Extended": "N/A due to missing tasks: ['gsm8k_cot', 'agi_eval_sat_math_cot', 'aqua_cot', 'svamp_cot', 'gpqa_main', 'gpqa_diamond']"
 }

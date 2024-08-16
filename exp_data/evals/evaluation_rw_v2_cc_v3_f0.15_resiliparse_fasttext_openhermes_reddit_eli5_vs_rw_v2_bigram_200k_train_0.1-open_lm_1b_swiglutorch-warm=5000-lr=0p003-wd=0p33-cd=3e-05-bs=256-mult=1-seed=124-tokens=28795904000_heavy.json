@@ -80,5 +80,7 @@
     "low_variance_datasets": 0.42086511240764096,
     "low_variance_datasets_centered": 0.2708209869813578,
     "model_uuid": "96a00026-2a36-416f-9df8-ac4e66d02f19",
-    "_filename": "exp_data/evals/evaluation_rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1-open_lm_1b_swiglutorch-warm=5000-lr=0p003-wd=0p33-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json"
+    "_filename": "exp_data/evals/evaluation_rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1-open_lm_1b_swiglutorch-warm=5000-lr=0p003-wd=0p33-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json",
+    "Core": 0.2708209869813578,
+    "Extended": 0.1401024684187729
 }

@@ -83,5 +83,7 @@
     "rw_small_centered": 0.2774639188894752,
     "95%_CI_above_centered": 0.26603786329717743,
     "99%_CI_above_centered": 0.31226679013429665,
-    "low_variance_datasets_centered": 0.31394360782739134
+    "low_variance_datasets_centered": 0.31394360782739134,
+    "Core": 0.31394360782739134,
+    "Extended": 0.16067675705690038
 }

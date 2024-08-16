@@ -80,5 +80,7 @@
     "low_variance_datasets_centered": 0.24461348127227656,
     "model_uuid": "a99184dc-dd38-43da-9c5c-9d3127b7f12c",
     "_filename": "exp_data/evals/evaluation_rw_v2_wo_dedup_trafilatura-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.24461348127227656,
+    "Extended": 0.12477322119988557
 }

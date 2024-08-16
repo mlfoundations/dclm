@@ -79,5 +79,7 @@
     "low_variance_datasets": 0.5597399805079807,
     "low_variance_datasets_centered": 0.4702070104995895,
     "_filename": "exp_data/evals/evaluation_olmo-1.7-7b_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.4702070104995895,
+    "Extended": 0.3415306516527822
 }

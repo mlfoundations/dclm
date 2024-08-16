@@ -79,5 +79,7 @@
     "low_variance_datasets": 0.5486367377367887,
     "low_variance_datasets_centered": 0.44281775846540244,
     "_filename": "exp_data/evals/evaluation_mosaicml_mpt-7b.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.44281775846540244,
+    "Extended": 0.2570849136240029
 }

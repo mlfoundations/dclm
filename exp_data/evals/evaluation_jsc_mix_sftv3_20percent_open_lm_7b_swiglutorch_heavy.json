@@ -80,5 +80,7 @@
     "low_variance_datasets": 0.41365625293785174,
     "low_variance_datasets_centered": 0.29010599259858644,
     "model_uuid": "2a671f95-5722-4c6a-89ae-d175f28fe818",
-    "_filename": "exp_data/evals/evaluation_jsc_mix_sftv3_20percent_open_lm_7b_swiglutorch_heavy.json"
+    "_filename": "exp_data/evals/evaluation_jsc_mix_sftv3_20percent_open_lm_7b_swiglutorch_heavy.json",
+    "Core": 0.29010599259858644,
+    "Extended": 0.2040387486062182
 }

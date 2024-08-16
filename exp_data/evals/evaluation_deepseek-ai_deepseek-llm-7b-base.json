@@ -79,5 +79,7 @@
     "99%_CI_above_centered": 0.5095457167672256,
     "low_variance_datasets": 0.596943171728741,
     "low_variance_datasets_centered": 0.5071607238451479,
-    "_filename": "exp_data/evals/evaluation_deepseek-ai_deepseek-llm-7b-base.json"
+    "_filename": "exp_data/evals/evaluation_deepseek-ai_deepseek-llm-7b-base.json",
+    "Core": 0.5071607238451479,
+    "Extended": 0.35266382454612966
 }

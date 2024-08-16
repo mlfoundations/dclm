@@ -80,5 +80,7 @@
     "low_variance_datasets_centered": 0.21846206245313746,
     "model_uuid": "3f60eaea-07ae-4ca5-9529-543d1f4ddebc",
     "_filename": "exp_data/evals/evaluation_c4_original-open_lm_1b_swiglutorch-warm=5000-lr=0p003-wd=0p33-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.21846206245313746,
+    "Extended": 0.11950876504282487
 }

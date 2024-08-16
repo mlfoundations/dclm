@@ -80,5 +80,7 @@
     "low_variance_datasets": 0.5043115308338946,
     "low_variance_datasets_centered": 0.3775241672074468,
     "model_uuid": "b6772af7-5fa3-42bb-8869-be32d44267b8",
-    "_filename": "exp_data/evals/evaluation_rpj_original-open_lm_7b_swiglutorch-warm=5000-lr=0p002-wd=0p05-cd=3e-05-bs=2048-mult=1-seed=124-tokens=137788211200_heavy.json"
+    "_filename": "exp_data/evals/evaluation_rpj_original-open_lm_7b_swiglutorch-warm=5000-lr=0p002-wd=0p05-cd=3e-05-bs=2048-mult=1-seed=124-tokens=137788211200_heavy.json",
+    "Core": 0.3775241672074468,
+    "Extended": 0.20613658043198174
 }

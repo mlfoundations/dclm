@@ -79,5 +79,7 @@
     "low_variance_datasets": 0.5177985559810292,
     "low_variance_datasets_centered": 0.3981474846494972,
     "_filename": "exp_data/evals/evaluation_llm360_amber_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.3981474846494972,
+    "Extended": 0.22331066043104308
 }

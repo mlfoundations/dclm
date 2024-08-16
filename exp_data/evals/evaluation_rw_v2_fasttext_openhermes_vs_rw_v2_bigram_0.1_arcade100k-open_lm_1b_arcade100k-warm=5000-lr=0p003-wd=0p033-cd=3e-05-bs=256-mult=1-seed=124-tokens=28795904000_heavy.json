@@ -83,5 +83,7 @@
     "low_variance_datasets_centered": 0.29238140976557647,
     "model_uuid": "41188528-0f94-4d88-ac8a-f0c166045a42",
     "_filename": "exp_data/evals/evaluation_rw_v2_fasttext_openhermes_vs_rw_v2_bigram_0.1_arcade100k-open_lm_1b_arcade100k-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.29238140976557647,
+    "Extended": 0.14771201247234358
 }

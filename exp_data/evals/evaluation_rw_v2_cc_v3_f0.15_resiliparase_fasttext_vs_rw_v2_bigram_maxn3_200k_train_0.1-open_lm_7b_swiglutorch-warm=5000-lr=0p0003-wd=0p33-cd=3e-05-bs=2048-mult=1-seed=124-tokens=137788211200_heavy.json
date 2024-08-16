@@ -80,5 +80,7 @@
     "low_variance_datasets_centered": 0.4167324738380049,
     "model_uuid": "4674b38a-b737-4f9c-8d1b-366269506523",
     "_filename": "exp_data/evals/evaluation_rw_v2_cc_v3_f0.15_resiliparase_fasttext_vs_rw_v2_bigram_maxn3_200k_train_0.1-open_lm_7b_swiglutorch-warm=5000-lr=0p0003-wd=0p33-cd=3e-05-bs=2048-mult=1-seed=124-tokens=137788211200_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.4167324738380049,
+    "Extended": 0.23474607415475424
 }

@@ -143,5 +143,7 @@
     "low_variance_datasets_centered": 0.41686751140345063,
     "model_uuid": "cfd67261-a4c3-4968-9549-ea2199c60b70",
     "_filename": "exp_data/evals/evaluation_cc_v4_resiliparse_rw_v2_bff1shards_shard_3_OH_eli5_vs_rw_v2_bigram_200k_train_0.1-open_lm_7b-warm=5000-lr=0p0003-wd=0p33-cd=3e-05-bs=2048-mult=1-seed=124-tokens=137788211200_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.41686751140345063,
+    "Extended": 0.21912336851297232
 }

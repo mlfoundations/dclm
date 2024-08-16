@@ -140,5 +140,7 @@
     "low_variance_datasets": 0.479662978107279,
     "low_variance_datasets_centered": 0.35548566878850235,
     "model_uuid": "f5411a07-b4bd-4a04-adea-d999ab06a7e7",
-    "_filename": "exp_data/evals/evaluation_cc_v4_resiliparse_rw_v2_bff_minngram20_32shards_shard3_OH_eli5_vs_rw_v2_bigram_200k_train_0.1-open_lm_1b_swiglutorch-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=5p0-seed=124-tokens=143979520000_heavy.json"
+    "_filename": "exp_data/evals/evaluation_cc_v4_resiliparse_rw_v2_bff_minngram20_32shards_shard3_OH_eli5_vs_rw_v2_bigram_200k_train_0.1-open_lm_1b_swiglutorch-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=5p0-seed=124-tokens=143979520000_heavy.json",
+    "Core": 0.35548566878850235,
+    "Extended": 0.1855580802957035
 }

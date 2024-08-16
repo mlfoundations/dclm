@@ -79,5 +79,7 @@
     "low_variance_datasets": 0.6493989497423173,
     "low_variance_datasets_centered": 0.56951471116966,
     "_filename": "exp_data/evals/evaluation_mistral_7b_v0.3_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.56951471116966,
+    "Extended": 0.4513623404452816
 }

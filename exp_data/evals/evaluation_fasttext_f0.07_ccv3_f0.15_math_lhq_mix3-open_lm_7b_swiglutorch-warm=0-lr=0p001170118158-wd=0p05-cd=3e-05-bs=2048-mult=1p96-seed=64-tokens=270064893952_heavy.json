@@ -80,5 +80,7 @@
     "low_variance_datasets": 0.6386590751734647,
     "low_variance_datasets_centered": 0.5589097371541897,
     "model_uuid": "dd018555-dc06-4b37-97b9-58893752cf04",
-    "_filename": "exp_data/evals/evaluation_fasttext_f0.07_ccv3_f0.15_math_lhq_mix3-open_lm_7b_swiglutorch-warm=0-lr=0p001170118158-wd=0p05-cd=3e-05-bs=2048-mult=1p96-seed=64-tokens=270064893952_heavy.json"
+    "_filename": "exp_data/evals/evaluation_fasttext_f0.07_ccv3_f0.15_math_lhq_mix3-open_lm_7b_swiglutorch-warm=0-lr=0p001170118158-wd=0p05-cd=3e-05-bs=2048-mult=1p96-seed=64-tokens=270064893952_heavy.json",
+    "Core": 0.5589097371541897,
+    "Extended": 0.44313106278433645
 }

@@ -83,5 +83,7 @@
     "low_variance_datasets_centered": 0.2693843097262985,
     "model_uuid": "8ec8bd23-8943-487c-8768-ec7b222e9ad5",
     "_filename": "exp_data/evals/evaluation_RW_v2_OH_fasttext_paraphrased_flan_t5_base_95-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=42-tokens=28795904000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.2693843097262985,
+    "Extended": 0.1442250154786329
 }

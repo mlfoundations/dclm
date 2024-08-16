@@ -140,5 +140,7 @@
     "low_variance_datasets_centered": 0.31267241313200755,
     "model_uuid": "77f05b48-b1a6-43dd-95aa-69760fc7bdae",
     "_filename": "exp_data/evals/evaluation_dolma_v1_no_resample-open_lm_1b_swiglutorch-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=5p0-seed=124-tokens=143979520000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.31267241313200755,
+    "Extended": 0.1643628993914026
 }

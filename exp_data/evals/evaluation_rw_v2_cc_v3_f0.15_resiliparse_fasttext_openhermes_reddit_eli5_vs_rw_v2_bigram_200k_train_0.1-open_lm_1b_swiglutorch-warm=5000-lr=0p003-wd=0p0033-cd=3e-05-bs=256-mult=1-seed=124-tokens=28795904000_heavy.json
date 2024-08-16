@@ -80,5 +80,7 @@
     "low_variance_datasets_centered": 0.2828026742766272,
     "model_uuid": "31501788-3fed-4395-8187-6b826ff8afb3",
     "_filename": "exp_data/evals/evaluation_rw_v2_cc_v3_f0.15_resiliparse_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1-open_lm_1b_swiglutorch-warm=5000-lr=0p003-wd=0p0033-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.2828026742766272,
+    "Extended": 0.15077806359078225
 }

@@ -80,5 +80,7 @@
     "low_variance_datasets_centered": 0.28955412107532985,
     "model_uuid": "e680e342-b920-46ae-b641-8cf58f662ca9",
     "_filename": "exp_data/evals/evaluation_perplexity_f0.1_dfn_peS2o_rpjbooks_wikipedia_en_balanced_tokenized_v2_rw_v2_w_substr_cc_v3_f0.15-open_lm_1b_swiglutorch-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.28955412107532985,
+    "Extended": 0.15013217913632018
 }

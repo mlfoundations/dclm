@@ -82,5 +82,7 @@
     "low_variance_datasets": 0.5887873527678577,
     "low_variance_datasets_centered": 0.49249913608100654,
     "_filename": "exp_data/evals/evaluation_llama2_7b_openlm_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.49249913608100654,
+    "Extended": 0.3413748235640836
 }

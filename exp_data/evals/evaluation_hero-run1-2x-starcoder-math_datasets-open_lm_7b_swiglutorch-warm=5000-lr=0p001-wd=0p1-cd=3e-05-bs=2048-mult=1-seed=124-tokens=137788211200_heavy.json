@@ -143,5 +143,7 @@
     "low_variance_datasets_centered": 0.4221415573948634,
     "model_uuid": "346c0af9-cf81-4bd1-8af2-645a15ef135d",
     "_filename": "exp_data/evals/evaluation_hero-run1-2x-starcoder-math_datasets-open_lm_7b_swiglutorch-warm=5000-lr=0p001-wd=0p1-cd=3e-05-bs=2048-mult=1-seed=124-tokens=137788211200_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.4221415573948634,
+    "Extended": 0.2353114327713338
 }

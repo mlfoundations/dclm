@@ -83,5 +83,7 @@
     "low_variance_datasets_centered": 0.2862660343775258,
     "model_uuid": "4e94390b-6f50-476b-8683-650846c654e7",
     "_filename": "exp_data/evals/evaluation_refinedweb_v2_keyfix_ask_llm_gpt4++_1024_th0_2_masked-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=42-tokens=28795904000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.2862660343775258,
+    "Extended": 0.14278111716263342
 }

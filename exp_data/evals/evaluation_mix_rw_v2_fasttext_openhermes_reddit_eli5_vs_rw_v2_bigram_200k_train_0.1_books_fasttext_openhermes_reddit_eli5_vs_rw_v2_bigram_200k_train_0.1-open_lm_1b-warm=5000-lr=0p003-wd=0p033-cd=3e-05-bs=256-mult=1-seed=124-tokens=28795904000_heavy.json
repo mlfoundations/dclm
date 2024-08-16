@@ -143,5 +143,7 @@
     "low_variance_datasets_centered": 0.3057746938812109,
     "model_uuid": "67a572f4-74a9-4696-b582-a797e8987355",
     "_filename": "exp_data/evals/evaluation_mix_rw_v2_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1_books_fasttext_openhermes_reddit_eli5_vs_rw_v2_bigram_200k_train_0.1-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.3057746938812109,
+    "Extended": 0.15543612449239874
 }

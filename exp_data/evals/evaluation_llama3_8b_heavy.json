@@ -82,5 +82,7 @@
     "low_variance_datasets": 0.6541473438793962,
     "low_variance_datasets_centered": 0.5757178449472801,
     "_filename": "exp_data/evals/evaluation_llama3_8b_heavy.json",
-    "missing tasks": "[]"
+    "missing tasks": "[]",
+    "Core": 0.5757178449472801,
+    "Extended": 0.4628222049307572
 }

@@ -37,6 +37,21 @@ def get_aggregated_results(data, eval_metadata, aggregation_json):
         data[key] = eval_metadata[eval_metadata["Eval Task"].isin(tasks)]["results"].mean()
         data[f"{key}_centered"] = eval_metadata[eval_metadata["Eval Task"].isin(tasks)]["centered results"].mean()
 
+    # add the new names
+    if 'low_variance_datasets_centered' in data:
+        # missing task for Core:
+        missing_tasks_for_core = [task for task in aggregation_json['low_variance_datasets']
+                                  if task not in data["eval_metrics"]["icl"]]
+        if missing_tasks_for_core:
+            data['Core'] = "N/A due to missing tasks: " + str(missing_tasks_for_core)
+        else:
+            data['Core'] = data['low_variance_datasets_centered']
+    if 'aggregated_centered_results' in data:
+        if data["missing tasks"] != "[]":
+            data['Extended'] = "N/A due to missing tasks: " + data["missing tasks"]
+        else:
+            data['Extended'] = data['aggregated_centered_results']
+
     return data
 
 

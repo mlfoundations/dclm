@@ -90,6 +90,10 @@ To get started with DCLM, follow these steps:
     apt install g++-9
     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 90
     ```
+    To download additional models and data needed for baseline reproduction, run:
+    ```bash
+    python setup.py install
+    ```
 
 3. **Set up your environment**:
     DCLM uses AWS for storage and possible as a compute backend, and ray for distributed processing.

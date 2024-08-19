@@ -85,7 +85,7 @@ To get started with DCLM, follow these steps:
     pip install -r requirements.txt
     ```
     Before installing the dependencies, make sure cmake, build-essential, and g++ are installed, e.g., by installing:
-    ````bash
+    ```bash
     apt install cmake build-essential
     apt install g++-9
     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 90

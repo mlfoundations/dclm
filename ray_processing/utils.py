@@ -32,8 +32,12 @@ def get_source_ref(source_ref_path):
 
 
 def count_tokens(manifest_url, seqlen=2049):
-    with S3Path(manifest_url).open("r") as f:
-        manifest = [json.loads(line) for line in f]
+    try:
+        with S3Path(manifest_url).open("r") as f:
+            manifest = [json.loads(line) for line in f]
+    except Exception:
+        with open(manifest_url, "r") as f:
+            manifest = [json.loads(line) for line in f]
     num_tokens = sum(int(line["num_sequences"]) for line in manifest) * seqlen
     return num_tokens
 
@@ -67,7 +71,7 @@ def generate_untokenized_dataset_json(args, source_refs, base_output_path, data_
         "tokenized": False,
         "tokenizer": None,
         "num_tokens": None,
-        "size": get_s3_dir_size(args.output_dir),
+        # "size": get_s3_dir_size(args.output_dir),
         "dcnlp_commit_hash": dcnlp_commit_hash,
         "dcnlp_diff": dcnlp_diff,
         "data_key": data_key,
@@ -99,7 +103,7 @@ def generate_tokenized_dataset_json(args, source_refs, data_key="json.gz"):
         "tokenized": True,
         "tokenizer": args.tokenizer,
         "num_tokens": count_tokens(manifest_url, args.seqlen + 1),
-        "size": get_s3_dir_size(args.output),
+        # "size": get_s3_dir_size(args.output),
         "dcnlp_commit_hash": dcnlp_commit_hash,
         "dcnlp_diff": dcnlp_diff,
         "data_key": data_key,

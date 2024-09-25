@@ -60,7 +60,7 @@ def add_tokenize_shuffle_args(parser):
 
 def main(args, dcnlp_arg_names):
     # Before proceeding with tokenization, make sure that an existing json won't be overwritten
-    json_path = f"exp_data/datasets/tokenized/{args.readable_name}.json"
+    json_path = os.path.abspath(f"dclm/exp_data/datasets/tokenized/{args.readable_name}.json")
     if not args.overwrite:
         assert not os.path.exists(
             json_path
@@ -104,7 +104,7 @@ def main(args, dcnlp_arg_names):
         json.dump(dataset_json, ref_file, indent=4)
     out_json_path = f"{args.output}/{pathlib.Path(args.output).name}.json"
     print(f"moving dataset json to {out_json_path}")
-    os.system(f"aws s3 cp {json_path} {out_json_path}")
+    os.system(f"cp {json_path} {out_json_path}")
 
 
 if __name__ == "__main__":

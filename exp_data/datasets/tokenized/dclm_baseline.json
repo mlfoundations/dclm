@@ -1,0 +1,15 @@
+{
+    "uuid": "80c8310f-b1da-4475-bdc5-0ec066ac7e3e",
+    "name": "dclm_baseline",
+    "creation_date": "2024_09_25-14_23_42",
+    "dataset_url": "/home/morg/dataset/knowledge_analysis_suite_tokenized",
+    "manifest_url": "/home/morg/dataset/knowledge_analysis_suite_tokenized/manifest.jsonl",
+    "sources": [],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 16392,
+    "dcnlp_commit_hash": "fc0d67cef8bd0d5bd9315ba587e531df8fe84c56",
+    "dcnlp_diff": "diff --git a/dclm b/dclm\n--- a/dclm\n+++ b/dclm\n@@ -1 +1 @@\n-Subproject commit d615fdd1a5dc1c9455a45229d3895917b69854d4\n+Subproject commit d615fdd1a5dc1c9455a45229d3895917b69854d4-dirty",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

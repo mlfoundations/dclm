@@ -28,7 +28,7 @@ cargo run --release bff \
    --min-ngram-size 13 \
    --max-ngram-size 13 \
    --filtering-threshold 0.8 \
-   --remove-type naive-both \
+   --remove-type old-both \
    --annotate 
 ```
 

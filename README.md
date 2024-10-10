@@ -1,22 +1,22 @@
 # DataComp-LM (DCLM)
 
 ## Table of Contents
-- [DataComp-LM (DCLM)](#datacomp-lm-dclm)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Leaderboard](#leaderboard)
-  - [Getting Started](#getting-started)
-  - [Selecting Raw Sources](#selecting-raw-sources)
-  - [Processing the Data](#processing-the-data)
-  - [Deduplication](#deduplication)
-  - [Tokenize and Shuffle](#tokenize-and-shuffle)
-  - [Model Training](#model-training)
-  - [Evaluation](#evaluation)
-  - [Submission](#submission)
-  - [Contributing](#contributing)
-  - [Model Finetuning](#model-finetuning)
-  - [How to Cite Us](#how-to-cite-us)
-  - [License](#license)
+- [Introduction](#introduction)
+- [Leaderboard](#leaderboard)
+- [Getting Started](#getting-started)
+- [Selecting Raw Sources](#selecting-raw-sources)
+- [Processing the Data](#processing-the-data)
+- [Deduplication](#deduplication)
+- [Tokenize and Shuffle](#tokenize-and-shuffle)
+- [Model Training](#model-training)
+- [Evaluation](#evaluation)
+- [Submission](#submission)
+- [Contributing](#contributing)
+- [Downloading Artifacts](#downloading-artifacts)
+  - [Datasets](#datasets)
+  - [Pretrained Models](#pretrained-models)
+- [How to Cite Us](#how-to-cite-us)
+- [License](#license)
 
 ## Introduction
 
@@ -133,9 +133,63 @@ To process raw data, follow these steps:
     ```bash
     ray up <your_cluster_config>
     ```
-    where ```<your_cluster_config>``` is a cluster configuration script that depends on your specific use case. We invite the reader to go over the [Ray documentation](https://docs.ray.io/en/latest/cluster/vms/references/ray-cluster-cli.html) for instructions on how to create this config file.
+    where ```<your_cluster_config>``` is a cluster configuration script that depends on your specific use case. We invite the reader to go over the [Ray documentation](https://docs.ray.io/en/latest/cluster/vms/references/ray-cluster-cli.html) for details on how to create this config file.
 
     **Important**: When using EC2 instances, make sure to tear down your cluster after your job finishes, so as to not incur unnecessary costs!
+
+    A sample config file can be seen here (make sure to adapt to your needs):
+
+    ```yaml
+    cluster_name: test-processing
+    max_workers: 2
+    upscaling_speed: 1.0
+    available_node_types:
+        ray.head.default:
+            resources: {}
+            node_config:
+                ImageId: ami-0c5cce1d70efb41f5
+                InstanceType: i4i.4xlarge
+                IamInstanceProfile:
+                    # Replace 000000000000 with your IAM account 12-digit ID
+                    Arn: arn:aws:iam::000000000000:instance-profile/ray-autoscaler-v1
+        ray.worker.default:
+            min_workers: 2
+            max_workers: 2
+            node_config:
+                ImageId: ami-0c5cce1d70efb41f5
+                InstanceType: i4i.4xlarge
+                IamInstanceProfile:
+                    # Replace 000000000000 with your IAM account 12-digit ID
+                    Arn: arn:aws:iam::000000000000:instance-profile/ray-autoscaler-v1
+
+    # Cloud-provider specific configuration.
+    provider:
+        type: aws
+        region: us-west-2
+        cache_stopped_nodes: False
+
+    setup_commands:
+        - sudo mkfs -t xfs /dev/nvme1n1
+        - sudo mount /dev/nvme1n1 /tmp
+        - sudo chown -R $USER /tmp
+        - sudo chmod -R 777 /tmp
+        - wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.3.1-0-Linux-x86_64.sh -O miniconda.sh
+        - bash ~/miniconda.sh -f -b -p /tmp/miniconda3/
+        - echo 'export PATH="/tmp/miniconda3/bin/:$PATH"' >> ~/.bashrc
+        # Include your AWS CREDS here
+        - echo 'export AWS_ACCESS_KEY_ID=' >> ~/.bashrc
+        - echo 'export AWS_SECRET_ACCESS_KEY=' >> ~/.bashrc
+        - pip install --upgrade pip setuptools wheel
+        - pip install -U "ray[default] @ https://s3-us-west-2.amazonaws.com/ray-wheels/latest/ray-3.0.0.dev0-cp310-cp310-manylinux2014_x86_64.whl"
+        - pip install boto3==1.26.90
+        - pip install s3fs==2022.11.0
+        - pip install psutil
+        - pip install pysimdjson
+        - pip install pyarrow
+        - git clone https://github.com/mlfoundations/dclm.git
+        - pip install -r dclm/requirements.txt
+        - cd dclm && python3 setup.py install
+    ```
 
 3. **Run the processing script**:
     To run the processing script, in the case of a local cluster, simply run the following command:
@@ -223,69 +277,21 @@ You can now open a pull request to the main repository to share your results wit
 ## Contributing
 We welcome contributions to improve the DCLM framework. Please follow our [contributing guide](contributing.md) for submitting pull requests and reporting issues.
 
-## Model Finetuning
+## Downloading Artifacts
 
-Using the OpenLM library, it is also possible to finetune the models trained with DCLM. This can be done via the following steps:
+### Datasets
 
-- First, create input data as `jsonl` files, with each line being a sample containing two fields: `"instruction"` and `"response"` (so each line of a jsonl file contains at minimum a json object of the form `{"instruction": "Sample Instruction", "response": "Sample response"}`). An example for the OpenMathInstruct dataset can be run with the following commands:
+We provide multiple datasets, both as starting points for each of the competition scales, as well as the results of our processing pipeline.
 
-```bash
-cd finetuning/
-python download_data.py
-```
+- The dataset pools for the competition stages are available at HuggingFace, with different repositories for the [400m-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-400m-1x), [1b-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-1b-1x), [1b-5x](https://huggingface.co/datasets/mlfoundations/dclm-pool-1b-5x), [7b-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-7b-1x) and [7b-2x](https://huggingface.co/datasets/mlfoundations/dclm-pool-7b-2x) scales. All these pools contain raw data and can be processed with the steps outlined above. All of these are subsets of out entire raw pool, [DCLM-pool](https://data.commoncrawl.org/contrib/datacomp/DCLM-pool/index.html), which is available via the CommonCrawl S3 bucket.
 
-- Afterwards, assuming your data is in the directory `finetuning/sft_data/", run the following commands to process the data into the format expected by OpenLM:
+- Our final processed dataset, DCLM-Baseline, is available on Huggingface in both [zstd compressed jsonl](https://huggingface.co/datasets/mlfoundations/dclm-baseline-1.0) and [parquet](https://huggingface.co/datasets/mlfoundations/dclm-baseline-1.0-parquet) formats. The former version is also available on the CommonCrawl S3 bucket, accessed via the instructions [here](https://data.commoncrawl.org/contrib/datacomp/DCLM-baseline/index.html).
 
-```bash
-python preprocess_data.py --input-files "./sft_data/**/*" --output-dir ./sft_data_tokenized/ --num-workers 1 --num-consumers 1
-python -m open_lm.utils.make_wds_manifest --data-dir ./sft_data_tokenized/2048-v1/0 --tmp-dir tmp --num-workers 16
-```
+- We also provide a version of our dataset that performs all the steps of our preprocessing except the final one (namely, the fasttext filtering). This version, called DCLM-RefinedWeb, is also available on the CommonCrawl S3 bucket, with instructions available [here](https://data.commoncrawl.org/contrib/datacomp/DCLM-refinedweb/index.html)
 
-- Finally, you can finetune the model by using [OpenLM](https://github.com/mlfoundations/open_lm), by including the following arguments in your OpenLM training command:
+### Pretrained Models
 
-```bash
-...
---squash-mask-left \
---target-mask-individual 50400 \
---target-mask-left 50300 \
-...
-```
-
-An example full command for this is the following:
-```bash
-git clone https://github.com/mlfoundations/open_lm.git
-cd open_lm
-torchrun <additional torchrun options> open_lm/main.py \
-    --dataset-manifest ../sft_data_tokenized/manifest.jsonl \
-    --epochs 20 \
-    --fsdp \
-    --fsdp-amp \
-    --fsdp-limit-all-gathers \
-    --global-batch-size 1024 \
-    --grad-checkpointing \
-    --grad-clip-norm 1 \
-    --log-every-n-steps 100 \
-    --logs <path to logs> \
-    --lr 2e-05 \
-    --lr-cooldown-end 5e-06 \
-    --model training/open_lm_configs/open_lm_1b_swiglutorch.json \
-    --model-norm gain_only_lp_layer_norm \
-    --multiple-data-passes \
-    --name <experiment name> \
-    --precision amp_bfloat16 \
-    --pretrained <path to pretrained checkpoint> \
-    --qk-norm \
-    --report-to wandb \
-    --seed 124 \
-    --squash-mask-left \
-    --target-mask-individual 50400 \
-    --target-mask-left 50300 \
-    --train-num-samples <number of training tokens per epoch> \
-    --warmup 1738 \
-    --wd 0.1 \
-    --workers 1
-```
-
+We provide links to models pretrained using our dataset via the DCLM collection on Huggingface, found [here](https://huggingface.co/collections/mlfoundations/dclm-669938432ef5162d0d0bc14b). These models can be downloaded and evaluated using the OpenLM library.
 
 ## How to Cite Us
 

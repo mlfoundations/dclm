@@ -61,6 +61,9 @@ Below are comparisions of our model with others in the 7B regime.
 | Phi-3         | 7B     | ?      | ✗             | **61.0** | 69.9     | **57.9** |
 | **Open weights, open datasets** |        |        |               |          |          |          |
 | Falcon        | 7B     | 1T     | ✓             | 44.1     | 27.4     | 25.1     |
+| Amber         | 7B     | 1.2T   | ✓             | 39.8     | 27.9     | 22.3     |
+| Crystal       | 7B     | 1.2T   | ✓             | 48.0     | 48.2     | 33.2     |
+| Falcon        | 7B     | 1T     | ✓             | 44.1     | 27.4     | 25.1     |
 | OLMo-1.7      | 7B     | 2.1T   | ✓             | 47.0     | 54.0     | 34.2     |
 | MAP-Neo       | 7B     | 4.5T   | ✓             | **50.2** | **57.1** | **40.4** |
 | **Models we trained** |        |        |               |          |          |          |

@@ -118,8 +118,8 @@ def process_single_file(config_data: Dict[str, Any], raw_data_dirpath: str, json
         else:
             logger.info(f"Stats file {stats_output_path} already exists, loading.")
             old_stats = list(read_jsonl(stats_output_path))
-            # TODO - we could simply count '\n' to know how many lines to skip and not read the whole thing,
-            #  but this is more robust and less error prone
+            # Note - we could simply count '\n' to know how many lines to skip and not read the whole thing,
+            # but this is more robust and less error-prone
     stats_load_secs = time.time() - t2
     first_run = len(old_stats) == 0  # i.e. not a continuation
     graceful_continuation = len(old_stats) >= 4 and old_stats[-2]['name'] == PROCESS_END_KEY_NAME and \

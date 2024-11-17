@@ -98,11 +98,11 @@ To get started with DCLM, follow these steps:
     We recommend the use of Python 3.10 with DCLM.
 
 ## Selecting Raw Sources
-If you are creating a new source:
+If you are creating a new source (for example, Wikipedia, GitHub, etc.):
 
-- Ensure your data is stored in JSONL format (ideally compressed with zstandard).
-- Key names should be consistent with those in [here](baselines/core/constants.py).
-- Create a reference JSON in [exp_data/datasets/raw_sources](exp_data/datasets/raw_sources).
+- Ensure your data is stored in JSONL format (ideally compressed with zstandard), where each line correspond to single page.
+- Key names in these JSONL should be consistent with those in [here](baselines/core/constants.py).
+- Create a reference JSON in [exp_data/datasets/raw_sources](exp_data/datasets/raw_sources). These act as the ID card for the source, and include key information such as the source of the content, its size and most importantly, where is it stored.
 
 If you are selecting a raw source for downstream processing:
 
@@ -119,6 +119,7 @@ To process raw data, follow these steps:
 
 2. **Set up a Ray cluster**:
     The data processing script relies on Ray for distributed processing of data. This cluster can be either launched on a single node (for small scale data processing) or using AWS EC2 instances.
+    There is also work to [deploy Ray on slurm setups](https://docs.ray.io/en/latest/cluster/vms/user-guides/community/slurm.html), though this effort is still a work-in-progres.
 
     To launch a local cluster, use the following command:
     ```bash
@@ -131,7 +132,7 @@ To process raw data, follow these steps:
     ```
     where ```<your_cluster_config>``` is a cluster configuration script that depends on your specific use case. We invite the reader to go over the [Ray documentation](https://docs.ray.io/en/latest/cluster/vms/references/ray-cluster-cli.html) for instructions on how to create this config file.
 
-    **Important**: When using EC2 instances, make sure to tear down your cluster after your job finishes, so as to not incur unnecessary costs!
+    **Important**: When using EC2 instances, make sure to tear down your cluster after your job finishes, so as not to incur unnecessary costs!
 
 3. **Run the processing script**:
     To run the processing script, in the case of a local cluster, simply run the following command:
@@ -230,7 +231,7 @@ cd finetuning/
 python download_data.py
 ```
 
-- Afterwards, assuming your data is in the directory `finetuning/sft_data/", run the following commands to process the data into the format expected by OpenLM:
+- Afterward, assuming your data is in the directory `finetuning/sft_data/", run the following commands to process the data into the format expected by OpenLM:
 
 ```bash
 python preprocess_data.py --input-files "./sft_data/**/*" --output-dir ./sft_data_tokenized/ --num-workers 1 --num-consumers 1

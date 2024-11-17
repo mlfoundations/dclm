@@ -73,21 +73,31 @@ This will have the following effect:
 
 ## Example YAML Configuration for Processing
 
-Below is an example of a YAML configuration file that defines a sequence of processing steps:
+Below is an example of a YAML configuration file that defines a sequence of processing steps, that will be applied to inputs from the raw source cc_april_2019 (common crawl dump of April 2019).
+Note - the source name is user-defined, and is used by [process_single_file](core/processor.py) to use the correct pipeline from a config file. A single config file can have different processing pipelines for different sources (e.g., common crawl, GitHub, Arxiv etc.).
 
 ```yaml
-pipeline:
-  - name: lowercase
-    type: mapper
-  - name: remove_html
-    type: mapper
-  - name: filter_length
-    type: filter
-    params:
-      min_length: 100
-  - name: enrich_language_id
-    type: enricher
+- source: cc_april_2019
+  steps:
+    - func: key_name_modifier  #  Changes the name of a key in a page dictionary
+      old_key: content
+      new_key: text
+    - func: page_length_filter  # Filters the input JSON object based on the length of the CONTENT field.
+      length_type: char
+      max_length: 190000
+    - func: word_length_modifier # Remove lines where the word with the largest length goes strictly over max_length. 
+      max_length: 1000
+      model: split
+    - func: detect_lang_whole_page_enricher  # classify inputs' languages and store it under language_id_whole_page_{model}
+      model: langdetect
+      key_prefix: language_id_whole_page
+    - func: language_filter  # removes lines where the classification probability of the content to be english is less than 0.99
+      key: language_id_whole_page_langdetect
+      keep_languages: [ en ]
+      threshold: 0.99
 ```
+
+For a full example of our reproduction of C4, see this [pipeline](baselines_configs/c4.yaml).
 
 ## Using Custom Mappers
 By default, the pipeline configuration YAML can reference any mapper defined under [mappers](mappers), as detailed
@@ -113,20 +123,20 @@ cd dcnlp
 export PYTHONPATH=$(pwd)
 python3 ray_processing/process.py \
   --source_ref_paths exp_data/datasets/raw_sources/CC_WET_april_2019.json \
-  --readable_name c4_v4 \
+  --readable_name c4 \
   --output_dir s3://dcnlp-west/cc_wet_2019_april_baselines/c4_v4/ \
   --config_path baselines/baselines_configs/c4.yaml \
   --source_name cc_april_2019
 ```
 **Important Arguments**:
 
- - source_ref_paths: Path to reference JSON for a particular source.
- - readable_name: Fills in the “name” field in the output JSON.
- - output_dir: Path on S3 folder which will store the processed JSONLs.
- - config_path: Path to the YAML specifying the desired processing steps.
- - source_name: Which source in the config_path YAML file to process.
+ - source_ref_paths: Path to reference JSON for a particular source. This json contains information about the source of the data, and where it is located. [Example](../exp_data/datasets/raw_sources/CC_WET_april_2019.json).
+ - readable_name: Fills in the “name” field in the output JSON of the untokenized data. For example, [here](../exp_data/datasets/tokenized/c4_original.json) is the json file for a c4 reproduction, after it was tokenized.
+ - output_dir: Path on S3 folder which will store the processed JSONL files (i.e. each input JSONL file that contains mlutiple pages from the raw source will be transformed to a processed JSONL file with a mirroring hierarchy, under this root dir).
+ - config_path: Path to the YAML specifying the desired processing steps. For example, see the [config to reproduce C4](baselines_configs/c4.yaml).
+ - source_name: Which source in the config_path YAML file to process. As mentioned above, this user defined key tells the processor which pipeline in the yaml config to use.
 
-When processing a single shard (a jsonl file with multiple pages), the output result will be stored as a 
+When processing a single shard (a JSONL file with multiple pages), the output result will be stored as a 
 corresponding jsonl file with the same name and same relative path to the output dir as the input json to the source 
 root, with a `_processed` suffix in the name.
 Additionally, each processed shard will have corresponding `_stats.jsonl` file which will contain information on 
@@ -136,6 +146,8 @@ This file also allows to continue processing a shard if it was interrupted in th
 When processing multiple shards, there will also be computed a global_stats file that will merge the stats of all shards.
 
 ## Setting Up a Ray Cluster
+
+Additional instructions on how to deploy Ray on different setups can be found [here](../README.md#processing-the-data)
 
 ### Modify Cluster Config File
 

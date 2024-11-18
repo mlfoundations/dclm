@@ -1,4 +1,4 @@
-Developed by Matt Jordan 2024 [github.com/revbucket/](github.com/revbucket/)
+Developed by Matt Jordan [revbucket](https://github.com/revbucket/) 2024 
 
 # Tokenize/Shuffle
 

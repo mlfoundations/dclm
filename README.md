@@ -240,8 +240,9 @@ While the code supports reading from and writing to AWS, it is sometimes unrelia
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
 bash rustup.sh -y
 source ~/.bashrc
-git clone https://github.com/revbucket/tokshuf-rust.git
-cd tokshuf-rust
+
+# from DCLM folder
+cd rust_processing/tokshuf-rs
 cargo build --release
 
 # if needed, copy dataset from s3 to local
@@ -261,8 +262,9 @@ Example command:
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
 bash rustup.sh -y
 source ~/.bashrc
-git clone https://github.com/revbucket/tokshuf-rust.git
-cd tokshuf-rust
+
+# from DCLM folder
+cd rust_processing/tokshuf-rs
 cargo build --release
 
 aws s3 cp --recursive s3://commoncrawl/contrib/datacomp/DCLM-baseline/global-shard_03_of_10/local-shard_1_of_10/ dclm_local
@@ -416,8 +418,7 @@ After running the below command, typically you would need to create a dataset js
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
 bash rustup.sh -y
 source ~/.bashrc
-git clone https://github.com/revbucket/tokshuf-rust.git
-pushd tokshuf-rust
+pushd rust_processing/tokshuf-rs
 cargo build --release
 
 aws s3 cp --recursive s3://commoncrawl/contrib/datacomp/DCLM-baseline/global-shard_03_of_10/local-shard_1_of_10/ dclm_local

@@ -404,10 +404,6 @@ git clone https://github.com/mlfoundations/DCLM.git
 cd DCLM
 export PYTHONPATH="$(pwd):$PYTHONPATH"
 
-apt install cmake build-essential
-apt install g++-9
-update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 90
-
 pip install -r requirements.txt
 ```
 

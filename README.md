@@ -308,12 +308,13 @@ To train a model using the tokenized dataset:
 
 1. **Run the training script**:
     ```bash
-    torchrun --nproc-per-node <num_gpus> -m training.train --scale <scale> --data-config <tokenized_json> --logs <log_dir> [--remote-sync <s3_bucket>] [--report-to-wandb] [--num-checkpoints checkpoints] [--multiple-data-passes] [--acc 4] [--torchcompile]
+    torchrun --nproc-per-node <num_gpus> -m training.train -- --scale <scale> --data-config <tokenized_json> --logs <log_dir> --attn-name torch_attn [--remote-sync <s3_bucket>] [--report-to-wandb] [--num-checkpoints checkpoints] [--multiple-data-passes] [--acc 4] [--torchcompile]
     ```
     Argument explanations:
     - scale can be found in training/configs (do not include path and .json)
     - data-config is dataset in exp_data: exp_data/datasets/tokenized (include path and .json)
     - logs is where you want local logs to be written
+    - attn-name specifies the attention implementation (torch_attn recommended)
     - remote-sync is where the checkpoints are written to on s3
     - report-to-wandb logs to wandb
     - num-checkpoints sets number of checkpoints to save, best effort and may not be actually this number
@@ -323,7 +324,7 @@ To train a model using the tokenized dataset:
 
     Example command:
    ```bash
-    torchrun --nproc-per-node 8 -m training.train --scale 1b_1x_fast --data-config exp_data/datasets/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_try3_100_nodes.json --logs rw_training_local_logs --torchcompile
+    torchrun --nproc-per-node 8 -m training.train -- --scale 1b_1x_fast --data-config exp_data/datasets/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_try3_100_nodes.json --logs rw_training_local_logs --attn-name torch_attn --torchcompile
     ```
    Note that this example will not work until you change the dataset_url and manifest_url in exp_data/datasets/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_try3_100_nodes.json.
    
@@ -436,7 +437,7 @@ popd
 ### Training
 data-config comes from the json created (manually for rust code, automatically for ray) after tokenize shuffle.
 ```bash
-torchrun --nproc-per-node 8 -m training.train --scale 1b_1x_fast --data-config exp_data/datasets/tokenized/dclm_gs3_ls1_rs_tokshuf.json --logs dclm_rs_tokshuf_training_local_logs --torchcompile
+torchrun --nproc-per-node 8 -m training.train -- --scale 1b_1x_fast --data-config exp_data/datasets/tokenized/dclm_gs3_ls1_rs_tokshuf.json --logs dclm_rs_tokshuf_training_local_logs --attn-name torch_attn --torchcompile
 ```
 
 ### Evaluation

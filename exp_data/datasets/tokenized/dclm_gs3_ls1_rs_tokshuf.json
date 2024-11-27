@@ -1,0 +1,16 @@
+{
+    "uuid": "2a35aa40-5f25-48b7-b6de-d00b37e1b041",
+    "name": "dclm_gs3_ls1_rs_tokshuf",
+    "creation_date": "2024_11_18-02_20_56",
+    "dataset_url": "rust_processing/tokshuf-rs/dclm_tokshuf/",
+    "manifest_url": "rust_processing/tokshuf-rs/dclm_tokshuf/manifest.jsonl",
+    "sources": [],
+    "tokenized": true,
+    "tokenizer": "EleutherAI/gpt-neox-20b",
+    "num_tokens": 38554238076,
+    "size": 79965184000,
+    "dcnlp_commit_hash": "",
+    "dcnlp_diff": "",
+    "data_key": "json.gz",
+    "sampling_yaml": null
+}

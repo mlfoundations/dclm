@@ -24,10 +24,10 @@
 
 DCLM enables researchers to experiment with various dataset construction strategies across different compute scales, from 411M to 7B parameter models. Our baseline experiments show significant improvements in model performance through optimized dataset design.
 
-Already, DCLM has enabled the creation of several high quality datasets that perform well across scales and outperform all open datasets.
+Already, DCLM has enabled the creation of several high-quality datasets that perform well across scales and outperform all open datasets.
 ![Accuracy vs compute tradeoff](assets/acc_vs_flops-1.png)
 <p align="center">
-  <em><b>Developing datasets for better models that are cheaper to train.</b> Using DataComp-LM, we develop a high-quality dataset, DCLM-BASELINE, which we use to train models with strong compute performance tradeoffs. We compare on both a Core set of tasks (left) and on MMLU 5-shot (right). DCLM-BASELINE (orange) shows favorable performance relative to both close-source models (crosses) and other open-source datasets and models (circles).</em>
+  <em><b>Developing datasets for better models that are cheaper to train.</b> Using DataComp-LM, we develop a high-quality dataset, DCLM-BASELINE, which we use to train models with strong compute performance tradeoffs. We compare on both a Core set of tasks (left) and on MMLU 5-shot (right). DCLM-BASELINE (orange) shows favorable performance relative to both closed-source models (crosses) and other open-source datasets and models (circles).</em>
 </p>
 
 **Submission workflow**:
@@ -271,7 +271,7 @@ Evaluate trained models using the following methods:
     ```
 
 ## Submission
-When you finished training and evaluating your model, a model eval json file has been generated and is at [exp_data/evals](exp_data/evals). 
+When you finish training and evaluating your model, a model eval JSON file has been generated and is at [exp_data/evals](exp_data/evals). 
 You can now open a pull request to the main repository to share your results with the team and submit it to the leaderboard.
 
 ## Contributing
@@ -299,13 +299,13 @@ If you use our dataset or models in your research, please cite us as follows:
 
 ```bibtex
 @article{li2024datacomplm,
-      title={DataComp-LM: In search of the next generation of training sets for language models}, 
+      title={DataComp-LM: In search of the next generation of training sets for language models},
       author={Jeffrey Li and Alex Fang and Georgios Smyrnis and Maor Ivgi and Matt Jordan and Samir Gadre and Hritik Bansal and Etash Guha and Sedrick Keh and Kushal Arora and Saurabh Garg and Rui Xin and Niklas Muennighoff and Reinhard Heckel and Jean Mercat and Mayee Chen and Suchin Gururangan and Mitchell Wortsman and Alon Albalak and Yonatan Bitton and Marianna Nezhurina and Amro Abbas and Cheng-Yu Hsieh and Dhruba Ghosh and Josh Gardner and Maciej Kilian and Hanlin Zhang and Rulin Shao and Sarah Pratt and Sunny Sanyal and Gabriel Ilharco and Giannis Daras and Kalyani Marathe and Aaron Gokaslan and Jieyu Zhang and Khyathi Chandu and Thao Nguyen and Igor Vasiljevic and Sham Kakade and Shuran Song and Sujay Sanghavi and Fartash Faghri and Sewoong Oh and Luke Zettlemoyer and Kyle Lo and Alaaeldin El-Nouby and Hadi Pouransari and Alexander Toshev and Stephanie Wang and Dirk Groeneveld and Luca Soldaini and Pang Wei Koh and Jenia Jitsev and Thomas Kollar and Alexandros G. Dimakis and Yair Carmon and Achal Dave and Ludwig Schmidt and Vaishaal Shankar},
       year={2024},
       journal={arXiv preprint arXiv:2406.11794}
 }
 ```
-When using DCLM evaluation suite, please make sure to cite all the original evaluation papers. [evaluation_bibtex](bib/evalutaion.bib).
+When using the DCLM evaluation suite, please make sure to cite all the original evaluation papers. [evaluation_bibtex](bib/evalutaion.bib).
 
 When using DCLM for training, please make sure to cite the main training framework dependencies as well. [training_bibtex](bib/training.bib).
 

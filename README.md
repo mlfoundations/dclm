@@ -8,9 +8,9 @@
   - [Selecting Raw Sources](#1-selecting-raw-sources)
   - [Processing the Data](#2-processing-the-data)
     - [Deduplication](#deduplication)
-  - [Tokenize and Shuffle](#tokenize-and-shuffle)
-  - [Model Training](#model-training)
-  - [Evaluation](#evaluation)
+  - [Tokenization and Shuffling](#3-tokenization-and-shuffling)
+  - [Model Training](#4-model-training)
+  - [Model Evaluation](#5-model-evaluation)
     - [Submission](#submission)
 - [Downloading Artifacts](#downloading-artifacts)
   - [Datasets](#datasets)
@@ -248,7 +248,7 @@ To deduplicate the raw text as we have done in DCLM-Baseline, use the tools prov
 
 We note that the code in [dedup](dedup/)  specifically refers to inter-document fuzzy deduplication, i.e., identifying near-duplicates across documents in the corpus. Tooling built in Ray to identify exact content and URL duplicates is contained in [ray_processing/dedup_jsonl.py](ray_processing/dedup_jsonl.py) (but we do not use this form of dedup in DCLM-Baseline).
 
-## (3) Tokenize and Shuffle
+## (3) Tokenization and Shuffling
 We support rust based and ray based tokenize shuffle. We recommend the rust based approach for most workflows because it is single machine and is more efficient. The ray based approach is still useful for datasets that are too large to be processed on a single machine.
 
 ### Rust Based
@@ -365,7 +365,7 @@ You can expect the following training times per track:
 2. **Monitor and manage your training jobs**:
     Use slurm sbatch scripts or Sagemaker for running experiments on various compute infrastructures.
 
-## (5) Evaluation
+## (5) Model Evaluation
 Evaluation yamls are found in the "eval" folder and they determine which tasks to evaluate. For example, "eval/mmlu_and_lowvar.yaml" contains the tasks to be able to compute the core metric and MMLU, while "eval/heavy.yaml" runs additional tasks so that aggregate can also be computed.
 
 Evaluate trained models using the following methods:

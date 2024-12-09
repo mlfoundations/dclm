@@ -7,6 +7,7 @@
 - [Workflow Overview (and Exp Data)](#workflow-overview-and-exp-data)
   - [Selecting Raw Sources](#1-selecting-raw-sources)
   - [Processing the Data](#2-processing-the-data)
+    - [Ray-based Filtering and Cleaning](#ray-based-filtering-and-cleaning)
     - [Deduplication](#deduplication)
   - [Tokenization and Shuffling](#3-tokenization-and-shuffling)
   - [Model Training](#4-model-training)

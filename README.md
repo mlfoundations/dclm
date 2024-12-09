@@ -121,7 +121,7 @@ For steps after raw source selection, most of our scripts require you to specify
   2. **Training** takes in a relative path to a tokenized dataset JSON to detect the location of the dataset and its corresponding manifest file. A model JSON will be generated.
   3. **Evaluation** can take the uuid of a model to automatically populate most of the evaluation script's arguments. An evaluation JSON will be generated.
 
- If needed (e.g., when setting up a new raw source or when using your own code for data processing), you can manually create a JSON by copying the format of one of the existing files and modifying the relevant fields.  When doing so, it is key to generate a new uuid (i.e., ``python -c "import uuid; print(uuid.uuid4().__str__())"``) to replace the existing one because that is the unique identifier the code uses to identify each JSON. Paths in the JSON may be local as long as they are accessible when the json is used.
+If needed (e.g., when setting up a new raw source or when using your own code for data processing), you can manually create a JSON by copying the format of one of the existing files and modifying the relevant fields.  When doing so, it is key to generate a new uuid (i.e., ``python -c "import uuid; print(uuid.uuid4().__str__())"``) to replace the existing one because that is the unique identifier the code uses to identify each JSON. Paths in the JSON may be local as long as they are accessible when the json is used.
 
 ## (1) Selecting Raw Sources
 

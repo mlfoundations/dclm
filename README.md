@@ -115,7 +115,7 @@ The jsons get used in the following way:
 If you are creating and registering a new source (for example, Wikipedia, GitHub, etc.):
 
 - Ensure your data is stored in JSONL format, ideally compressed with zstandard (though uncompressed or gzip-compressed files will also work), where each line corresponds to a single page/document.
-- Key names in these JSONL should be consistent with those in [here](baselines/core/constants.py). Most importantly, there should be a ``"text"`` key for each line that contains the acftual content of the page.
+- Each row in these JSONL files corresponds to a document. Each row should contain keys consistent with those in [here](baselines/core/constants.py), and at minimum should contain a ``"text"`` key that contains the actual content of the page.
 - Create a reference JSON in [exp_data/datasets/raw_sources](exp_data/datasets/raw_sources). These act as the ID card for the source, and include key information such as the source of the content, its size and most importantly, where is it stored.
 
 If you are selecting a raw source for downstream processing:

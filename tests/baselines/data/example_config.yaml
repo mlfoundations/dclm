@@ -1,5 +1,4 @@
 - source: mock_data
-  weight: 1.0
   steps:
     - func: detect_lang_whole_page_enricher
       model: langdetect

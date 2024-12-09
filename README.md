@@ -22,7 +22,7 @@
 
 ## Introduction
 
-[DataComp-LM (DCLM)](https://datacomp.ai/dclm/) is a comprehensive framework designed for building and training large language models (LLMs) with diverse datasets. It offers a standardized corpus of over 300T unfiltered tokens from CommonCrawl, effective pretraining recipes based on the open_lm framework, and an extensive suite of over 50 evaluations. This repository provides tools and guidelines for processing raw data, tokenizing, shuffling, training models, and evaluating their performance. 
+[DataComp-LM (DCLM)](https://datacomp.ai/dclm/) is a comprehensive framework designed for building and training large language models (LLMs) with diverse datasets. It offers a standardized corpus of over 300T unfiltered tokens from CommonCrawl, effective pretraining recipes based on the open_lm framework, and an extensive suite of over 50 evaluations. This repository provides tools and guidelines for processing raw data, tokenizing, shuffling, training models, and evaluating their performance.
 
 DCLM enables researchers to experiment with various dataset construction strategies across different compute scales, from 411M to 7B parameter models. Our baseline experiments show significant improvements in model performance through optimized dataset design.
 
@@ -33,12 +33,12 @@ Already, DCLM has enabled the creation of several high-quality datasets that per
 </p>
 
 **Submission workflow**:
-* **(A)** A participant chooses a scale, where larger scales reflect more target training tokens and/or model parameters. 
-The smallest scale is 400m-1x, a 400m parameter model trained compute optimally (1x), and the largest scale is 7B-2x, a 7B parameter model trained with twice the tokens required for compute optimallity. 
+* **(A)** A participant chooses a scale, where larger scales reflect more target training tokens and/or model parameters.
+The smallest scale is 400m-1x, a 400m parameter model trained compute optimally (1x), and the largest scale is 7B-2x, a 7B parameter model trained with twice the tokens required for compute optimallity.
 
 * **(B)** A participant filters a pool of data (filtering track) or mixes data of their own (bring your own data track) to create a dataset.
 
-* **(C)** Using the curated dataset, a participant trains a language model, with standardized training code and scale-specific hyperparameters, which is then 
+* **(C)** Using the curated dataset, a participant trains a language model, with standardized training code and scale-specific hyperparameters, which is then
 
 * **(D)** evaluated on 53 downstream tasks to judge dataset quality.
 ![Workflow](assets/workflow_dclm.png)
@@ -100,7 +100,7 @@ To get started with DCLM, follow these steps:
 3. **Set up your environment**:
     DCLM uses AWS for storage and possible as a compute backend, and ray for distributed processing.
     Ensure you have the necessary environment variables and configurations for AWS and Ray clusters.
-    
+
     We recommend the use of Python 3.10 with DCLM.
 
 ## Exp Data
@@ -110,28 +110,30 @@ The jsons get used in the following way:
   1. Training takes in a relative path to the tokenized dataset's json to detect the data location and the manifest file.
   2. Evaluation can take the uuid of a model to automatically populate most of the evaluation script's arguments.
 
-## Selecting Raw Sources
-If you are creating a new source:
 
-- Ensure your data is stored in JSONL format (ideally compressed with zstandard).
-- Key names should be consistent with those in [here](baselines/core/constants.py).
-- Create a reference JSON in [exp_data/datasets/raw_sources](exp_data/datasets/raw_sources).
+## Selecting Raw Sources
+If you are creating and registering a new source (for example, Wikipedia, GitHub, etc.):
+
+- Ensure your data is stored in JSONL format, ideally compressed with zstandard (though uncompressed or gzip-compressed files will also work), where each line corresponds to a single page/document.
+- Each row in these JSONL files corresponds to a document. Each row should contain keys consistent with those in [here](baselines/core/constants.py), and at minimum should contain a ``"text"`` key that contains the actual content of the page.
+- Create a reference JSON in [exp_data/datasets/raw_sources](exp_data/datasets/raw_sources). These act as the ID card for the source, and include key information such as the source of the content, its size and most importantly, where is it stored.
 
 If you are selecting a raw source for downstream processing:
 
-- Identify the raw source you intend to use, which corresponds to a dataset reference (i.e., a JSON in [raw_sources](exp_data/datasets/raw_sources).
+- Identify the raw source you intend to use, which corresponds to a dataset reference (i.e., a JSON in [raw_sources](exp_data/datasets/raw_sources)).
 - The reference JSON contains the URL to the actual data and other metadata used as input for downstream processing.
 
 ## Processing the Data
-To process raw data, follow these steps:
+Given a raw dataset, this is the key step in which you as a participant apply your own custom data curation strategies. For instance, to get started, you can use our data processing scripts and choose from various filtering and deduplication operations implemented in our codebase. If you do wish to use our scripts, this involves the following steps:
 
 1. **Define a set of processing steps**:
     Create a pipeline config YAML file specifying the operations.
-    See our [reproduction of C4 for example](baselines/baselines_configs/c4.yaml). 
+    See our [reproduction of C4 for example](baselines/baselines_configs/c4.yaml).
     Further details on defining a pipeline can be found [here](baselines/README.md).
 
 2. **Set up a Ray cluster**:
     The data processing script relies on Ray for distributed processing of data. This cluster can be either launched on a single node (for small scale data processing) or using AWS EC2 instances.
+    There is also work to [deploy Ray on slurm setups](https://docs.ray.io/en/latest/cluster/vms/user-guides/community/slurm.html), though this effort is still a work-in-progres.
 
     To launch a local cluster, use the following command:
     ```bash
@@ -144,7 +146,7 @@ To process raw data, follow these steps:
     ```
     where ```<your_cluster_config>``` is a cluster configuration script that depends on your specific use case. We invite the reader to go over the [Ray documentation](https://docs.ray.io/en/latest/cluster/vms/references/ray-cluster-cli.html) for details on how to create this config file.
 
-    **Important**: When using EC2 instances, make sure to tear down your cluster after your job finishes, so as to not incur unnecessary costs!
+    **Important**: When using EC2 instances, make sure to tear down your cluster with ``ray down <your_cluster_config>`` after your job finishes, so as not to incur unnecessary costs!
 
     A sample config file can be seen here (make sure to adapt to your needs):
 
@@ -221,7 +223,7 @@ To process raw data, follow these steps:
    You can track the progress of data processing via the `global_stats.jsonl` file in the output directory. After the job finishes, you can tear down your cluster via `ray stop` (in the local cluster case) or `ray down <your_cluster_config>` (in the AWS EC2 case). **THIS IS VERY IMPORTANT TO NOT INCUR ADDITIONAL COSTS WHEN USING EC2!**
 
 ## Deduplication
-To deduplicate the raw text as we have done in DCLM-Baseline, use the tools provided in the [dedup](dedup/) subdirectory. Here we include several rust tools for deduplication, but we recommend using BFF, located in [dedup/bff](dedup/bff). Specific instructions to run deduplication are contained in the readme in each of the directories containing the rust tools. 
+To deduplicate the raw text as we have done in DCLM-Baseline, use the tools provided in the [dedup](dedup/) subdirectory. Here we include several rust tools for deduplication, but we recommend using BFF, located in [dedup/bff](dedup/bff). Specific instructions to run deduplication are contained in the readme in each of the directories containing the rust tools.
 
 We note that the code in [dedup](dedup/)  specifically refers to inter-document fuzzy deduplication, i.e., identifying near-duplicates across documents in the corpus. Tooling built in Ray to identify exact content and URL duplicates is contained in [ray_processing/dedup_jsonl.py](ray_processing/dedup_jsonl.py) (but we do not use this form of dedup in DCLM-Baseline).
 
@@ -310,6 +312,7 @@ To train a model using the tokenized dataset:
     ```bash
     torchrun --nproc-per-node <num_gpus> -m training.train -- --scale <scale> --data-config <tokenized_json> --logs <log_dir> --attn-name torch_attn [--remote-sync <s3_bucket>] [--report-to-wandb] [--num-checkpoints checkpoints] [--multiple-data-passes] [--acc 4] [--torchcompile]
     ```
+    
     Argument explanations:
     - scale can be found in training/configs (do not include path and .json)
     - data-config is dataset in exp_data: exp_data/datasets/tokenized (include path and .json)
@@ -327,7 +330,6 @@ To train a model using the tokenized dataset:
     torchrun --nproc-per-node 8 -m training.train -- --scale 1b_1x_fast --data-config exp_data/datasets/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_try3_100_nodes.json --logs rw_training_local_logs --attn-name torch_attn --torchcompile
     ```
    Note that this example will not work until you change the dataset_url and manifest_url in exp_data/datasets/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_try3_100_nodes.json.
-   
    
 You can expect the following training times per track:
 
@@ -372,6 +374,7 @@ We also support evaluation on existing huggingface models:
 
 ## Submission
 When you finish training and evaluating your model, a model eval JSON file has been generated and is at [exp_data/evals](exp_data/evals). 
+
 You can now open a pull request to the main repository to share your results with the team and submit it to the leaderboard.
 
 ## Contributing

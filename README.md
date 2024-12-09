@@ -105,7 +105,7 @@ To get started with DCLM, follow these steps:
 
 ## Workflow Overview and Exp Data
 
-At a high-level, the DCLM workflow consists of five main steps: (1) raw source selection; (2) data processing; (3) tokenization and shuffling; (4) model training; (5) model evaluation. To be eligible for our leaderboards, you are required to use our scripts for steps (3)-(5).
+At a high-level, the DCLM workflow consists of five main steps: (1) raw source selection; (2) data processing; (3) tokenization and shuffling; (4) model training; (5) model evaluation. To be eligible for our leaderboards, you are required to use our scripts for steps (3)-(5). For data processing, you are welcome to use and/or build upon our code, but are also free to perfrom this step with your own implementation.
 
 To help keep track of and run experiments, this repository uses the [exp_data](exp_data) folder to log a record of the inputs and outputs of these steps (e.g., datasets created, models trained, and evaluations finished). Each record is called a "reference JSON" and can be thought of as an ID card for a particular input or output asset. Overall, there are four categories of reference JSONs:
 
@@ -336,7 +336,7 @@ To train a model using the tokenized dataset:
     ```bash
     torchrun --nproc-per-node <num_gpus> -m training.train -- --scale <scale> --data-config <tokenized_json> --logs <log_dir> --attn-name torch_attn [--remote-sync <s3_bucket>] [--report-to-wandb] [--num-checkpoints checkpoints] [--multiple-data-passes] [--acc 4] [--torchcompile]
     ```
-    
+
     Argument explanations:
     - scale can be found in training/configs (do not include path and .json)
     - data-config is dataset in exp_data: exp_data/datasets/tokenized (include path and .json)
@@ -412,7 +412,7 @@ We provide multiple datasets, both as starting points for each of the competitio
 
 - Our final processed dataset, DCLM-Baseline, is available on Huggingface in both [zstd compressed jsonl](https://huggingface.co/datasets/mlfoundations/dclm-baseline-1.0) and [parquet](https://huggingface.co/datasets/mlfoundations/dclm-baseline-1.0-parquet) formats. The former version is also available on the CommonCrawl S3 bucket, accessed via the instructions [here](https://data.commoncrawl.org/contrib/datacomp/DCLM-baseline/index.html).
 
-- We also provide a version of our dataset that performs all the steps of our preprocessing except the final one (namely, the fasttext filtering). This version, called DCLM-RefinedWeb, is also available on the CommonCrawl S3 bucket, with instructions available [here](https://data.commoncrawl.org/contrib/datacomp/DCLM-refinedweb/index.html). For official competition subsets of DCLM-RefinedWeb, please download the following shards (written in brace notation).
+- We also provide a version of our dataset that performs all the steps of our preprocessing except the final one (namely, the fasttext filtering). This version, called DCLM-RefinedWeb, is also available on the CommonCrawl S3 bucket, with instructions available [here](https://data.commoncrawl.org/contrib/datacomp/DCLM-refinedweb/index.html). For official competition subsets of DCLM-RefinedWeb, please download the following shards (written in brace notation). Unfortunately, ws would do not yet have a fixed subset for the 400M-1x scale currently, as the size for thibe smaller than one local shard, the unit we ran deduplication on.
 
    ```
    # 1B-1x (uses 1 local shard out of the original 100)

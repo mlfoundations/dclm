@@ -1,5 +1,4 @@
 - source: cc
-  weight: 1.0
   steps:
     - func: move_url_modifier   # Necessary because 'url' was not set up in these jsonls, was in page['metadata']['WARC-Target-URI']
     - func: url_substring_filter

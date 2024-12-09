@@ -126,6 +126,7 @@ For steps after raw source selection, most of our scripts require you to specify
 
 ### Filtering Track
 
+
 We provide multiple standardized input pools that serve as starting points for participants to apply their curation strategies. These datasets vary along two key dimensions:
 - Compute scale: 400M-1x, 1B-1x, 3B-1x, 7B-1x, 7B-2x
 - Amount of pre-processing: either DCLM-Pool or DCLM-RefinedWeb
@@ -155,6 +156,7 @@ To process raw data, follow these steps:
 
 2. **Set up a Ray cluster**:
     The data processing script relies on Ray for distributed processing of data. This cluster can be either launched on a single node (for small scale data processing) or using AWS EC2 instances.
+    There is also work to [deploy Ray on slurm setups](https://docs.ray.io/en/latest/cluster/vms/user-guides/community/slurm.html), though this effort is still a work-in-progres.
 
     To launch a local cluster, use the following command:
     ```bash
@@ -167,7 +169,7 @@ To process raw data, follow these steps:
     ```
     where ```<your_cluster_config>``` is a cluster configuration script that depends on your specific use case. We invite the reader to go over the [Ray documentation](https://docs.ray.io/en/latest/cluster/vms/references/ray-cluster-cli.html) for details on how to create this config file.
 
-    **Important**: When using EC2 instances, make sure to tear down your cluster after your job finishes, so as to not incur unnecessary costs!
+    **Important**: When using EC2 instances, make sure to tear down your cluster with ``ray down <your_cluster_config>`` after your job finishes, so as not to incur unnecessary costs!
 
     A sample config file can be seen here (make sure to adapt to your needs):
 
@@ -244,6 +246,7 @@ To process raw data, follow these steps:
    You can track the progress of data processing via the `global_stats.jsonl` file in the output directory. After the job finishes, you can tear down your cluster via `ray stop` (in the local cluster case) or `ray down <your_cluster_config>` (in the AWS EC2 case). **THIS IS VERY IMPORTANT TO NOT INCUR ADDITIONAL COSTS WHEN USING EC2!**
 
 ### Deduplication
+
 To deduplicate the raw text as we have done in DCLM-Baseline, use the tools provided in the [dedup](dedup/) subdirectory. Here we include several rust tools for deduplication, but we recommend using BFF, located in [dedup/bff](dedup/bff). Specific instructions to run deduplication are contained in the readme in each of the directories containing the rust tools.
 
 We note that the code in [dedup](dedup/)  specifically refers to inter-document fuzzy deduplication, i.e., identifying near-duplicates across documents in the corpus. Tooling built in Ray to identify exact content and URL duplicates is contained in [ray_processing/dedup_jsonl.py](ray_processing/dedup_jsonl.py) (but we do not use this form of dedup in DCLM-Baseline).
@@ -333,6 +336,7 @@ To train a model using the tokenized dataset:
     ```bash
     torchrun --nproc-per-node <num_gpus> -m training.train -- --scale <scale> --data-config <tokenized_json> --logs <log_dir> --attn-name torch_attn [--remote-sync <s3_bucket>] [--report-to-wandb] [--num-checkpoints checkpoints] [--multiple-data-passes] [--acc 4] [--torchcompile]
     ```
+    
     Argument explanations:
     - scale can be found in training/configs (do not include path and .json)
     - data-config is dataset in exp_data: exp_data/datasets/tokenized (include path and .json)
@@ -350,7 +354,6 @@ To train a model using the tokenized dataset:
     torchrun --nproc-per-node 8 -m training.train -- --scale 1b_1x_fast --data-config exp_data/datasets/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_try3_100_nodes.json --logs rw_training_local_logs --attn-name torch_attn --torchcompile
     ```
    Note that this example will not work until you change the dataset_url and manifest_url in exp_data/datasets/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_try3_100_nodes.json.
-
 
 You can expect the following training times per track:
 
@@ -395,6 +398,7 @@ We also support evaluation on existing huggingface models:
 
 ### Submission
 When you finish training and evaluating your model, a model eval JSON file has been generated and is at [exp_data/evals](exp_data/evals).
+
 You can now open a pull request to the main repository to share your results with the team and submit it to the leaderboard.
 
 

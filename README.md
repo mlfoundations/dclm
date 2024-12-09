@@ -429,6 +429,7 @@ We provide multiple datasets, both as starting points for each of the competitio
 
    ```
 
+As an important note, downloads from these Common Crawl bucket URLs do require having a valid set of AWS account credentials (i.e., `AWS_SECRET_ACCESS_KEY` and `AWS_ACCESS_KEY_ID`). However, actually copying the data should not incur costs to your account.
 
 ### Pretrained Models
 

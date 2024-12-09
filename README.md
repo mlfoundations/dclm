@@ -143,7 +143,7 @@ After downloading the appropriate starting pool, you will need to create a refer
 For the mixing track, participants are welcome to create and register a new source (e.g., Wikipedia, GitHub, etc.). In this case, they should follow the below steps:
 
 - Ensure your data is stored in JSONL format, ideally compressed with zstandard (though uncompressed or gzip-compressed files will also work), where each line corresponds to a single page/document.
-- Key names in these JSONL should be consistent with those in [here](baselines/core/constants.py). Most importantly, there should be a ``"text"`` key for each line that contains the acftual content of the page.
+- Key names in these JSONL should be consistent with those in [here](baselines/core/constants.py). Most importantly, there should be a ``"text"`` key for each line that contains the actual content of the page.
 - Create a reference JSON in [exp_data/datasets/raw_sources](exp_data/datasets/raw_sources). These act as the ID card for the source, and include key information such as the source of the content, its size and most importantly, where is it stored.
 
 

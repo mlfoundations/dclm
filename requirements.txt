@@ -31,5 +31,9 @@ gitpython
 Unidecode
 beautifulsoup4
 zstandard
+<<<<<<< Updated upstream
 llm-foundry==0.9.0
+=======
+llm-foundry
+>>>>>>> Stashed changes
 lxml_html_clean

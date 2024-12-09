@@ -16,7 +16,7 @@ Getting started
 
 Examples
 --------
-The main choices for operation of BFF is the _type_ of deduplication (document-level, paragraph-level, etc) performed. This is controlled with the argument `remove-type` argument. For the usage as described in the DCLM paper, you want to use the `--remove-type naive-both` flag to do both paragraph and document-level removal.
+The main choices for operation of BFF is the _type_ of deduplication (document-level, paragraph-level, etc) performed. This is controlled with the argument `remove-type` argument. For the usage as described in the DCLM paper, you want to use the `--remove-type old-both` flag to do both paragraph and document-level removal.
 
 An example run of BFF as described in the main paper, where the inputs are located in `/data/inputs` and outputs are to be placed in `/data/outputs`:
 ```
@@ -28,7 +28,7 @@ cargo run --release bff \
    --min-ngram-size 13 \
    --max-ngram-size 13 \
    --filtering-threshold 0.8 \
-   --remove-type naive-both \
+   --remove-type old-both \
    --annotate 
 ```
 

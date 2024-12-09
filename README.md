@@ -1,22 +1,24 @@
 # DataComp-LM (DCLM)
 
 ## Table of Contents
-- [DataComp-LM (DCLM)](#datacomp-lm-dclm)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Leaderboard](#leaderboard)
-  - [Getting Started](#getting-started)
-  - [Selecting Raw Sources](#selecting-raw-sources)
-  - [Processing the Data](#processing-the-data)
-  - [Deduplication](#deduplication)
-  - [Tokenize and Shuffle](#tokenize-and-shuffle)
-  - [Model Training](#model-training)
-  - [Evaluation](#evaluation)
-  - [Submission](#submission)
-  - [Contributing](#contributing)
-  - [Model Finetuning](#model-finetuning)
-  - [How to Cite Us](#how-to-cite-us)
-  - [License](#license)
+- [Introduction](#introduction)
+- [Leaderboard](#leaderboard)
+- [Getting Started](#getting-started)
+- [Exp Data](#exp-data)
+- [Selecting Raw Sources](#selecting-raw-sources)
+- [Processing the Data](#processing-the-data)
+- [Deduplication](#deduplication)
+- [Tokenize and Shuffle](#tokenize-and-shuffle)
+- [Model Training](#model-training)
+- [Evaluation](#evaluation)
+- [Submission](#submission)
+- [Contributing](#contributing)
+- [Downloading Artifacts](#downloading-artifacts)
+  - [Datasets](#datasets)
+  - [Pretrained Models](#pretrained-models)
+- [Example Commands to Train 1B model with DCLM baseline](#example-commands-to-train-1b-model-with-dclm-baseline)
+- [How to Cite Us](#how-to-cite-us)
+- [License](#license)
 
 ## Introduction
 
@@ -24,10 +26,10 @@
 
 DCLM enables researchers to experiment with various dataset construction strategies across different compute scales, from 411M to 7B parameter models. Our baseline experiments show significant improvements in model performance through optimized dataset design.
 
-Already, DCLM has enabled the creation of several high quality datasets that perform well across scales and outperform all open datasets.
+Already, DCLM has enabled the creation of several high-quality datasets that perform well across scales and outperform all open datasets.
 ![Accuracy vs compute tradeoff](assets/acc_vs_flops-1.png)
 <p align="center">
-  <em><b>Developing datasets for better models that are cheaper to train.</b> Using DataComp-LM, we develop a high-quality dataset, DCLM-BASELINE, which we use to train models with strong compute performance tradeoffs. We compare on both a Core set of tasks (left) and on MMLU 5-shot (right). DCLM-BASELINE (orange) shows favorable performance relative to both close-source models (crosses) and other open-source datasets and models (circles).</em>
+  <em><b>Developing datasets for better models that are cheaper to train.</b> Using DataComp-LM, we develop a high-quality dataset, DCLM-BASELINE, which we use to train models with strong compute performance tradeoffs. We compare on both a Core set of tasks (left) and on MMLU 5-shot (right). DCLM-BASELINE (orange) shows favorable performance relative to both closed-source models (crosses) and other open-source datasets and models (circles).</em>
 </p>
 
 **Submission workflow**:
@@ -90,6 +92,10 @@ To get started with DCLM, follow these steps:
     apt install g++-9
     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 90
     ```
+    To download additional models and data needed for baseline reproduction, run:
+    ```bash
+    python setup.py install
+    ```
 
 3. **Set up your environment**:
     DCLM uses AWS for storage and possible as a compute backend, and ray for distributed processing.
@@ -97,17 +103,13 @@ To get started with DCLM, follow these steps:
 
     We recommend the use of Python 3.10 with DCLM.
 
-## Key Concepts
+## Exp Data
+This repository contains the exp_data folder to help keep track of and help run experiments. exp_data gives a record of the datasets created, models trained, and evaluations finished. Python based code automatically generates json files after tokenize shuffle, training, and evaluation. If needed, you can manually create a json by copying the format of one of the existing files and modifying the relevant fields. It is key to change the uuid (use python uuid to generate) because that is the unique identifier the code uses to identify each json. Paths in the json may be local as long as they are accessible when the json is used.
 
-At a high-level, the DCLM workflow consists of five main steps: (1) raw source selection; (2) data processing; (3) tokenization and shuffling; (4) model training; (5) model evaluation.
+The jsons get used in the following way:
+  1. Training takes in a relative path to the tokenized dataset's json to detect the data location and the manifest file.
+  2. Evaluation can take the uuid of a model to automatically populate most of the evaluation script's arguments.
 
-For reproducibility, each of these main steps logs its outputs and passes them onto the next step using what we call "reference JSONs", which are stored in [exp_data/](exp_data).  These can be thought of as ID cards for the various assests produced by each step (e.g. datasets, models, evaluations). For most steps, you need to specify the correct input JSON(s) and a JSON for the output is generated automatically. Overall, there are four categories of reference JSONs:
-- **Untokenized Datasets:** these refer to datasets in their raw text form which can be either the inputs to data processing ([exp_data/datasets/raw_sources](exp_data/datasets/raw_sources)) or the outputs of said processing ([exp_data/datasets/untokenized](exp_data/datasets/untokenized)). They serve as the inputs to tokenization and shuffling.
-- **Tokenized Datasets:** these refer to tokenized datasets generated by the tokenization and shuffling step, which can be thought of as "compiling" a curated dataset in preparation for traning ([exp_data/datasets/tokenized](exp_data/datasets/tokenized)). They serve as the inputs to the model training step.
-- **Models:** these refer to models generated by the training step ([exp_data/models](exp_data/models)) and serve as inputs to evaluation.
-- **Evaluations:** these store the evaluation results for a specific model.
-
-Importantly, reference JSONs will also contain relevant pointers to the inputs that generated their corresponding assets (e.g. a model JSON will contain a pointer to the tokenized dataset that was used to train it).
 
 ## Selecting Raw Sources
 If you are creating and registering a new source (for example, Wikipedia, GitHub, etc.):
@@ -142,9 +144,63 @@ Given a raw dataset, this is the key step in which you as a participant apply yo
     ```bash
     ray up <your_cluster_config>
     ```
-    where ```<your_cluster_config>``` is a cluster configuration script that depends on your specific use case. We invite the reader to go over the [Ray documentation](https://docs.ray.io/en/latest/cluster/vms/references/ray-cluster-cli.html) for instructions on how to create this config file.
+    where ```<your_cluster_config>``` is a cluster configuration script that depends on your specific use case. We invite the reader to go over the [Ray documentation](https://docs.ray.io/en/latest/cluster/vms/references/ray-cluster-cli.html) for details on how to create this config file.
 
     **Important**: When using EC2 instances, make sure to tear down your cluster with ``ray down <your_cluster_config>`` after your job finishes, so as not to incur unnecessary costs!
+
+    A sample config file can be seen here (make sure to adapt to your needs):
+
+    ```yaml
+    cluster_name: test-processing
+    max_workers: 2
+    upscaling_speed: 1.0
+    available_node_types:
+        ray.head.default:
+            resources: {}
+            node_config:
+                ImageId: ami-0c5cce1d70efb41f5
+                InstanceType: i4i.4xlarge
+                IamInstanceProfile:
+                    # Replace 000000000000 with your IAM account 12-digit ID
+                    Arn: arn:aws:iam::000000000000:instance-profile/ray-autoscaler-v1
+        ray.worker.default:
+            min_workers: 2
+            max_workers: 2
+            node_config:
+                ImageId: ami-0c5cce1d70efb41f5
+                InstanceType: i4i.4xlarge
+                IamInstanceProfile:
+                    # Replace 000000000000 with your IAM account 12-digit ID
+                    Arn: arn:aws:iam::000000000000:instance-profile/ray-autoscaler-v1
+
+    # Cloud-provider specific configuration.
+    provider:
+        type: aws
+        region: us-west-2
+        cache_stopped_nodes: False
+
+    setup_commands:
+        - sudo mkfs -t xfs /dev/nvme1n1
+        - sudo mount /dev/nvme1n1 /tmp
+        - sudo chown -R $USER /tmp
+        - sudo chmod -R 777 /tmp
+        - wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.3.1-0-Linux-x86_64.sh -O miniconda.sh
+        - bash ~/miniconda.sh -f -b -p /tmp/miniconda3/
+        - echo 'export PATH="/tmp/miniconda3/bin/:$PATH"' >> ~/.bashrc
+        # Include your AWS CREDS here
+        - echo 'export AWS_ACCESS_KEY_ID=' >> ~/.bashrc
+        - echo 'export AWS_SECRET_ACCESS_KEY=' >> ~/.bashrc
+        - pip install --upgrade pip setuptools wheel
+        - pip install -U "ray[default] @ https://s3-us-west-2.amazonaws.com/ray-wheels/latest/ray-3.0.0.dev0-cp310-cp310-manylinux2014_x86_64.whl"
+        - pip install boto3==1.26.90
+        - pip install s3fs==2022.11.0
+        - pip install psutil
+        - pip install pysimdjson
+        - pip install pyarrow
+        - git clone https://github.com/mlfoundations/dclm.git
+        - pip install -r dclm/requirements.txt
+        - cd dclm && python3 setup.py install
+    ```
 
 3. **Run the processing script**:
     To run the processing script, in the case of a local cluster, simply run the following command:
@@ -158,7 +214,7 @@ Given a raw dataset, this is the key step in which you as a participant apply yo
     ray attach <your_cluster_config>
 
     # Inside the cluster EC2 instance
-    cd dcnlp
+    cd dclm
     export PYTHONPATH=$(pwd)
     python3 ray_processing/process.py --source_ref_paths <source_json> --readable_name <name> --output_dir <s3_output_dir> --config_path <config_yaml> --source_name <source_name>
     ```
@@ -172,6 +228,64 @@ To deduplicate the raw text as we have done in DCLM-Baseline, use the tools prov
 We note that the code in [dedup](dedup/)  specifically refers to inter-document fuzzy deduplication, i.e., identifying near-duplicates across documents in the corpus. Tooling built in Ray to identify exact content and URL duplicates is contained in [ray_processing/dedup_jsonl.py](ray_processing/dedup_jsonl.py) (but we do not use this form of dedup in DCLM-Baseline).
 
 ## Tokenize and Shuffle
+We support rust based and ray based tokenize shuffle. We recommend the rust based approach for most workflows because it is single machine and is more efficient. The ray based approach is still useful for datasets that are too large to be processed on a single machine.
+
+### Rust Based
+
+System requirements:
+- enough RAM to process num_threads * num_local_cells local cells. Typically this will be much much smaller than the size of the dataset itself.
+- enough disk space to hold 2X the entire dataset.
+
+While the code supports reading from and writing to AWS, it is sometimes unreliable and we strongly recommend copying your data from S3 to local using AWS CLI or s5cmd and using local paths.
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
+bash rustup.sh -y
+source ~/.bashrc
+
+# from DCLM folder
+cd rust_processing/tokshuf-rs
+cargo build --release
+
+# if needed, copy dataset from s3 to local
+
+cargo run --release -- \
+--input path/to/raw/dataset \
+--local-cell-dir tmp/path/to/storage/for/local/cells \ 
+--output path/to/output/location \
+--tokenizer "EleutherAI/gpt-neox-20b" \ #other supported option is "meta-llama/Meta-Llama-3-8B"
+--seqlen 2049 \
+--wds-chunk-size 8192 \
+--num-local-cells 512 # 512 is a good compromise, but might need to raise this much higher for really large datasets
+```
+
+Example command:
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
+bash rustup.sh -y
+source ~/.bashrc
+
+# from DCLM folder
+cd rust_processing/tokshuf-rs
+cargo build --release
+
+aws s3 cp --recursive s3://commoncrawl/contrib/datacomp/DCLM-baseline/global-shard_03_of_10/local-shard_1_of_10/ dclm_local
+mkdir tokshuf_tmp
+mkdir dclm_tokshuf
+
+cargo run --release -- \
+--input dclm_local \
+--local-cell-dir tokshuf_tmp \ 
+--output dclm_tokshuf \
+--tokenizer "EleutherAI/gpt-neox-20b" \
+--seqlen 2049 \
+--wds-chunk-size 8192 \
+--num-local-cells 512
+```
+
+Since this is rust based code, this will not automatically generate a dataset json in exp_data. You can copy an existing file like exp_data/datasets/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_try3_100_nodes.json to exp_data/datasets/tokenized/dclm_rust_tok_shuf_test.json, and make sure to change the relevant fields (most important are uuid, name, dataset_url, manifest_url).
+
+### Ray Based
 After processing the raw text, you should convert it into tokenized datasets and perform shuffling for training:
 
 1. **Set up a Ray cluster**:
@@ -196,9 +310,27 @@ To train a model using the tokenized dataset:
 
 1. **Run the training script**:
     ```bash
-    torchrun --nproc-per-node 8 -m training.train --scale <scale> <tokenized_json> --logs <log_dir> [--remote-sync <s3_bucket>] [--chinchilla-multiplier <multiplier>] [--clean-exp] [--report-to-wandb]
+    torchrun --nproc-per-node <num_gpus> -m training.train -- --scale <scale> --data-config <tokenized_json> --logs <log_dir> --attn-name torch_attn [--remote-sync <s3_bucket>] [--report-to-wandb] [--num-checkpoints checkpoints] [--multiple-data-passes] [--acc 4] [--torchcompile]
     ```
+    
+    Argument explanations:
+    - scale can be found in training/configs (do not include path and .json)
+    - data-config is dataset in exp_data: exp_data/datasets/tokenized (include path and .json)
+    - logs is where you want local logs to be written
+    - attn-name specifies the attention implementation (torch_attn recommended)
+    - remote-sync is where the checkpoints are written to on s3
+    - report-to-wandb logs to wandb
+    - num-checkpoints sets number of checkpoints to save, best effort and may not be actually this number
+    - multiple-data-passes enables training on multiple epochs for the dataset; you may need to adjust num-checkpoints if the dataset is too small and does not contain enough files to properly split across gpus/workers/checkpoints
+    - acc sets gradient accumulation, which is automatically specified by the scale; however you may want to manually adjust based on resources available
+    - torchcompile uses torchcompile to speed up training, and is available for scales that include "fast"
 
+    Example command:
+   ```bash
+    torchrun --nproc-per-node 8 -m training.train -- --scale 1b_1x_fast --data-config exp_data/datasets/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_try3_100_nodes.json --logs rw_training_local_logs --attn-name torch_attn --torchcompile
+    ```
+   Note that this example will not work until you change the dataset_url and manifest_url in exp_data/datasets/tokenized/rw_v2_w_substr_cc_v3_f0.15_resiliparse_try3_100_nodes.json.
+   
 You can expect the following training times per track:
 
 | Scale  | Model parameters | Train tokens | Train FLOPs | Train H100 hours | Pool size |
@@ -213,88 +345,110 @@ You can expect the following training times per track:
     Use slurm sbatch scripts or Sagemaker for running experiments on various compute infrastructures.
 
 ## Evaluation
+Evaluation yamls are found in the "eval" folder and they determine which tasks to evaluate. For example, "eval/mmlu_and_lowvar.yaml" contains the tasks to be able to compute the core metric and MMLU, while "eval/heavy.yaml" runs additional tasks so that aggregate can also be computed.
+
 Evaluate trained models using the following methods:
 
 1. **Preferred Method**:
+    This method uses the UUID from the json that is automatically created from training which can be found in exp_data/models.
     ```bash
-    python tools/eval_expdb.py --start_idx 0 --end_idx 3 --filters name=<filter> --prefix_replacement <prefix_replacement> --num_gpus 8 --output_dir <s3_output_dir> --eval_yaml <eval_yaml>
+    python tools/eval_expdb.py --num_gpus <num_gpus> --no_skip --output_dir <output_dir> --eval_yaml "eval/<eval_yaml>" -f "uuid=<model_uuid>" --skip_perplexity
+    ```
+
+    Example command:
+   If the model we trained saved its json at exp_data/models/rw_original-open_lm_1b-5.0.json, the UUID is c014f9d6-51d0-429d-9a3e-fe82e53c37fd. Note that this will not actually run because the checkpoint_url and params_url are not publicly accessible; but the automatically generated json for your model will have the correct and accessible paths.
+   ```bash
+    python tools/eval_expdb.py --num_gpus 8 --no_skip --output_dir exp_data/evals/ --eval_yaml "eval/mmlu_and_lowvar.yaml" -f "uuid=c014f9d6-51d0-429d-9a3e-fe82e53c37fd" --skip_perplexity
     ```
 
 2. **Direct Evaluation**:
+    This method requires manually specifying the checkpoint path and model params file (both are outputs from training), as well as specifying the model config (training/open_lm_configs).
     ```bash
     torchrun --nproc_per_node <num_gpus> eval/eval_openlm_ckpt.py --checkpoint <checkpoint> --eval-yaml <eval_yaml> --config <model_params_file> --model <open_lm_config> --output-file <output_file_path>
     ```
+    
+We also support evaluation on existing huggingface models:
+```bash
+    torchrun --nproc_per_node 8 eval/eval_openlm_ckpt.py --hf-model allenai/OLMo-1B-0724-hf --tokenizer allenai/OLMo-1B-0724-hf --eval-yaml "eval/mmlu_and_lowvar.yaml" --output-file exp_data/evals/olmo_eval_mmlu_and_lowvar.json --donot-compute-perplexity
+```
 
 ## Submission
-When you finished training and evaluating your model, a model eval json file has been generated and is at [exp_data/evals](exp_data/evals).
+When you finish training and evaluating your model, a model eval JSON file has been generated and is at [exp_data/evals](exp_data/evals). 
+
 You can now open a pull request to the main repository to share your results with the team and submit it to the leaderboard.
 
 ## Contributing
 We welcome contributions to improve the DCLM framework. Please follow our [contributing guide](contributing.md) for submitting pull requests and reporting issues.
 
-## Model Finetuning
+## Downloading Artifacts
 
-Using the OpenLM library, it is also possible to finetune the models trained with DCLM. This can be done via the following steps:
+### Datasets
 
-- First, create input data as `jsonl` files, with each line being a sample containing two fields: `"instruction"` and `"response"` (so each line of a jsonl file contains at minimum a json object of the form `{"instruction": "Sample Instruction", "response": "Sample response"}`). An example for the OpenMathInstruct dataset can be run with the following commands:
+We provide multiple datasets, both as starting points for each of the competition scales, as well as the results of our processing pipeline.
 
+- The dataset pools for the competition stages are available at HuggingFace, with different repositories for the [400m-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-400m-1x), [1b-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-1b-1x), [1b-5x](https://huggingface.co/datasets/mlfoundations/dclm-pool-1b-5x), [7b-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-7b-1x) and [7b-2x](https://huggingface.co/datasets/mlfoundations/dclm-pool-7b-2x) scales. All these pools contain raw data and can be processed with the steps outlined above. All of these are subsets of out entire raw pool, [DCLM-pool](https://data.commoncrawl.org/contrib/datacomp/DCLM-pool/index.html), which is available via the CommonCrawl S3 bucket.
+
+- Our final processed dataset, DCLM-Baseline, is available on Huggingface in both [zstd compressed jsonl](https://huggingface.co/datasets/mlfoundations/dclm-baseline-1.0) and [parquet](https://huggingface.co/datasets/mlfoundations/dclm-baseline-1.0-parquet) formats. The former version is also available on the CommonCrawl S3 bucket, accessed via the instructions [here](https://data.commoncrawl.org/contrib/datacomp/DCLM-baseline/index.html).
+
+- We also provide a version of our dataset that performs all the steps of our preprocessing except the final one (namely, the fasttext filtering). This version, called DCLM-RefinedWeb, is also available on the CommonCrawl S3 bucket, with instructions available [here](https://data.commoncrawl.org/contrib/datacomp/DCLM-refinedweb/index.html)
+
+### Pretrained Models
+
+We provide links to models pretrained using our dataset via the DCLM collection on Huggingface, found [here](https://huggingface.co/collections/mlfoundations/dclm-669938432ef5162d0d0bc14b). These models can be downloaded and evaluated using the OpenLM library.
+
+## Example Commands to Train 1B model with DCLM baseline
+Here we provide a quick set of commands for setting up, tokenize shuffle, training, and evaluation. For filtering, please see the relevant sections above. For specific details about the below commands, also refer to the relevant sections above.
+
+### Setup (with Conda)
 ```bash
-cd finetuning/
-python download_data.py
+conda create -n dclm python=3.10
+conda activate dclm
+
+git clone https://github.com/mlfoundations/DCLM.git
+cd DCLM
+export PYTHONPATH="$(pwd):$PYTHONPATH"
+
+pip install -r requirements.txt
 ```
 
-- Afterward, assuming your data is in the directory `finetuning/sft_data/", run the following commands to process the data into the format expected by OpenLM:
-
+### Tokenize Shuffle
+Here we include downloading DCLM data using AWS CLI.
+After running the below command, typically you would need to create a dataset json in exp_data/datasets/tokenized, but we provide one for you in this tutorial (exp_data/datasets/tokenized/dclm_gs3_ls1_rs_tokshuf.json).
 ```bash
-python preprocess_data.py --input-files "./sft_data/**/*" --output-dir ./sft_data_tokenized/ --num-workers 1 --num-consumers 1
-python -m open_lm.utils.make_wds_manifest --data-dir ./sft_data_tokenized/2048-v1/0 --tmp-dir tmp --num-workers 16
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
+bash rustup.sh -y
+source ~/.bashrc
+pushd rust_processing/tokshuf-rs
+cargo build --release
+
+aws s3 cp --recursive s3://commoncrawl/contrib/datacomp/DCLM-baseline/global-shard_03_of_10/local-shard_1_of_10/ dclm_local
+mkdir tokshuf_tmp
+mkdir dclm_tokshuf
+
+cargo run --release -- \
+--input dclm_local \
+--local-cell-dir tokshuf_tmp \ 
+--output dclm_tokshuf \
+--tokenizer "EleutherAI/gpt-neox-20b" \
+--seqlen 2049 \
+--wds-chunk-size 8192 \
+--num-local-cells 512
+
+popd
 ```
 
-- Finally, you can finetune the model by using [OpenLM](https://github.com/mlfoundations/open_lm), by including the following arguments in your OpenLM training command:
-
+### Training
+data-config comes from the json created (manually for rust code, automatically for ray) after tokenize shuffle.
 ```bash
-...
---squash-mask-left \
---target-mask-individual 50400 \
---target-mask-left 50300 \
-...
+torchrun --nproc-per-node 8 -m training.train -- --scale 1b_1x_fast --data-config exp_data/datasets/tokenized/dclm_gs3_ls1_rs_tokshuf.json --logs dclm_rs_tokshuf_training_local_logs --attn-name torch_attn --torchcompile
 ```
 
-An example full command for this is the following:
+### Evaluation
+Run the below command with UUID substituted with the UUID of the model you want to evaluate, which can be found in the json in exp_data/models that was output from the previous training command.
 ```bash
-git clone https://github.com/mlfoundations/open_lm.git
-cd open_lm
-torchrun <additional torchrun options> open_lm/main.py \
-    --dataset-manifest ../sft_data_tokenized/manifest.jsonl \
-    --epochs 20 \
-    --fsdp \
-    --fsdp-amp \
-    --fsdp-limit-all-gathers \
-    --global-batch-size 1024 \
-    --grad-checkpointing \
-    --grad-clip-norm 1 \
-    --log-every-n-steps 100 \
-    --logs <path to logs> \
-    --lr 2e-05 \
-    --lr-cooldown-end 5e-06 \
-    --model training/open_lm_configs/open_lm_1b_swiglutorch.json \
-    --model-norm gain_only_lp_layer_norm \
-    --multiple-data-passes \
-    --name <experiment name> \
-    --precision amp_bfloat16 \
-    --pretrained <path to pretrained checkpoint> \
-    --qk-norm \
-    --report-to wandb \
-    --seed 124 \
-    --squash-mask-left \
-    --target-mask-individual 50400 \
-    --target-mask-left 50300 \
-    --train-num-samples <number of training tokens per epoch> \
-    --warmup 1738 \
-    --wd 0.1 \
-    --workers 1
+python tools/eval_expdb.py --num_gpus 8 --no_skip --output_dir exp_data/evals/ --eval_yaml "eval/mmlu_and_lowvar.yaml" -f "uuid=UUID" --skip_perplexity
 ```
-
+    
 
 ## How to Cite Us
 
@@ -308,7 +462,7 @@ If you use our dataset or models in your research, please cite us as follows:
       journal={arXiv preprint arXiv:2406.11794}
 }
 ```
-When using DCLM evaluation suite, please make sure to cite all the original evaluation papers. [evaluation_bibtex](bib/evalutaion.bib).
+When using the DCLM evaluation suite, please make sure to cite all the original evaluation papers. [evaluation_bibtex](bib/evalutaion.bib).
 
 When using DCLM for training, please make sure to cite the main training framework dependencies as well. [training_bibtex](bib/training.bib).
 

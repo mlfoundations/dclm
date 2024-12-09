@@ -147,34 +147,63 @@ When processing multiple shards, there will also be computed a global_stats file
 
 ## Setting Up a Ray Cluster
 
+A Ray cluster is used for distributed processing of the data, using the pipeline defined above. Below are the steps to launch a Ray cluster on EC2 instances, run the desired job and tear down the cluster. **Make sure that you keep in mind the costs associated with the instances that are launched for your cluster, and that you tear down the cluster when you no longer need it!**. 
 Additional instructions on how to deploy Ray on different setups can be found [here](../README.md#processing-the-data)
 
 ### Modify Cluster Config File
 
+Below is a sample yaml file that defines a cluster in the `us-west-2` AWS region. Doing the edits outlined below allows for a cluster to be launched with this file.
+
 ```yaml
-cluster_name: my-cluster
-min_workers: 1
-max_workers: 10
+cluster_name: test-processing
+max_workers: 2
 upscaling_speed: 1.0
-docker:
-  image: "rayproject/ray:latest"
-  container_name: "ray_container"
-  pull_before_run: True
-initial_workers: 3
-autoscaling_mode: default
-head_node:
-  InstanceType: m5.large
-  ImageId: ami-0abcdef1234567890
-worker_nodes:
-  InstanceType: m5.large
-  ImageId: ami-0abcdef1234567890
+available_node_types:
+    ray.head.default:
+        resources: {}
+        node_config:
+            ImageId: ami-0c5cce1d70efb41f5
+            InstanceType: i4i.4xlarge
+            IamInstanceProfile:
+                # Replace 000000000000 with your IAM account 12-digit ID
+                Arn: arn:aws:iam::000000000000:instance-profile/ray-autoscaler-v1
+    ray.worker.default:
+        min_workers: 2
+        max_workers: 2
+        node_config:
+            ImageId: ami-0c5cce1d70efb41f5
+            InstanceType: i4i.4xlarge
+            IamInstanceProfile:
+                # Replace 000000000000 with your IAM account 12-digit ID
+                Arn: arn:aws:iam::000000000000:instance-profile/ray-autoscaler-v1
+
+# Cloud-provider specific configuration.
+provider:
+    type: aws
+    region: us-west-2
+    cache_stopped_nodes: False
+
 setup_commands:
-  - pip install -U "ray[default]"
-  - pip install boto3
-head_setup_commands:
-  - pip install git+https://github.com/my-repo/dcnlp.git@<branch>#egg=dcnlp --user --extra-index-url https://<PAT>:@github.com/
-worker_setup_commands:
-  - pip install git+https://github.com/my-repo/dcnlp.git@<branch>#egg=dcnlp --user --extra-index-url https://<PAT>:@github.com/
+    - sudo mkfs -t xfs /dev/nvme1n1
+    - sudo mount /dev/nvme1n1 /tmp
+    - sudo chown -R $USER /tmp
+    - sudo chmod -R 777 /tmp
+    - wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.3.1-0-Linux-x86_64.sh -O miniconda.sh
+    - bash ~/miniconda.sh -f -b -p /tmp/miniconda3/
+    - echo 'export PATH="/tmp/miniconda3/bin/:$PATH"' >> ~/.bashrc
+    # Include your AWS CREDS here
+    - echo 'export AWS_ACCESS_KEY_ID=' >> ~/.bashrc
+    - echo 'export AWS_SECRET_ACCESS_KEY=' >> ~/.bashrc
+    - pip install --upgrade pip setuptools wheel
+    - pip install -U "ray[default] @ https://s3-us-west-2.amazonaws.com/ray-wheels/latest/ray-3.0.0.dev0-cp310-cp310-manylinux2014_x86_64.whl"
+    - pip install boto3==1.26.90
+    - pip install s3fs==2022.11.0
+    - pip install psutil
+    - pip install pysimdjson
+    - pip install pyarrow
+    - git clone https://github.com/mlfoundations/dclm.git
+    - pip install -r dclm/requirements.txt
+    - cd dclm && python3 setup.py install
 ```
 
 ### Launch the Cluster

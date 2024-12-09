@@ -135,7 +135,7 @@ To decide upon compute scale, participants should consider their available resou
 
 Note that as of now, the DCLM-RefinedWeb pools do not match up exactly to being procesed versions of the DCLM-Pool competition pools. Hence, we do not combine their resulting submissions into the same leaderboard. For more details about downloading a specific input pool, please see the [Downloading Artifacts](#downloading-artifacts) section.
 
-After downloading the appropriate starting pool, you will need to create a reference JSON for it if you wish to use/build upon our processing code. Most importantly, this JSON should contain the URL to the where your copy of the input pool exists.
+After downloading the appropriate starting pool, you will need to create a reference JSON for it *if you wish to use/build upon our processing code.* Most importantly, this JSON should contain the URL to the where your copy of the input pool exists.
 
 ### Mixing Track
 
@@ -147,7 +147,12 @@ For the mixing track, participants are welcome to create and register a new sour
 
 
 ## (2) Processing the Data
-To process raw data, follow these steps:
+
+Given a desired raw dataset, this is the key step in which you as a participant apply your own custom data curation strategies. To get started, you can (but are NOT required to) use and build upon our data processing scripts which include various filtering and deduplication operations implemented in our codebase. Specifically, these operations fall into two groups.
+
+### Ray-based filtering and cleaning
+
+Our codebase incudes a `ray`-based data processing engine that is best suited for highly-parallelized application of "local operations" that independently operate on each page (e.g., filtering). The entrypoint for this engine is `ray_processing/process.py` and using it involves the following steps.
 
 1. **Define a set of processing steps**:
     Create a pipeline config YAML file specifying the operations.
@@ -242,17 +247,17 @@ To process raw data, follow these steps:
     python3 ray_processing/process.py --source_ref_paths <source_json> --readable_name <name> --output_dir <s3_output_dir> --config_path <config_yaml> --source_name <source_name>
     ```
 
-4. **Monitor and tear down**:
-   You can track the progress of data processing via the `global_stats.jsonl` file in the output directory. After the job finishes, you can tear down your cluster via `ray stop` (in the local cluster case) or `ray down <your_cluster_config>` (in the AWS EC2 case). **THIS IS VERY IMPORTANT TO NOT INCUR ADDITIONAL COSTS WHEN USING EC2!**
+5. **Monitor and tear down**:
+   You can track the progress of data processing via the `global_stats.jsonl` file in the output directory. If run successfully, a new untokenized dataset json should have been created in `exp_data/datasets/untokenized/` that you should commit and push if you wish to save it. After the job finishes,  you can tear down your cluster via `ray stop` (in the local cluster case) or `ray down <your_cluster_config>` (in the AWS EC2 case). **THIS IS VERY IMPORTANT TO NOT INCUR ADDITIONAL COSTS WHEN USING EC2!**
 
 ### Deduplication
 
-To deduplicate the raw text as we have done in DCLM-Baseline, use the tools provided in the [dedup](dedup/) subdirectory. Here we include several rust tools for deduplication, but we recommend using BFF, located in [dedup/bff](dedup/bff). Specific instructions to run deduplication are contained in the readme in each of the directories containing the rust tools.
+Our most efficient (and recommended) deduplication implementations were written in Rust instead of Python.  To deduplicate the raw text as we have done in DCLM-Baseline, we use the rust tools provided in the [dedup](dedup/) subdirectory, which icludes several programs for inter-document fuzzy deduplication, i.e., identifying near-duplicates across documents in the corpus. In DCLM-Baseline, we specifically use BFF ([dedup/bff](dedup/bff)). Specific instructions to run deduplication are contained in the README in each of the directories containing the rust tools.
 
-We note that the code in [dedup](dedup/)  specifically refers to inter-document fuzzy deduplication, i.e., identifying near-duplicates across documents in the corpus. Tooling built in Ray to identify exact content and URL duplicates is contained in [ray_processing/dedup_jsonl.py](ray_processing/dedup_jsonl.py) (but we do not use this form of dedup in DCLM-Baseline).
+Unfortunately, as of now, these rust implementations are not integrable with the ray-based pipelines described above (i.e., cannot be added to the YAML configs). In contrast, we also did create tooling built with ``ray`` to identify exact content and URL duplicates ([ray_processing/dedup_jsonl.py](ray_processing/dedup_jsonl.py)). This can be integrated into ray-based workflows above but we do not use this form of deduplication in DCLM-Baseline.
 
 ## (3) Tokenization and Shuffling
-We support rust based and ray based tokenize shuffle. We recommend the rust based approach for most workflows because it is single machine and is more efficient. The ray based approach is still useful for datasets that are too large to be processed on a single machine.
+Once you have finished all of your data curation, you can now prepare your dataset for evaluation by first tokenizing and shuffling it in preparation for training. We support both a rust-based and ray-based tokenize shuffle, though we recommend the rust based approach for most workflows because it is single machine and is more efficient. The ray-based approach is still useful for datasets that are too large to be processed on a single machine.
 
 ### Rust Based
 
@@ -330,7 +335,7 @@ python -m open_lm.utils.make_wds_manifest --data-dir <tokenized_data_dir>
 ```
 
 ## (4) Model Training
-To train a model using the tokenized dataset:
+To train a model using the tokenized dataset and one of our fixed training recipes:
 
 1. **Run the training script**:
     ```bash

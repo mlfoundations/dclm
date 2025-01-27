@@ -1,43 +1,44 @@
 #!/bin/bash
-# shellcheck disable=SC2206
 #SBATCH --job-name=dlcm_test
 #SBATCH --cpus-per-task=5
-#SBATCH --gpus-per-task=1
+#SBATCH --gpus-per-task=4
+#SBATCH --mem-per-cpu=8G
 #SBATCH --exclusive
-#SBATCH --mem-per-cpu=8GB
-#SBATCH --nodes=4
+#SBATCH --nodes=8
 #SBATCH --tasks-per-node=1
-#SBATCH --time=02:00:00
-#SBATCH --gres=gpu:1
+#SBATCH --time=12:00:00
 #SBATCH --account=p_scads_llm_secrets
+#SBATCH --gres=gpu:4
 
 set -x
 
+WKDIR_DCLM="$(pwd)"
 module purge
 module load release/24.04
 module load GCCcore/12.3.0
-module load Python/3.11.3
+module load Anaconda3/2023.09-0
 module load CMake/3.26.3
 
-# activate environent here
-DCLM_VENV_FOLDER="/data/cat/ws/juos515g-datacomp-juan/dclm-juan/.venv"
 
-if [ -z "${DCLM_VENV_FOLDER}" ]; then
-    echo "DCLM_VENV_FOLDER is not set or is empty"
-    exit 1
+# activate environent here
+if [ -z "${BASH_RC_PATH}" ]; then
+    echo "BASH_RC_PATH  is not set or is empty"
+    BASH_RC_PATH="/home/juos515g/.bashrc"
 else
-    echo "DCLM_VENV_FOLDER set to: ${ENV_VAR}"
+    echo "BASH_RC_PATH set to: ${BASH_RC_PATH}"
 fi
 
 if [ -z "${SLURM_GPUS_PER_TASK}" ]; then
     echo "SLURM_GPUS_PER_TASK is not set or is empty"
-    SLURM_GPUS_PER_TASK=1
+    SLURM_GPUS_PER_TASK=4
 else
     echo "SLURM_GPUS_PER_TASK set to: ${SLURM_GPUS_PER_TASK}"
 fi
 
-source "$DCLM_VENV_FOLDER/bin/activate"
-
+source "$BASH_RC_PATH"
+conda init bash
+conda activate dclm
+export PYTHONPATH="$WKDIR_DCLM:$PYTHONPATH"
 # __doc_head_address_start__
 
 # Getting the node names
@@ -91,7 +92,7 @@ done
 
 # __doc_script_start__
 # ray/doc/source/cluster/doc_code/simple-trainer.py
-python3 ray_processing/process.py --source_ref_paths exp_data/datasets/raw_sources/dclm-pool-400m-1x_local.json --readable_name c4 --output_dir /data/horse/ws/jori152b-datacomp_data/ --config_path baselines/baselines_configs/c4.yaml --source_name cc_april_2019
+# 
+
+python3 ray_processing/process.py --source_ref_paths exp_data/datasets/raw_sources/dclm-pool-400m-1x_local.json --readable_name dclm_refined_tud --output_dir /data/horse/ws/jori152b-datacomp_data/ --config_path baselines/baselines_configs/dclm_refined_tud.yaml --source_name cc 
 # python -u simple-trainer.py "$SLURM_CPUS_PER_TASK"
-
-

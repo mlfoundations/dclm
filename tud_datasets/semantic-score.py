@@ -4,7 +4,7 @@ import re
 import textstat
 from datasets import load_dataset
 from enchant.checker import SpellChecker
-from transformers import GPT2LMHeadModel, GPT2TokenizerFast, AutoTokenizer, AutoModelForCausalLM
+from transformers import GPT2LMHeadModel, GPT2TokenizerFast, AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 
 
 data_set = load_dataset("nbroad/basic_text_dataset", split="train")
@@ -20,18 +20,24 @@ print(f'Using device {device}')
 gpt_tokenizer = GPT2TokenizerFast.from_pretrained(gpt_model_name)
 gpt_model = GPT2LMHeadModel.from_pretrained(gpt_model_name).to(device)
 gpt_model.eval()  
+ 
+ 
+# ds_tokenizer = AutoTokenizer.from_pretrained(deepseek_model_name, trust_remote_code=True)
+# ds_model = AutoModelForCausalLM.from_pretrained(
+#     deepseek_model_name,
+#     torch_dtype=torch.float16,  
+#     trust_remote_code=True
+# ).to(device)
+# 
+# ds_model.eval()
 
+ds_model_base_name = "deepseek-ai/deepseek-llm-7b-base"
+ds_tokenizer_base = AutoTokenizer.from_pretrained(ds_model_base_name)
+ds_model_base = AutoModelForCausalLM.from_pretrained(ds_model_base_name, torch_dtype=torch.bfloat16).to(device)
+ds_model_base.generation_config = GenerationConfig.from_pretrained(ds_model_base_name)
+ds_model_base.generation_config.pad_token_id = ds_model_base.generation_config.eos_token_id
 
-ds_tokenizer = AutoTokenizer.from_pretrained(deepseek_model_name, trust_remote_code=True)
-ds_model = AutoModelForCausalLM.from_pretrained(
-    deepseek_model_name,
-    torch_dtype=torch.float16,  
-    trust_remote_code=True
-).to(device)
-
-
-
-ds_model.eval()
+#ds_tokenizer_base.eval()
 
 text_dict = {
     "very_bad_quality": [
@@ -87,9 +93,7 @@ def is_url(word):
 
 import csv
 from pathlib import Path
-
-csv_filepath=Path('./abbreviations_eng.csv')
-
+csv_filepath=Path('abbreviations_eng.csv')
 def load_abbreviations(csv_filepath=csv_filepath):
     abbreviations = set()
     with open(csv_filepath, newline='', encoding='utf-8', errors='ignore') as csvfile:
@@ -117,6 +121,7 @@ def calculate_perplexity(text, model, tokenizer):
     except Exception as e:
         print(f"Error processing text: {text}")
         print(e)
+    print(f'model perplexity: {perplexity}')
     return perplexity
 
 
@@ -136,7 +141,7 @@ def count_spelling_errors(text, abbr_set=abbreviation_set):
     for err in checker:
         word = err.word
         if not (word[0].isupper()) and not is_url(word):
-            if is_abbreviation(word):
+            if is_abbreviation(word, abbr_set):
                 num_err += 0.5
             else: 
                 num_err += 1
@@ -150,10 +155,6 @@ def logistic_trans(raw, k, c):
     return 1 / (1 + math.exp(-k*(math.log(raw+eps)-c)))
 
 def quality_score(spelling_errors, m1_pp, m2_pp, lex_divers, text_standard, verbose_level=0):
-    alpha = 3 
-    beta = 0.35
-    gamma = 0.25
-
     if verbose_level > 1:
         print(f'spelling errors:{spelling_errors}, m1_pp:{m1_pp}, m2_pp:{m2_pp}, lex_divers:{lex_divers}, text_standard:{text_standard}')
     if  verbose_level > 2: 
@@ -162,10 +163,12 @@ def quality_score(spelling_errors, m1_pp, m2_pp, lex_divers, text_standard, verb
         print(f'\tm2 pp:{m2_pp}, log:{math.log(m2_pp)}, exp:{math.exp(m2_pp)}, sqrt:{math.sqrt(m2_pp)}, prw:{m2_pp**2}')
         print(f'\tlex divers:{lex_divers}, log:{math.log(lex_divers)}, exp:{math.exp(lex_divers)}, sqrt:{math.sqrt(lex_divers)}, prw:{lex_divers**2}')
         print(f'\ttext standard:{text_standard}, log:{math.log(text_standard)}, exp:{math.exp(text_standard)}, sqrt:{math.sqrt(text_standard)}, prw:{text_standard**2}')
-
+    alpha = 3 
+    beta = 0.35
+    gamma = 0.5
     spelling_penalty = math.exp(beta * max(0, spelling_errors - 2))
-    raw = ((text_standard**alpha) * lex_divers) / ((spelling_penalty) * gamma*math.sqrt(m1_pp*m2_pp))
-    qual = logistic_trans(raw, k=0.45, c=0.5)
+    raw = ((text_standard**alpha) * lex_divers) / ((spelling_penalty) * gamma*math.sqrt((1.5*m1_pp)*(0.5*m2_pp)))
+    qual = logistic_trans(raw, k=0.65, c=2.5)
     if verbose_level:
         print(f'\traw: {raw}, score: {qual}')
     return qual 
@@ -182,20 +185,20 @@ def filter_urls_from_text(text):
 
 
 def calculate_score(text):
-    m1_pp = calculate_perplexity(text, ds_model, ds_tokenizer)
-    m2_pp = calculate_perplexity(text, gpt_model, gpt_tokenizer)
+    m1_pp = calculate_perplexity(text, gpt_model, gpt_tokenizer)
+    m2_pp = calculate_perplexity(text, ds_model_base, ds_tokenizer_base)
     lex_divers = lexical_diversity(text)
     text_stand = textstat.text_standard(text, float_output=True)
     text_no_urls = filter_urls_from_text(text)
     spelling_errors = count_spelling_errors(text_no_urls)
-    return quality_score(spelling_errors, m1_pp, m2_pp, lex_divers, text_stand)
+    return quality_score(spelling_errors, m1_pp, m2_pp, lex_divers, text_stand, verbose_level=0)
 
 
 def run_example():
     for key in text_dict:
         print(key)
         for text in text_dict[key]:
-            #print(text)
+            print(text)
             print(f'\tscore: {calculate_score(text)}')
 
 def construct_row(text):
@@ -229,5 +232,5 @@ def construct_csv_from_dataset():
         di = construct_row(text)
         print(di)
 
-
+#run_example()
 create_csv_from_dataset(spam_data_set, "spam")

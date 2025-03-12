@@ -1,0 +1,22 @@
+{
+    "model": "training/open_lm_configs/open_lm_3b_swiglutorch.json",
+    "params": 2795932160,
+    "params_no_embed": 2666826240,
+    "tokens": 55918643200,
+    "warmup": 5000,
+    "lr": 3e-3,
+    "wd": 0.033,
+    "cd": 3e-05,
+    "global_bs": 256,
+    "acc": 1,
+    "qk_norm": true,
+    "z_loss": 1e-4,
+    "grad_checkpointing": false,
+    "fsdp_flags": [
+        "--fsdp",
+        "--fsdp-limit-all-gathers",
+        "--fsdp-pure-bf16",
+        "--fsdp-use-orig-params"
+    ],
+    "chinchilla_multiplier": 1
+}

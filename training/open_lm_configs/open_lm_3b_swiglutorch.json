@@ -1,0 +1,10 @@
+{
+    "hidden_dim": 2560,
+    "n_layers": 32,
+    "n_heads": 32,
+    "seq_len": 2048,
+    "vocab_size": 50432,
+    "post_embed_norm": false,
+    "weight_tying": false,
+    "ffn_type": "swiglu_torch"
+}

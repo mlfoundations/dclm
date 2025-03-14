@@ -414,7 +414,17 @@ You can now open a pull request to the main repository to share your results wit
 
 We provide multiple datasets, both as starting points for each of the competition scales, as well as the results of our processing pipeline.
 
-- The dataset pools for the competition stages are available at HuggingFace, with different repositories for the [400m-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-400m-1x), [1b-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-1b-1x), [1b-5x](https://huggingface.co/datasets/mlfoundations/dclm-pool-1b-5x), [7b-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-7b-1x) and [7b-2x](https://huggingface.co/datasets/mlfoundations/dclm-pool-7b-2x) scales. All these pools contain raw data and can be processed with the steps outlined above. All of these are subsets of out entire raw pool, [DCLM-pool](https://data.commoncrawl.org/contrib/datacomp/DCLM-pool/index.html), which is available via the CommonCrawl S3 bucket.
+- The raw dataset pools for the competition scales can be found by downloading the respective paths within [data/competition_pools/](data/competition_pools). This folder contains `.txt` files which list the S3 paths corresponding to the input data pools for each of our [400m-1x](data/competition_pools/400m-1x.txt), [1b-1x](data/competition_pools/1b-1x.txt), [3b-1x](data/competition_pools/3b-1x.txt), [7b-1x](data/competition_pools/7b-1x.txt), [7b-2x](data/competition_pools/7b-2x.txt) scales. All of these are subsets of out entire raw pool, [DCLM-pool](https://data.commoncrawl.org/contrib/datacomp/DCLM-pool/index.html), which is available via the CommonCrawl S3 bucket. Each subset consists of raw data (that has only undergone text extraction) and can be processed with the steps outlined above. To download any one of these pools, we recommend using [`s5cmd run cmds.txt`](https://github.com/peak/s5cmd/blob/master/README.md#run-multiple-commands-in-parallel) where `cmds.txt` is a commands file that you generate based on your desired destination path `<YOUR_DEST_PATH>` (example shown below for first two shards in the 400m-1x pool).
+
+  ```bash
+  cp s3://commoncrawl/crawl-data/CC-MAIN-2013-20/segments/1368696382185/warc/CC-MAIN-20130516092622-00084-ip-10-60-113-184.ec2.internal.warc.gz <YOUR_DEST_PATH>/CC-MAIN-2013-20/segments/1368696382185/warc/CC-MAIN-20130516092622-00084-ip-10-60-113-184.ec2.internal.warc.gz
+  cp s3://commoncrawl/crawl-data/CC-MAIN-2013-20/segments/1368696382892/warc/CC-MAIN-20130516092622-00074-ip-10-60-113-184.ec2.internal.warc.gz <YOUR_DEST_PATH>/CC-MAIN-2013-20/segments/1368696382185/warc/CC-MAIN-20130516092622-00084-ip-10-60-113-184.ec2.internal.warc.gz
+  ⋮
+  ```
+
+
+  **[Deprecated]** The competition pools are also available at HuggingFace, with different repositories for the [400m-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-400m-1x), [1b-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-1b-1x), [1b-5x](https://huggingface.co/datasets/mlfoundations/dclm-pool-1b-5x), [7b-1x](https://huggingface.co/datasets/mlfoundations/dclm-pool-7b-1x) and [7b-2x](https://huggingface.co/datasets/mlfoundations/dclm-pool-7b-2x) scales. Note that we no longer aim to support the 1b-5x scale, which we replaced with the [3b-1x](data/competition_pools/3b-1x.txt) scale.
+
 
 - Our final processed dataset, DCLM-Baseline, is available on Huggingface in both [zstd compressed jsonl](https://huggingface.co/datasets/mlfoundations/dclm-baseline-1.0) and [parquet](https://huggingface.co/datasets/mlfoundations/dclm-baseline-1.0-parquet) formats. The former version is also available on the CommonCrawl S3 bucket, accessed via the instructions [here](https://data.commoncrawl.org/contrib/datacomp/DCLM-baseline/index.html).
 

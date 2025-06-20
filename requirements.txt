@@ -33,3 +33,4 @@ beautifulsoup4
 zstandard
 llm-foundry==0.9.0
 lxml_html_clean
+webdataset==0.2.86

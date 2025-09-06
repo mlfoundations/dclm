@@ -1,14 +1,14 @@
 {
     "95%_CI_above": 0.5330547314475883,
     "99%_CI_above": 0.5579346638658772,
-    "aggregated_centered_results": 0.2513042067358819,
+    "aggregated_centered_results": 0.2281869328810313,
     "aggregated_results": 0.41392954658195186,
     "aggregated_task_categories_centered": {
-        "commonsense reasoning": 0.3679488885003714,
-        "language understanding": 0.43196776610613685,
-        "reading comprehension": 0.23838475810592635,
+        "commonsense reasoning": 0.29413969075959334,
+        "language understanding": 0.39581649639731764,
+        "reading comprehension": 0.2143982384811368,
         "safety": 0.033287796107205475,
-        "symbolic problem solving": 0.14249161003948482,
+        "symbolic problem solving": 0.13224896885868576,
         "world knowledge": 0.2742186320281168
     },
     "creation_date": "2024_02_05-18_08_21",
@@ -80,9 +80,14 @@
     "_filename": "exp_data/evals/evaluation_falcon_7b_heavy.json",
     "missing tasks": "[]",
     "rw_small_centered": 0.5026646036850778,
-    "95%_CI_above_centered": 0.3832352757073654,
-    "99%_CI_above_centered": 0.4446701534791451,
-    "low_variance_datasets_centered": 0.4406495227745305,
-    "Core": 0.4406495227745305,
-    "Extended": 0.2513042067358819
+    "95%_CI_above_centered": 0.3653209579261327,
+    "99%_CI_above_centered": 0.4283899227722371,
+    "low_variance_datasets_centered": 0.4157526939145964,
+    "Core": 0.4157526939145964,
+    "Extended": 0.2281869328810313,
+    "Core_v1": 0.4406495227745305,
+    "Extended_v1": 0.2513042067358819,
+    "Core_v2": 0.4157526939145964,
+    "Extended_v2": 0.2281869328810313,
+    "eval_version": "v2"
 }

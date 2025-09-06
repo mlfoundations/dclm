@@ -124,14 +124,14 @@
         }
     },
     "aggregated_task_categories_centered": {
-        "commonsense reasoning": 0.23107893357583056,
-        "language understanding": 0.28925604623106155,
-        "reading comprehension": 0.1845720265501816,
+        "commonsense reasoning": 0.15372844751755796,
+        "language understanding": 0.2512034412927518,
+        "reading comprehension": 0.16168650017495742,
         "safety": -0.07776877419515091,
-        "symbolic problem solving": 0.08283603032030266,
+        "symbolic problem solving": 0.07194369334934486,
         "world knowledge": 0.14435193630693105
     },
-    "aggregated_centered_results": 0.15121209003678937,
+    "aggregated_centered_results": 0.1272555995926607,
     "aggregated_results": 0.3397209232266483,
     "rw_small": 0.590142622590065,
     "95%_CI_above": 0.44849407844148675,
@@ -141,9 +141,14 @@
     "_filename": "exp_data/evals/evaluation_mix_cc95wiki05-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124-tokens=28795904000_heavy.json",
     "missing tasks": "[]",
     "rw_small_centered": 0.29630837210437705,
-    "95%_CI_above_centered": 0.26460532826315103,
-    "99%_CI_above_centered": 0.3114688033364503,
-    "low_variance_datasets_centered": 0.3121022237511758,
-    "Core": 0.3121022237511758,
-    "Extended": 0.15121209003678937
+    "95%_CI_above_centered": 0.24576906582439303,
+    "99%_CI_above_centered": 0.29487907283512127,
+    "low_variance_datasets_centered": 0.2867524940132957,
+    "Core": 0.2867524940132957,
+    "Extended": 0.1272555995926607,
+    "Core_v1": 0.3121022237511758,
+    "Extended_v1": 0.15121209003678937,
+    "Core_v2": 0.2867524940132957,
+    "Extended_v2": 0.1272555995926607,
+    "eval_version": "v2"
 }

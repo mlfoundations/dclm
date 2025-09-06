@@ -124,14 +124,14 @@
         }
     },
     "aggregated_task_categories_centered": {
-        "commonsense reasoning": 0.20127732209723512,
-        "language understanding": 0.2672878182388133,
-        "reading comprehension": 0.12984189375614127,
+        "commonsense reasoning": 0.12514448394278188,
+        "language understanding": 0.2300772157449053,
+        "reading comprehension": 0.10601102560758591,
         "safety": 0.03821484067223288,
-        "symbolic problem solving": 0.07796362566731904,
+        "symbolic problem solving": 0.06735703708190056,
         "world knowledge": 0.1294532497053522
     },
-    "aggregated_centered_results": 0.13970004749980675,
+    "aggregated_centered_results": 0.11599262676100278,
     "aggregated_results": 0.32910051615555647,
     "rw_small": 0.5558840185403824,
     "95%_CI_above": 0.42334370325234805,
@@ -141,9 +141,14 @@
     "_filename": "exp_data/evals/evaluation_RW_orig_bge-base_shareGPT_heuristic-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124_heavy_copy.json",
     "missing tasks": "[]",
     "rw_small_centered": 0.232377913263109,
-    "95%_CI_above_centered": 0.2318302960773984,
-    "99%_CI_above_centered": 0.2688790401686793,
-    "low_variance_datasets_centered": 0.27217019770589873,
-    "Core": 0.27217019770589873,
-    "Extended": 0.13970004749980675
+    "95%_CI_above_centered": 0.21327865196321172,
+    "99%_CI_above_centered": 0.2523087692818763,
+    "low_variance_datasets_centered": 0.24693622168681661,
+    "Core": 0.24693622168681661,
+    "Extended": 0.11599262676100278,
+    "Core_v1": 0.27217019770589873,
+    "Extended_v1": 0.13970004749980675,
+    "Core_v2": 0.24693622168681661,
+    "Extended_v2": 0.11599262676100278,
+    "eval_version": "v2"
 }

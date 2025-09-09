@@ -64,14 +64,14 @@
         }
     },
     "aggregated_task_categories_centered": {
-        "commonsense reasoning": 0.582410867841191,
-        "language understanding": 0.6178132114282372,
-        "reading comprehension": 0.28902250864918816,
+        "commonsense reasoning": 0.5573828354153402,
+        "language understanding": 0.6026093522689088,
+        "reading comprehension": 0.27097075210328686,
         "safety": 0.3849699280478738,
-        "symbolic problem solving": 0.3737342615922292,
+        "symbolic problem solving": 0.3648832293020355,
         "world knowledge": 0.4601790512932672
     },
-    "aggregated_centered_results": 0.44644635570484037,
+    "aggregated_centered_results": 0.43514381477273556,
     "aggregated_results": 0.5624427380869905,
     "rw_small": 0.772865911324819,
     "95%_CI_above": 0.6359303529192875,
@@ -80,9 +80,14 @@
     "_filename": "exp_data/evals/gemma7b_heavy.json",
     "missing tasks": "[]",
     "rw_small_centered": 0.6199252675151267,
-    "95%_CI_above_centered": 0.5312285643898494,
-    "99%_CI_above_centered": 0.5611440059544929,
-    "low_variance_datasets_centered": 0.5784899392851446,
-    "Core": 0.5784899392851446,
-    "Extended": 0.44644635570484037
+    "95%_CI_above_centered": 0.5253266439393981,
+    "99%_CI_above_centered": 0.5549438194884752,
+    "low_variance_datasets_centered": 0.5678141465622347,
+    "Core": 0.5678141465622347,
+    "Extended": 0.43514381477273556,
+    "Core_v1": 0.5784899392851446,
+    "Extended_v1": 0.44644635570484037,
+    "Core_v2": 0.5678141465622347,
+    "Extended_v2": 0.43514381477273556,
+    "eval_version": "v2"
 }

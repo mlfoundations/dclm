@@ -1,5 +1,39 @@
 # DataComp-LM (DCLM)
 
+## ⚠️ Updates to centered CORE and EXTENDED calculations (9/5/2025)
+
+**TL;DR:** Bug fixes in baseline calculations mean CORE/EXTENDED scores from before Sept 2025 are not directly comparable to new results. Rank orderings should remain consistent though.
+
+### What happened? 
+As discussed in https://github.com/mlfoundations/dclm/issues/114 and addressed by https://github.com/mlfoundations/dclm/pull/115, we have recently found some bugs in the way we compute centered CORE and EXTENDED evaluation scores. At a high-level, we fixed some errors in the baseline values we assigned to some multiple choice tasks in [`eval_meta_data.csv`](./eval/eval_meta_data.csv). Since our CORE and EXTENDED averages rescale individual tasks scores relative to these baselines, our fixes WILL unfortunately cause discrepancies between older and newer results. 
+
+Generally, averaging with the corrected baselines will shift CORE/EXTENDED numbers slightly downward. However, we performed some empirical analysis that suggests rank orderings between the old and new averages should be highly consistent https://github.com/mlfoundations/dclm/pull/115.
+
+### What this means if you are a new/current user of DCLM?
+* Please use the latest version of our repo as-is but be careful when comparing to older published results. 
+* To compare with our results, we retain both new and old scores in [`exp_data/evals`](exp_data/evals) JSONs, storing them under the keys `{Core|Extended}_v2` and  `{Core|Extended}_v1` respectively.
+* To compare with evaluations that previous `dclm` users have run, you can probably assume that any results obtained prior to Sept 2025 correspond to `v1` numbers (but please double check with the authors if unsure).
+* If you wish to compute `v1` averages yourself, you can run the script [`eval/aggregated_metrics.py`](eval/aggregated_metrics.py) on any JSON that your own evaluations have generated. This will add in entries for `Core_v1` and `Extended_v1`.
+
+```
+python eval/aggregated_metrics.py \ 
+    --eval_results <PATH_TO_YOUR_EVAL_JSON> \
+    --version v1
+```
+
+### What this means if you have previously used DCLM?
+* Your rank orderings and conclusions are unlikely to change! 
+* However, you can also update your scores via the script [`eval/aggregated_metrics.py`](eval/aggregated_metrics.py). This will update all averages to be `v2` while migrating existing `Core` and `Extended` keys to `Core_v1` and `Extended_v1` respectively. 
+* For scientific clarity, we'd really appreciate it if you could do so (or at least mark whether your reported scores are `v1` or `v2`). 
+
+```
+python eval/aggregated_metrics.py \ 
+    --eval_results <PATH_TO_YOUR_EVAL_JSON> \
+    --version v2 # (default)
+```
+
+To all, we sincerely apologize for any inconveniences that these fixes may cause.
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Leaderboard](#leaderboard)
@@ -27,10 +61,10 @@
 
 DCLM enables researchers to experiment with various dataset construction strategies across different compute scales, from 411M to 7B parameter models. Our baseline experiments show significant improvements in model performance through optimized dataset design.
 
-Already, DCLM has enabled the creation of several high-quality datasets that perform well across scales and outperform all open datasets.
+Already, DCLM has enabled the creation of several high-quality datasets that perform well across scales and outperform all open datasets. ⚠️ Please note that the CORE numbers below have not yet been updated with our `Core_v2` fixes to baseline values (see [here](#️-updates-to-centered-core-and-extended-calculations-952025) for more details).
 ![Accuracy vs compute tradeoff](assets/acc_vs_flops-1.png)
 <p align="center">
-  <em><b>Developing datasets for better models that are cheaper to train.</b> Using DataComp-LM, we develop a high-quality dataset, DCLM-BASELINE, which we use to train models with strong compute performance tradeoffs. We compare on both a Core set of tasks (left) and on MMLU 5-shot (right). DCLM-BASELINE (orange) shows favorable performance relative to both closed-source models (crosses) and other open-source datasets and models (circles).</em>
+  <em><b>Developing datasets for better models that are cheaper to train.</b> Using DataComp-LM, we develop a high-quality dataset, DCLM-BASELINE, which we use to train models with strong compute performance tradeoffs. We compare on both a Core set of tasks (left) and on MMLU 5-shot (right). DCLM-BASELINE (orange) shows favorable performance relative to both closed-source models (crosses) and other open-source datasets and models (circles). </em>
 </p>
 
 **Submission workflow**:
@@ -50,28 +84,28 @@ For more details, please refer to our [paper](https://arxiv.org/abs/2406.11794).
 
 The DCLM [leaderboard](https://datacomp.ai/dclm/leaderboard) showcases the performance of models trained on various scales and datasets. The leaderboard is updated regularly with the latest submissions from the community.
 
-Below are comparisions of our model with others in the 7B regime.
+Below are comparisions of our model with others in the 7B regime. Note we provide both v1 and v2 (now preferred) versions of the average CORE and EXTENDED metrics for ease of comparison (see [here](#️-updates-to-centered-core-and-extended-calculations-952025) for more details). 
 
-| Model         | Params | Tokens | Open dataset? | CORE     | MMLU     | EXTENDED |
-|---------------|--------|--------|---------------|----------|----------|----------|
-| **Open weights, closed datasets** |        |        |               |          |          |          |
-| Llama2        | 7B     | 2T     | ✗             | 49.2     | 45.8     | 34.1     |
-| DeepSeek      | 7B     | 2T     | ✗             | 50.7     | 48.5     | 35.3     |
-| Mistral-0.3   | 7B     | ?      | ✗             | 57.0     | 62.7     | 45.1     |
-| QWEN-2        | 7B     | ?      | ✗             | 57.5     | **71.9** | 50.5     |
-| Llama3        | 8B     | 15T    | ✗             | 57.6     | 66.2     | 46.3     |
-| Gemma         | 8B     | 6T     | ✗             | 57.8     | 64.3     | 44.6     |
-| Phi-3         | 7B     | ?      | ✗             | **61.0** | 69.9     | **57.9** |
-| **Open weights, open datasets** |        |        |               |          |          |          |
-| Falcon        | 7B     | 1T     | ✓             | 44.1     | 27.4     | 25.1     |
-| OLMo-1.7      | 7B     | 2.1T   | ✓             | 47.0     | 54.0     | 34.2     |
-| MAP-Neo       | 7B     | 4.5T   | ✓             | **50.2** | **57.1** | **40.4** |
-| **Models we trained** |        |        |               |          |          |          |
-| FineWeb edu   | 7B     | 0.14T  | ✓             | 38.7     | 26.3     | 22.1     |
-| FineWeb edu   | 7B     | 0.28T  | ✓             | 41.9     | 37.3     | 24.5     |
-| **DCLM-BASELINE** | 7B     | 0.14T  | ✓             | 44.1     | 38.3     | 25.0     |
-| **DCLM-BASELINE** | 7B     | 0.28T  | ✓             | 48.9     | 50.8     | 31.8     |
-| **DCLM-BASELINE** | 7B     | 2.6T   | ✓             | **57.1** | **63.7** | **45.4** |
+| Model         | Params | Tokens | Open dataset? | CORE (v1) | CORE (v2) | MMLU     | EXTENDED (v1) | EXTENDED (v2) |
+|---------------|--------|--------|---------------|-----------|-----------|----------|---------------|---------------|
+| **Open weights, closed datasets** |        |        |               |           |           |          |               |               |
+| Llama2        | 7B     | 2T     | ✗             | 49.2      | 47.5      | 45.8     | 34.1          | 32.5          |
+| DeepSeek      | 7B     | 2T     | ✗             | 50.7      | 49.1      | 48.5     | 35.3          | 33.7          |
+| Mistral-0.3   | 7B     | ?      | ✗             | 57.0      | 55.7      | 62.7     | 45.1          | 57.0          |
+| QWEN-2        | 7B     | ?      | ✗             | 57.5      | 56.5      | **71.9** | 50.5          | 49.6          |
+| Llama3        | 8B     | 15T    | ✗             | 57.6      | 56.5      | 66.2     | 46.3          | 45.2          |
+| Gemma         | 8B     | 6T     | ✗             | 57.8      | 56.8      | 64.3     | 44.6          | 43.5          |
+| Phi-3         | 7B     | ?      | ✗             | **61.0**  | **59.9**  | 69.9     | **57.9**      | **57.0**      |
+| **Open weights, open datasets** |        |        |               |           |           |          |               |               |
+| Falcon        | 7B     | 1T     | ✓             | 44.1      | 41.6      | 27.4     | 25.1          | 22.8          |
+| OLMo-1.7      | 7B     | 2.1T   | ✓             | 47.0      | 45.8      | 54.0     | 34.2          | 33.0          |
+| MAP-Neo       | 7B     | 4.5T   | ✓             | **50.2**  | **49.0**  | **57.1** | **40.4**      | **39.2**      |
+| **Models we trained** |        |        |               |           |           |          |               |               |
+| FineWeb edu   | 7B     | 0.14T  | ✓             | 38.7      | 36.1      | 26.3     | 22.1          | 19.7          |
+| FineWeb edu   | 7B     | 0.28T  | ✓             | 41.9      | 39.6      | 37.3     | 24.5          | 22.4          |
+| **DCLM-BASELINE** | 7B     | 0.14T  | ✓             | 44.1      | 42.0      | 38.3     | 25.0          | 23.0          |
+| **DCLM-BASELINE** | 7B     | 0.28T  | ✓             | 48.9      | 47.3      | 50.8     | 31.8          | 30.3          |
+| **DCLM-BASELINE** | 7B     | 2.6T   | ✓             | **57.1**  | **56.0**  | **63.7** | **45.4**      | **44.3**      |
 
 
 ## Getting Started

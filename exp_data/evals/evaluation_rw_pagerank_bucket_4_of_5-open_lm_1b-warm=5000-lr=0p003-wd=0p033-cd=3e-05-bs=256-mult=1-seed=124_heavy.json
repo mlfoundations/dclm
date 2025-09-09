@@ -59,14 +59,14 @@
         }
     },
     "aggregated_task_categories_centered": {
-        "commonsense reasoning": 0.2057959972836565,
-        "language understanding": 0.25912600762786586,
-        "reading comprehension": 0.1522545215199914,
+        "commonsense reasoning": 0.13226304821033574,
+        "language understanding": 0.22150566519831136,
+        "reading comprehension": 0.12853193747108443,
         "safety": -0.01704870435324582,
-        "symbolic problem solving": 0.0906036460610074,
+        "symbolic problem solving": 0.0761601991746857,
         "world knowledge": 0.15997943140748289
     },
-    "aggregated_centered_results": 0.15203602025468235,
+    "aggregated_centered_results": 0.12569804322992073,
     "aggregated_results": 0.35572712090070335,
     "rw_small": 0.5477673610051473,
     "95%_CI_above": 0.4158235126501554,
@@ -76,9 +76,14 @@
     "_filename": "exp_data/evals/evaluation_rw_pagerank_bucket_4_of_5-open_lm_1b-warm=5000-lr=0p003-wd=0p033-cd=3e-05-bs=256-mult=1-seed=124_heavy.json",
     "missing tasks": "['gsm8k_cot', 'agi_eval_sat_math_cot', 'aqua_cot', 'svamp_cot', 'gpqa_main', 'gpqa_diamond']",
     "rw_small_centered": 0.22941010319001495,
-    "95%_CI_above_centered": 0.22190787685126484,
-    "99%_CI_above_centered": 0.2701907040683437,
-    "low_variance_datasets_centered": 0.27055456612664597,
-    "Core": 0.27055456612664597,
+    "95%_CI_above_centered": 0.20439468879982953,
+    "99%_CI_above_centered": 0.25532700432889555,
+    "low_variance_datasets_centered": 0.24709625167906124,
+    "Core": 0.24709625167906124,
+    "Core_v1": 0.27055456612664597,
+    "Core_v2": 0.24709625167906124,
+    "Extended_v2": "N/A due to missing tasks: ['gsm8k_cot', 'agi_eval_sat_math_cot', 'aqua_cot', 'svamp_cot', 'gpqa_main', 'gpqa_diamond']",
+    "eval_version": "v2",
+    "Extended_v1": "N/A due to missing tasks: ['gsm8k_cot', 'agi_eval_sat_math_cot', 'aqua_cot', 'svamp_cot', 'gpqa_main', 'gpqa_diamond']",
     "Extended": "N/A due to missing tasks: ['gsm8k_cot', 'agi_eval_sat_math_cot', 'aqua_cot', 'svamp_cot', 'gpqa_main', 'gpqa_diamond']"
 }

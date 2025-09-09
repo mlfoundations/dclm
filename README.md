@@ -84,28 +84,28 @@ For more details, please refer to our [paper](https://arxiv.org/abs/2406.11794).
 
 The DCLM [leaderboard](https://datacomp.ai/dclm/leaderboard) showcases the performance of models trained on various scales and datasets. The leaderboard is updated regularly with the latest submissions from the community.
 
-Below are comparisions of our model with others in the 7B regime. 
+Below are comparisions of our model with others in the 7B regime. Note we provide both v1 and v2 (now preferred) versions of the average CORE and EXTENDED metrics for ease of comparison (see [here](#️-updates-to-centered-core-and-extended-calculations-952025) for more details). 
 
-| Model         | Params | Tokens | Open dataset? | CORE (v2)    | MMLU     | EXTENDED (v2) |
-|---------------|--------|--------|---------------|----------|----------|----------|
-| **Open weights, closed datasets** |        |        |               |          |          |          |
-| Llama2        | 7B     | 2T     | ✗             | 47.5     | 45.8     | 32.5     |
-| DeepSeek      | 7B     | 2T     | ✗             | 49.1     | 48.5     | 33.7     |
-| Mistral-0.3   | 7B     | ?      | ✗             | 55.7     | 62.7     | 57.0     |
-| QWEN-2        | 7B     | ?      | ✗             | 56.5     | **71.9** | 49.6     |
-| Llama3        | 8B     | 15T    | ✗             | 56.5     | 66.2     | 45.2     |
-| Gemma         | 8B     | 6T     | ✗             | 56.8     | 64.3     | 43.5     |
-| Phi-3         | 7B     | ?      | ✗             | **59.9** | 69.9     | **57.0** |
-| **Open weights, open datasets** |        |        |               |          |          |          |
-| Falcon        | 7B     | 1T     | ✓             | 41.6     | 27.4     | 22.8     |
-| OLMo-1.7      | 7B     | 2.1T   | ✓             | 45.8     | 54.0     | 33.0     |
-| MAP-Neo       | 7B     | 4.5T   | ✓             | **49.0** | **57.1** | **39.2** |
-| **Models we trained** |        |        |               |          |          |          |
-| FineWeb edu   | 7B     | 0.14T  | ✓             | 36.1     | 26.3     | 19.7     |
-| FineWeb edu   | 7B     | 0.28T  | ✓             | 39.6     | 37.3     | 22.4     |
-| **DCLM-BASELINE** | 7B     | 0.14T  | ✓             | 42.0    | 38.3     | 23.0     |
-| **DCLM-BASELINE** | 7B     | 0.28T  | ✓             | 47.3     | 50.8     | 30.3     |
-| **DCLM-BASELINE** | 7B     | 2.6T   | ✓             | **56.0** | **63.7** | **44.3** |
+| Model         | Params | Tokens | Open dataset? | CORE (v1) | CORE (v2) | MMLU     | EXTENDED (v1) | EXTENDED (v2) |
+|---------------|--------|--------|---------------|-----------|-----------|----------|---------------|---------------|
+| **Open weights, closed datasets** |        |        |               |           |           |          |               |               |
+| Llama2        | 7B     | 2T     | ✗             | 49.2      | 47.5      | 45.8     | 34.1          | 32.5          |
+| DeepSeek      | 7B     | 2T     | ✗             | 50.7      | 49.1      | 48.5     | 35.3          | 33.7          |
+| Mistral-0.3   | 7B     | ?      | ✗             | 57.0      | 55.7      | 62.7     | 45.1          | 57.0          |
+| QWEN-2        | 7B     | ?      | ✗             | 57.5      | 56.5      | **71.9** | 50.5          | 49.6          |
+| Llama3        | 8B     | 15T    | ✗             | 57.6      | 56.5      | 66.2     | 46.3          | 45.2          |
+| Gemma         | 8B     | 6T     | ✗             | 57.8      | 56.8      | 64.3     | 44.6          | 43.5          |
+| Phi-3         | 7B     | ?      | ✗             | **61.0**  | **59.9**  | 69.9     | **57.9**      | **57.0**      |
+| **Open weights, open datasets** |        |        |               |           |           |          |               |               |
+| Falcon        | 7B     | 1T     | ✓             | 44.1      | 41.6      | 27.4     | 25.1          | 22.8          |
+| OLMo-1.7      | 7B     | 2.1T   | ✓             | 47.0      | 45.8      | 54.0     | 34.2          | 33.0          |
+| MAP-Neo       | 7B     | 4.5T   | ✓             | **50.2**  | **49.0**  | **57.1** | **40.4**      | **39.2**      |
+| **Models we trained** |        |        |               |           |           |          |               |               |
+| FineWeb edu   | 7B     | 0.14T  | ✓             | 38.7      | 36.1      | 26.3     | 22.1          | 19.7          |
+| FineWeb edu   | 7B     | 0.28T  | ✓             | 41.9      | 39.6      | 37.3     | 24.5          | 22.4          |
+| **DCLM-BASELINE** | 7B     | 0.14T  | ✓             | 44.1      | 42.0      | 38.3     | 25.0          | 23.0          |
+| **DCLM-BASELINE** | 7B     | 0.28T  | ✓             | 48.9      | 47.3      | 50.8     | 31.8          | 30.3          |
+| **DCLM-BASELINE** | 7B     | 2.6T   | ✓             | **57.1**  | **56.0**  | **63.7** | **45.4**      | **44.3**      |
 
 
 ## Getting Started
